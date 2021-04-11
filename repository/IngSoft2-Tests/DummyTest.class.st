@@ -23,11 +23,10 @@ DummyTest >> testSeTiranDosDadosDistintos [
 	listaDados add: dado1.
 	listaDados add: dado2. 
 	
-	jugador1 tirarDado: dado1.
-	jugador1 tirarDado: dado2.
+	jugador1 tirarDado: listaDados.
 	
 	min := listaDados size.
-	max := dado1 caras + dado2 caras.
+	max := listaDados sum: [:caras | caras caras]. "implementar la suma como mensaje"
 	
 	
 	self assert: (jugador1 posicionTablero between: min and: max)

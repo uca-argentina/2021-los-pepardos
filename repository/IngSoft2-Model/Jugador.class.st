@@ -18,8 +18,9 @@ Jugador >> posicionTablero [
 ]
 
 { #category : #'as yet unclassified' }
-Jugador >> tirarDado: unDado [
-	| numeroRandom |
+Jugador >> tirarDado: listaDados [
+	| numeroRandom sumaCaras|
+	sumaCaras := listaDados sum: [:caras | caras caras].
 	numeroRandom := Random new.
-	posicionTablero := (numeroRandom seed % (unDado caras) + 1) + posicionTablero 
+	posicionTablero := posicionTablero + (numeroRandom seed % sumaCaras) + 1
 ]
