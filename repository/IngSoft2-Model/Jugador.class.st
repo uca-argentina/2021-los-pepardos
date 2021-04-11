@@ -21,5 +21,5 @@ Jugador >> posicionTablero [
 Jugador >> tirarDado: unDado [
 	| numeroRandom |
 	numeroRandom := Random new.
-	posicionTablero := (numeroRandom seed % (unDado caras - 1) + 1) + posicionTablero 
+	posicionTablero := (numeroRandom seed % (unDado caras) + 1) + posicionTablero 
 ]
