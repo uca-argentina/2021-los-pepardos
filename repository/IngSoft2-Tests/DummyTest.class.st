@@ -30,7 +30,7 @@ DummyTest >> testUnJugadorTiraUnDadoYAvanzaUnaPosicion [
 	
 	jugadorCarlos tirarDado: dado6Caras.
 	
-	self assert: jugadorCarlos posicionTablero between: 0 and: 6
+	self assert: (jugadorCarlos posicionTablero between: 1 and: 6)
 ]
 
 { #category : #tests }

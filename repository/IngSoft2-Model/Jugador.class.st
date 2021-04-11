@@ -20,6 +20,6 @@ Jugador >> posicionTablero [
 { #category : #'as yet unclassified' }
 Jugador >> tirarDado: unDado [
 	| numeroRandom |
-	numeroRandom := Random new 
-	self posicionTablero += numeroRandom	
+	numeroRandom := Random new.
+	posicionTablero := (numeroRandom seed % (unDado caras - 1) + 1) + posicionTablero 
 ]
