@@ -13,12 +13,17 @@ Class {
 
 { #category : #'as yet unclassified' }
 Tablero class >> agregarJugadores: listaJugadores [
-	jugadores add: listaJugadores.
+	jugadores := listaJugadores.
 ]
 
 { #category : #'instance creation' }
 Tablero class >> conPosiciones: posicionesTablero [
 	posiciones := posicionesTablero.
+]
+
+{ #category : #'as yet unclassified' }
+Tablero class >> jugadores [
+	^ jugadores
 ]
 
 { #category : #'as yet unclassified' }

@@ -2,7 +2,8 @@ Class {
 	#name : #DummyTest,
 	#superclass : #TestCase,
 	#classInstVars : [
-		'conCaras'
+		'conCaras',
+		'unTablero'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -78,6 +79,6 @@ DummyTest >> testUnTableroTieneUnaListaDeJugadores [
 	listaJugadores := { Jugador new . Jugador new }.
 	unTablero agregarJugadores: listaJugadores.
 	
-	self assert: (unTablero Jugadores) equals: listaJugadores.
+	self assert: (unTablero jugadores) equals: listaJugadores.
 	
 ]
