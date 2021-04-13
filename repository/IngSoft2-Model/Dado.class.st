@@ -10,7 +10,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Dado class >> caras [
 	^ caras
 ]
@@ -18,9 +18,4 @@ Dado class >> caras [
 { #category : #'instance creation' }
 Dado class >> conCaras: cantCaras [ 
 	caras := cantCaras
-]
-
-{ #category : #accessing }
-Dado >> caras [
-	^ caras
 ]

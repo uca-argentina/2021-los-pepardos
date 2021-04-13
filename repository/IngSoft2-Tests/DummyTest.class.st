@@ -15,6 +15,19 @@ DummyTest >> testDummy [
 ]
 
 { #category : #tests }
+DummyTest >> testJugadorElDiegoSeLlamaElDiego [
+	|jugador1|
+	
+	jugador1 := Jugador conNombre: 'El Diego'.
+	
+	self assert: (jugador1 nombreJugador) equals: 'El Diego'
+	
+	
+	
+	
+]
+
+{ #category : #tests }
 DummyTest >> testSeTiranDosDadosDistintos [
 	| listaDados dado1 dado2 min max jugador1|
 	dado1 := Dado conCaras: 6.

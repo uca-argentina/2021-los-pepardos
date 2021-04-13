@@ -4,8 +4,21 @@ Class {
 	#instVars : [
 		'posicionTablero'
 	],
+	#classInstVars : [
+		'nombreJugador'
+	],
 	#category : #'IngSoft2-Model'
 }
+
+{ #category : #'instance creation' }
+Jugador class >> conNombre: unNombre [
+	nombreJugador := unNombre 
+]
+
+{ #category : #'as yet unclassified' }
+Jugador class >> nombreJugador [
+	^ nombreJugador
+]
 
 { #category : #'as yet unclassified' }
 Jugador >> initialize [
