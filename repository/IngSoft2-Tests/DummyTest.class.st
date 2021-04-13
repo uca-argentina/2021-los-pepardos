@@ -45,11 +45,13 @@ DummyTest >> testUnDadoNuevoDe3CarasTiene3Caras [
 { #category : #tests }
 DummyTest >> testUnJugadorTiraUnDadoYAvanzaUnaPosicion [
 	
-	| dado6Caras jugadorCarlos |
+	| dado6Caras jugadorCarlos listaDados |
 	dado6Caras := Dado conCaras: 6.
 	jugadorCarlos := Jugador new.
+	listaDados := OrderedCollection new.
+	listaDados add: dado6Caras.
 	
-	jugadorCarlos tirarDado: dado6Caras.
+	jugadorCarlos tirarDado: listaDados.
 	
 	self assert: (jugadorCarlos posicionTablero between: 1 and: 6)
 ]
