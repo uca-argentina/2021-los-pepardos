@@ -60,3 +60,24 @@ DummyTest >> testUnNuevoJugadorTienePosicion0 [
 	self assert: jugadorNuevo posicionTablero equals: 0
 	
 ]
+
+{ #category : #tests }
+DummyTest >> testUnTableroNuevoCon50PosicionesTiene50Posiciones [
+	"insertar pepardo"
+	| unTablero |
+	unTablero := Tablero conPosiciones: 50.
+	self assert: (unTablero posiciones) equals: 50.
+]
+
+{ #category : #tests }
+DummyTest >> testUnTableroTieneUnaListaDeJugadores [
+	
+	| unTablero listaJugadores |
+	unTablero := Tablero conPosiciones: 20.
+	
+	listaJugadores := { Jugador new . Jugador new }.
+	unTablero agregarJugadores: listaJugadores.
+	
+	self assert: (unTablero Jugadores) equals: listaJugadores.
+	
+]
