@@ -2,17 +2,19 @@ Class {
 	#name : #Jugador,
 	#superclass : #Object,
 	#instVars : [
-		'posicionTablero'
+		'posicionTablero',
+		'nombreJugador'
 	],
 	#classInstVars : [
-		'nombreJugador'
+		'nombreJugador',
+		'posicionTablero'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
 Jugador class >> conNombre: unNombre [
-	nombreJugador := unNombre 
+	^self new initializeWithName: unNombre 
 ]
 
 { #category : #'as yet unclassified' }
@@ -23,6 +25,11 @@ Jugador class >> nombreJugador [
 { #category : #'as yet unclassified' }
 Jugador >> initialize [
 	posicionTablero := 0.
+]
+
+{ #category : #initialization }
+Jugador >> initializeWithName: unNombre [ 
+	nombreJugador := unNombre
 ]
 
 { #category : #'as yet unclassified' }

@@ -31,7 +31,7 @@ DummyTest >> testJugadorElDiegoSeLlamaElDiego [
 DummyTest >> testSeTiranDosDadosDistintos [
 	| listaDados dado1 dado2 min max jugador1|
 	dado1 := Dado conCaras: 6.
-	dado2 := Dado conCaras: 6.
+	dado2 := Dado conCaras: 4.
 	jugador1 := Jugador new.
 	listaDados := OrderedCollection new.
 	listaDados add: dado1.
@@ -48,6 +48,45 @@ DummyTest >> testSeTiranDosDadosDistintos [
 ]
 
 { #category : #tests }
+DummyTest >> testSiJugador1GanaElJuegoJugador1EsElGanador [
+
+	| jugador1 unDado unTablero listaDados unaPartida listaJugadores |
+	
+	unaPartida := Partida new.
+	jugador1 := Jugador new.
+	unTablero := Tablero conPosiciones: 2.
+	unDado := Dado conCaras: 2.
+	
+	listaJugadores := { jugador1 }.
+	listaDados := { unDado }.
+	
+	unaPartida agregarJugadores: listaJugadores.
+	unaPartida agregarDados: listaDados.
+	unaPartida agregarTablero: unTablero.
+	
+	jugador1 tirarDado: listaDados.
+	
+	self assert: (unaPartida ganador) equals: 'Ramita'
+]
+
+{ #category : #tests }
+DummyTest >> testSiUnJugadorLlegaALaUltimaPosicionLaPartidaTermina [
+
+	|unTablero unJugador unDado listaDados |
+	
+	unTablero := Tablero conPosiciones: 2.
+	unJugador := Jugador new.
+	unDado := Dado conCaras: 2.
+	listaDados := OrderedCollection new.
+	listaDados add: unDado.
+	
+	unJugador tirarDado: listaDados. "Tirada 1"
+	unJugador tirarDado: listaDados. "Tirada 2"
+		
+	self assert: unJugador posicionTablero >= unTablero posiciones 
+]
+
+{ #category : #tests }
 DummyTest >> testUnDadoNuevoDe3CarasTiene3Caras [
 	"insertar pepardo"
 	| dadin |
@@ -60,7 +99,7 @@ DummyTest >> testUnJugadorTiraUnDadoYAvanzaUnaPosicion [
 	
 	| dado6Caras jugadorCarlos listaDados |
 	dado6Caras := Dado conCaras: 6.
-	jugadorCarlos := Jugador new.
+	jugadorCarlos := Jugador conNombre: 'Ramita'.
 	listaDados := OrderedCollection new.
 	listaDados add: dado6Caras.
 	
@@ -86,14 +125,16 @@ DummyTest >> testUnTableroNuevoCon50PosicionesTiene50Posiciones [
 ]
 
 { #category : #tests }
-DummyTest >> testUnTableroTieneUnaListaDeJugadores [
+DummyTest >> testUnaPartidaTieneUnaListaDeJugadores [
 	
-	| unTablero listaJugadores |
-	unTablero := Tablero conPosiciones: 20.
+	| listaJugadores jugador1 jugador2 unaPartida |
+	unaPartida := Partida new.
+	jugador1 := Jugador conNombre: 'dsadsa'.
+	jugador2 := Jugador new.
 	
-	listaJugadores := { Jugador new . Jugador new }.
-	unTablero agregarJugadores: listaJugadores.
+	listaJugadores := { jugador1 . jugador2 }.
+	unaPartida agregarJugadores: listaJugadores.
 	
-	self assert: (unTablero jugadores) equals: listaJugadores.
+	self assert: (unaPartida jugadores) equals: listaJugadores.
 	
 ]

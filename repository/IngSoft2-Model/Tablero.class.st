@@ -5,25 +5,14 @@ Class {
 		'posiciones'
 	],
 	#classInstVars : [
-		'posiciones',
-		'jugadores'
+		'posiciones'
 	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
-Tablero class >> agregarJugadores: listaJugadores [
-	jugadores := listaJugadores.
-]
-
 { #category : #'instance creation' }
 Tablero class >> conPosiciones: posicionesTablero [
 	posiciones := posicionesTablero.
-]
-
-{ #category : #'as yet unclassified' }
-Tablero class >> jugadores [
-	^ jugadores
 ]
 
 { #category : #'as yet unclassified' }
