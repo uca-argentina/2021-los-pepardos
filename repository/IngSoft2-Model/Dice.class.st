@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #'instance creation' }
-Dice class >> withSides: numberOfSides [
+Dice class >> withSides: numberOfSides [ 
 	^self new initializeWithSides: numberOfSides.
 ]
 
-{ #category : #'as yet unclassified' }
-Dice >> initializeWithSides: aNumberOfSides [ 
-	sides := aNumberOfSides.
+{ #category : #'instance creation' }
+Dice >> initializeWithSides: numberOfSides [
+	sides := numberOfSides.
 ]
 
 { #category : #'as yet unclassified' }

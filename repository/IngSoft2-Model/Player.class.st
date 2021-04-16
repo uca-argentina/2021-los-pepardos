@@ -2,7 +2,8 @@ Class {
 	#name : #Player,
 	#superclass : #Object,
 	#instVars : [
-		'name'
+		'name',
+		'position'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -12,14 +13,18 @@ Player class >> withName: aName [
 	^self new initializeWithName: aName.
 ]
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 Player >> initializeWithName: aName [
 	name := aName.
+	position := 0.
 ]
 
 { #category : #'as yet unclassified' }
-Player >> rollDice: aDiceList [
-	^aDiceList sum: [:dice | dice obtainRandomFromDice ].
-	
-	
+Player >> position [
+	^position.
+]
+
+{ #category : #'as yet unclassified' }
+Player >> rollDice: aDice [ 
+	^aDice obtainRandomFromDice.
 ]

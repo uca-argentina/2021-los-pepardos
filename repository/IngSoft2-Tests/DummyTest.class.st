@@ -17,19 +17,16 @@ DummyTest >> testDummy [
 { #category : #tests }
 DummyTest >> testUnJugadorJuegaUnaPartidaYGana [
 
-   | playerOne playerList diceOne diceList gameBoard gameInstance  diceMovementResult |
+   | gameBoard gameInstance elDiego dice elDiegoDiceThrowResult |
 	
-	playerOne := Player withName: 'El Diego'.
-   playerList := { playerOne }.
-
-   diceOne := Dice  withSides: 6.
-   diceList := { diceOne }.
-
+	elDiego := Player withName: 'El Diego'.
+   dice := Dice withSides: 6.
    gameBoard := Board withPositions: 1.
-	gameInstance := Game withPlayers: playerList withDices: diceList withBoard: gameBoard.
-	
-	diceMovementResult := playerOne rollDice: diceList.
-	gameInstance movePlayer: playerOne byTheAmountOfPositions: diceMovementResult.
+
+	gameInstance := Game withPlayer: elDiego andDice: dice andBoard: gameBoard.
+
+	elDiegoDiceThrowResult := elDiego rollDice: dice.
+	gameInstance update: elDiego positionInBoardBy: elDiegoDiceThrowResult.
 	
 	self assert: (gameInstance winner) equals: 'El Diego'.
 
