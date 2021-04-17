@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'player',
 		'dice',
-		'board'
+		'board',
+		'winner'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -12,6 +13,17 @@ Class {
 { #category : #'instance creation' }
 Game class >> withPlayer: aPlayer andDice: aDice andBoard: aBoard [ 
 	^self new initializeWithAPlayer: aPlayer andWithDice: aDice andWithBoard: aBoard.
+]
+
+{ #category : #'as yet unclassified' }
+Game >> checkWinner [
+
+	
+	player position >= board positions
+		ifTrue: [winner := player name ]
+		ifFalse: [winner := 'No gano nadie ']
+	
+	
 ]
 
 { #category : #'instance creation' }
@@ -23,5 +35,12 @@ Game >> initializeWithAPlayer: aPlayer andWithDice: aDice andWithBoard: aBoard [
 
 { #category : #'as yet unclassified' }
 Game >> update: aPlayer positionInBoardBy: numberRolledOnDice [
-	aPlayer position += numberRolledOnDice.
+	|positionPerPlayer|
+	positionPerPlayer := aPlayer position + numberRolledOnDice.
+	
+]
+
+{ #category : #'as yet unclassified' }
+Game >> winner [
+	^winner. 
 ]

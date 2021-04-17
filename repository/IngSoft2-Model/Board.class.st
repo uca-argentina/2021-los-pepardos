@@ -16,3 +16,8 @@ Board class >> withPositions: aNumberOfPositions [
 Board >> initializeWithPositions: aNumberOfPositions [
 	positions := aNumberOfPositions.
 ]
+
+{ #category : #'as yet unclassified' }
+Board >> positions [
+	^ positions
+]

@@ -28,7 +28,9 @@ DummyTest >> testUnJugadorJuegaUnaPartidaYGana [
 	elDiegoDiceThrowResult := elDiego rollDice: dice.
 	gameInstance update: elDiego positionInBoardBy: elDiegoDiceThrowResult.
 	
+	gameInstance checkWinner.
 	self assert: (gameInstance winner) equals: 'El Diego'.
+	
 
 	
 ]
