@@ -35,6 +35,37 @@ DummyTest >> testOnePlayerWithTwoDicesWinTheGame [
 ]
 
 { #category : #tests }
+DummyTest >> testTwoPlayersPlayTheGame [
+	| gameBoard gameInstance playerList elDiego roman dice aDiceList elDiegoDiceThrowResult  		romanDiceThrowResult|
+	
+	elDiego := Player withName: 'El Diego'.
+	roman := Player withName: 'Roman'.
+	
+   dice := Dice withSides: 6.
+	aDiceList := { dice }.
+   gameBoard := Board withPositions: 1.
+	
+	playerList := OrderedCollection  new.
+	
+	playerList add: elDiego.
+	playerList add: roman.
+
+	gameInstance := Game withPlayer: playerList andDice: aDiceList andBoard: gameBoard.
+
+	elDiegoDiceThrowResult := elDiego rollDice: aDiceList.
+	gameInstance update: elDiego positionInBoardBy: elDiegoDiceThrowResult.
+	
+	
+	romanDiceThrowResult := roman rollDice: aDiceList.
+	gameInstance update: roman positionInBoardBy: romanDiceThrowResult.
+
+	
+	gameInstance checkWinner.
+	self assert: (gameInstance winner) equals: 'El Diego'.
+
+]
+
+{ #category : #tests }
 DummyTest >> testUnJugadorJuegaUnaPartidaYGana [
 
    | gameBoard gameInstance elDiego dice aDiceList elDiegoDiceThrowResult |

@@ -18,20 +18,20 @@ Game class >> withPlayer: aPlayer andDice: aDice andBoard: aBoard [
 
 { #category : #'as yet unclassified' }
 Game >> checkWinner [
-
-		(player at:2 ) >= board positions
-		ifTrue: [winner := (player at:1) name ]
-		ifFalse: [winner := 'No gano nadie ']
-	
-	
+		|boardPlayerPos|
+		
+		(1 >= 0)
+			ifTrue: [winner := player]
+			ifFalse: 'nada'
 ]
 
 { #category : #'instance creation' }
 Game >> initializeWithAPlayer: aPlayer andWithDice: aDice andWithBoard: aBoard [ 
 	position := 0.
 	player := OrderedCollection new.
-	player add: aPlayer.
-	player add: position.
+	
+	aPlayer collect: [:jugador |  player add: {jugador . position}].
+
 	dice := aDice.
 	board := aBoard.
 ]

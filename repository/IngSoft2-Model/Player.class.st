@@ -35,6 +35,6 @@ Player >> rollDice: aDiceList [
 	amountOfDices := aDiceList size.
 	amountOfDices == 1
 		ifTrue: [^(aDiceList at:1) obtainRandomFromDice.]
-		ifFalse: [^(aDiceList sum: [:dice | dice obtainRandomFromDice]) + (amountOfDices - 1)]. 
+		ifFalse: [^(aDiceList sum: [:dice | dice obtainRandomFromDice])]. 
 
 ]
