@@ -30,6 +30,11 @@ Player >> position [
 ]
 
 { #category : #'as yet unclassified' }
-Player >> rollDice: aDice [ 
-	^aDice obtainRandomFromDice.
+Player >> rollDice: aDiceList [ 
+	|amountOfDices|
+	amountOfDices := aDiceList size.
+	amountOfDices == 1
+		ifTrue: [^(aDiceList at:1) obtainRandomFromDice.]
+		ifFalse: [^(aDiceList sum: [:dice | dice obtainRandomFromDice]) + (amountOfDices - 1)]. 
+
 ]
