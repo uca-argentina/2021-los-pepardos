@@ -16,7 +16,7 @@ Player class >> withName: aName [
 { #category : #'instance creation' }
 Player >> initializeWithName: aName [
 	name := aName.
-	position := 1.
+	position := 0.
 ]
 
 { #category : #'as yet unclassified' }

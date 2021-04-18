@@ -18,28 +18,25 @@ Game class >> withPlayer: aPlayer andDice: aDice andBoard: aBoard [
 
 { #category : #'as yet unclassified' }
 Game >> checkWinner [
-		|boardPlayerPos|
-		
-		(1 >= 0)
-			ifTrue: [winner := player]
-			ifFalse: 'nada'
+
+	winner := ((player select: [:each | (each  at: 2)> board positions]) at: 1) at:1
 ]
 
 { #category : #'instance creation' }
-Game >> initializeWithAPlayer: aPlayer andWithDice: aDice andWithBoard: aBoard [ 
+Game >> initializeWithAPlayer: aPlayerList andWithDice: aDice andWithBoard: aBoard [ 
 	position := 0.
 	player := OrderedCollection new.
 	
-	aPlayer collect: [:jugador |  player add: {jugador . position}].
+	player := aPlayerList collect: [:aCurrentPlayer |  player add: {aCurrentPlayer . position}].
 
 	dice := aDice.
 	board := aBoard.
 ]
 
 { #category : #'as yet unclassified' }
-Game >> update: aPlayer positionInBoardBy: numberRolledOnDice [
+Game >> update: aPlayer whoIsPlayer: playerNumber positionInBoardBy: numberRolledOnDice [
 
-	player at:2 put: (numberRolledOnDice + position).
+    (player at: playerNumber) at: 2 put: (numberRolledOnDice  + aPlayer position).
 ]
 
 { #category : #'as yet unclassified' }
