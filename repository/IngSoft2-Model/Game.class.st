@@ -5,8 +5,7 @@ Class {
 		'player',
 		'dice',
 		'board',
-		'winner',
-		'position'
+		'winner'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -19,11 +18,12 @@ Game class >> withPlayer: aPlayer andDice: aDice andBoard: aBoard [
 { #category : #'as yet unclassified' }
 Game >> checkWinner [
 
-	winner := ((player select: [:each | (each  at: 2)> board positions]) at: 1) at:1
+	winner := ((player select: [:each | (each  at: 2)>= board positions]) at: 1) at:1
 ]
 
 { #category : #'instance creation' }
 Game >> initializeWithAPlayer: aPlayerList andWithDice: aDice andWithBoard: aBoard [ 
+	|position|
 	position := 0.
 	player := OrderedCollection new.
 	
@@ -35,8 +35,9 @@ Game >> initializeWithAPlayer: aPlayerList andWithDice: aDice andWithBoard: aBoa
 
 { #category : #'as yet unclassified' }
 Game >> update: aPlayer whoIsPlayer: playerNumber positionInBoardBy: numberRolledOnDice [
-
-    (player at: playerNumber) at: 2 put: (numberRolledOnDice  + aPlayer position).
+	|playerPos|
+	playerPos := (player at: playerNumber) at: 2.
+    (player at: playerNumber) at: 2 put: (numberRolledOnDice  + playerPos).
 ]
 
 { #category : #'as yet unclassified' }

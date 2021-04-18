@@ -15,6 +15,29 @@ DummyTest >> testDummy [
 ]
 
 { #category : #tests }
+DummyTest >> testOnePlayerRollsOneDiceTwice [
+    "insertar pepardo"
+    | gameBoard gameInstance elDiego dice1  diceList elDiegoDiceThrowResult playerList |
+
+    elDiego := Player withName: 'El Diego'.
+   dice1 := Dice withSides: 6.
+
+    diceList := { dice1 }.
+    playerList := { elDiego }.
+
+   gameBoard := Board withPositions: 5.
+    gameInstance := Game withPlayer: playerList andDice: diceList andBoard: gameBoard.
+
+    elDiegoDiceThrowResult := elDiego rollDice: diceList.
+    gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
+    elDiegoDiceThrowResult := elDiego rollDice: diceList.
+    gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
+
+    gameInstance checkWinner.
+    self assert: (gameInstance winner name) equals: 'El Diego'.
+]
+
+{ #category : #tests }
 DummyTest >> testOnePlayerWithTwoDicesWinTheGame [
 	"insertar pepardo"
 	| gameBoard gameInstance elDiego dice1 dice2 diceList elDiegoDiceThrowResult playerList |
@@ -25,7 +48,7 @@ DummyTest >> testOnePlayerWithTwoDicesWinTheGame [
 	diceList := { dice1 . dice2 }.
 	playerList := { elDiego }.
 	
-   gameBoard := Board withPositions: 3.
+   gameBoard := Board withPositions: 2.
 	gameInstance := Game withPlayer: playerList andDice: diceList andBoard: gameBoard.
 
 	elDiegoDiceThrowResult := elDiego rollDice: diceList.
@@ -37,28 +60,29 @@ DummyTest >> testOnePlayerWithTwoDicesWinTheGame [
 
 { #category : #tests }
 DummyTest >> testTwoPlayersPlayTheGame [
-	| gameBoard gameInstance playerList elDiego roman dice aDiceList elDiegoDiceThrowResult  		romanDiceThrowResult|
+	| gameBoard gameInstance playerList elDiego nico dice  aDiceList elDiegoDiceThrowResult  	nicoDiceThrowResult|
 	
 	elDiego := Player withName: 'El Diego'.
-	roman := Player withName: 'Roman'.
+	nico := Player withName: 'Nico'.
 	
    dice := Dice withSides: 6.
-	aDiceList := { dice }.
-   gameBoard := Board withPositions: 1.
+	aDiceList:= { dice }.
+
+   gameBoard := Board withPositions: 2.
 	
 	playerList := OrderedCollection  new.
 	
 	playerList add: elDiego.
-	playerList add: roman.
+	playerList add: nico.
 
 	gameInstance := Game withPlayer: playerList andDice: aDiceList andBoard: gameBoard.
 
-	elDiegoDiceThrowResult := elDiego rollDice: aDiceList.
+	elDiegoDiceThrowResult := elDiego rollDice: aDiceList .
 	gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
 	
 	
-	romanDiceThrowResult := roman rollDice: aDiceList.
-	gameInstance update: roman whoIsPlayer: 2 positionInBoardBy: romanDiceThrowResult.
+	nicoDiceThrowResult := nico rollDice: aDiceList .
+	gameInstance update: nico whoIsPlayer: 2 positionInBoardBy: nicoDiceThrowResult.
 
 	
 	gameInstance checkWinner.
