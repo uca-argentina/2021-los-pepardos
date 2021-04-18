@@ -59,6 +59,32 @@ DummyTest >> testAssertAPlayerRollsTwoLoadedDicesAndAdvancesTheSumOfTheTwoDices 
 ]
 
 { #category : #tests }
+DummyTest >> testAssertThatTheGameIsntOver [
+	"insertar pepardo"
+	| gameBoard gameInstance elDiego loadedDice1 loadedDice2 aDiceList elDiegoDiceThrowResult aPlayerList |
+	
+	elDiego := Player withName: 'El Diego'.
+   loadedDice1 := LoadedDice withSides: 6.
+	loadedDice2 := LoadedDice withSides: 3.
+	
+   gameBoard := Board withPositions: 10.
+	
+	aDiceList := { loadedDice1 . loadedDice2  }.
+	
+	aPlayerList := { elDiego }.
+	gameInstance := Game withPlayer: aPlayerList andDice: aDiceList andBoard: gameBoard.
+
+	elDiegoDiceThrowResult := elDiego rollLoadedDice: loadedDice1.
+	gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
+	
+	elDiegoDiceThrowResult := elDiego rollLoadedDice: loadedDice2.
+	gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
+	
+	self assert: (gameInstance isFinished ) equals: false. 
+	
+]
+
+{ #category : #tests }
 DummyTest >> testDummy [
 	"insertar pepardo"
 	self assert: Dummy new isDummy
@@ -106,6 +132,42 @@ DummyTest >> testOnePlayerWithTwoDicesWinTheGame [
 	
 
 	self assert: ((gameInstance winner at:1) name )equals: 'El Diego'.
+]
+
+{ #category : #tests }
+DummyTest >> testThatElDiegoIsInPosition6AndNicoIsInPosition5 [
+	"insertar pepardo"
+	| gameBoard gameInstance playerList elDiego nico loadedDice2 ice loadedDice1 aDiceList elDiegoDiceThrowResult  	nicoDiceThrowResult nicoPosition elDiegoPosition|
+	
+	elDiego := Player withName: 'El Diego'.
+	nico := Player withName: 'Nico'.
+	
+	loadedDice1 := LoadedDice withSides: 6.
+   loadedDice2  := LoadedDice withSides: 5.
+
+	aDiceList:= { loadedDice1 . loadedDice2 }.
+
+   gameBoard := Board withPositions: 6.
+	
+	playerList := OrderedCollection  new.
+	
+	playerList add: elDiego.
+	playerList add: nico.
+
+	gameInstance := Game withPlayer: playerList andDice: aDiceList andBoard: gameBoard.
+
+	elDiegoDiceThrowResult := elDiego rollLoadedDice: loadedDice1 .
+	gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
+	
+	nicoDiceThrowResult := nico rollLoadedDice: loadedDice2 .
+	gameInstance update: nico whoIsPlayer: 2 positionInBoardBy: nicoDiceThrowResult.
+	
+	elDiegoPosition := gameInstance getPositionOfPlayer: 1.
+	nicoPosition := gameInstance getPositionOfPlayer: 2.
+
+	self assert: ((elDiegoPosition == 6) and: (nicoPosition == 5))
+
+
 ]
 
 { #category : #tests }

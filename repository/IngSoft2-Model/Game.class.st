@@ -21,6 +21,11 @@ Game >> checkAndUpdateWinner [
 	winner add: ( ((player select: [:each | (each  at: 2)>= board positions]) at: 1) at:1)
 ]
 
+{ #category : #'as yet unclassified' }
+Game >> getPositionOfPlayer: playerNumber [
+	^(player at:playerNumber ) at:2
+]
+
 { #category : #'instance creation' }
 Game >> initializeWithAPlayer: aPlayerList andWithDice: aDice andWithBoard: aBoard [ 
 	|position|
