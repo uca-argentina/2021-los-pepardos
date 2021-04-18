@@ -28,3 +28,8 @@ Player >> rollDice: aDiceList [
 ^(aDiceList sum: [:dice | dice obtainRandomFromDice]). 
 
 ]
+
+{ #category : #'as yet unclassified' }
+Player >> rollLoadedDice: aLoadedDice [ 
+	^aLoadedDice sides.
+]
