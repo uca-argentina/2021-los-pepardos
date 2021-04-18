@@ -7,11 +7,6 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
-LoadedDice class >> sides [
-	self shouldBeImplemented.
-]
-
 { #category : #'instance creation' }
 LoadedDice class >> withSides: sides [
 	^self new initializeWithLoadedSides: sides.
