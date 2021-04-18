@@ -49,8 +49,7 @@ DummyTest >> testAssertAPlayerRollsTwoLoadedDicesAndAdvancesTheSumOfTheTwoDices 
 	elDiegoDiceThrowResult := elDiego rollLoadedDice: loadedDice2.
 	gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
 	
-	gameInstance checkWinner.
-	self assert: (gameInstance winner name) equals: 'El Diego'.
+	self assert: ((gameInstance winner at:1) name )equals: 'El Diego'.
 	
 
 	
@@ -84,8 +83,8 @@ DummyTest >> testOnePlayerRollsOneDiceTwice [
     elDiegoDiceThrowResult := elDiego rollDice: diceList.
     gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
 
-    gameInstance checkWinner.
-    self assert: (gameInstance winner name) equals: 'El Diego'.
+
+    self assert: ((gameInstance winner at:1) name )equals: 'El Diego'.
 ]
 
 { #category : #tests }
@@ -105,8 +104,40 @@ DummyTest >> testOnePlayerWithTwoDicesWinTheGame [
 	elDiegoDiceThrowResult := elDiego rollDice: diceList.
 	gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
 	
-	gameInstance checkWinner.
-	self assert: (gameInstance winner name) equals: 'El Diego'.
+
+	self assert: ((gameInstance winner at:1) name )equals: 'El Diego'.
+]
+
+{ #category : #tests }
+DummyTest >> testThatTheGameHasFinished [
+	"insertar pepardo"
+	| gameBoard gameInstance playerList elDiego nico dice loadedDice aDiceList elDiegoDiceThrowResult  	nicoDiceThrowResult|
+	
+	elDiego := Player withName: 'El Diego'.
+	nico := Player withName: 'Nico'.
+
+   dice := Dice withSides: 5.
+	loadedDice := LoadedDice withSides: 6.
+	aDiceList:= { dice }.
+
+   gameBoard := Board withPositions: 6.
+	
+	playerList := OrderedCollection  new.
+	
+	playerList add: elDiego.
+	playerList add: nico.
+
+	gameInstance := Game withPlayer: playerList andDice: aDiceList andBoard: gameBoard.
+
+	elDiegoDiceThrowResult := elDiego rollLoadedDice: loadedDice .
+	gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
+	
+	
+	nicoDiceThrowResult := nico rollDice: aDiceList .
+	gameInstance update: nico whoIsPlayer: 2 positionInBoardBy: nicoDiceThrowResult.
+
+
+	self assert: (gameInstance isFinished) equals: true. 
 ]
 
 { #category : #tests }
@@ -136,9 +167,7 @@ DummyTest >> testTwoPlayersPlayTheGame [
 	nicoDiceThrowResult := nico rollDice: aDiceList .
 	gameInstance update: nico whoIsPlayer: 2 positionInBoardBy: nicoDiceThrowResult.
 
-	
-	gameInstance checkWinner.
-	self assert: (gameInstance winner name) equals: 'El Diego'.
+	self assert: ((gameInstance winner at:1) name )equals: 'El Diego'.
 
 ]
 
@@ -158,8 +187,8 @@ DummyTest >> testUnJugadorJuegaUnaPartidaYGana [
 	elDiegoDiceThrowResult := elDiego rollDice: aDiceList.
 	gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
 	
-	gameInstance checkWinner.
-	self assert: (gameInstance winner name) equals: 'El Diego'.
+
+	self assert: ((gameInstance winner at:1) name )equals: 'El Diego'.
 	
 
 	

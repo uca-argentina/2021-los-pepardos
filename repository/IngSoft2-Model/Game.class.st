@@ -16,9 +16,9 @@ Game class >> withPlayer: aPlayer andDice: aDice andBoard: aBoard [
 ]
 
 { #category : #'as yet unclassified' }
-Game >> checkWinner [
+Game >> checkAndUpdateWinner [
 
-	winner := ((player select: [:each | (each  at: 2)>= board positions]) at: 1) at:1
+	winner add: ( ((player select: [:each | (each  at: 2)>= board positions]) at: 1) at:1)
 ]
 
 { #category : #'instance creation' }
@@ -31,13 +31,27 @@ Game >> initializeWithAPlayer: aPlayerList andWithDice: aDice andWithBoard: aBoa
 
 	dice := aDice.
 	board := aBoard.
+	winner := OrderedCollection new.
+]
+
+{ #category : #'as yet unclassified' }
+Game >> isFinished [
+	winner size >= 1
+		ifTrue: [ ^true ]
+		ifFalse: [ ^false ]
 ]
 
 { #category : #'as yet unclassified' }
 Game >> update: aPlayer whoIsPlayer: playerNumber positionInBoardBy: numberRolledOnDice [
 	|playerPos|
 	playerPos := (player at: playerNumber) at: 2.
-    (player at: playerNumber) at: 2 put: (numberRolledOnDice  + playerPos).
+   (player at: playerNumber) at: 2 put: (numberRolledOnDice  + playerPos).
+	
+	(player select: [:each | (each  at: 2)>= board positions]) isEmpty 
+		ifFalse: [ self checkAndUpdateWinner ] 
+	
+	
+
 ]
 
 { #category : #'as yet unclassified' }
