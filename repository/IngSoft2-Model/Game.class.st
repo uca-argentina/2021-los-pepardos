@@ -18,7 +18,7 @@ Game class >> withPlayer: aPlayer andDice: aDice andBoard: aBoard [
 { #category : #'as yet unclassified' }
 Game >> checkAndUpdateWinner [
 
-	winner add: ( ((player select: [:each | (each  at: 2)>= board positions]) at: 1) at:1)
+	winner add: (((player select: [:each | (each  at: 2) >= board positions]) at: 1) at:1)
 ]
 
 { #category : #'as yet unclassified' }
@@ -44,6 +44,11 @@ Game >> isFinished [
 	winner size >= 1
 		ifTrue: [ ^true ]
 		ifFalse: [ ^false ]
+]
+
+{ #category : #'as yet unclassified' }
+Game >> player [
+	^ player
 ]
 
 { #category : #'as yet unclassified' }

@@ -9,6 +9,25 @@ Class {
 }
 
 { #category : #tests }
+DummyTest >> testAPlayerRollsALoadedDiceAndDoesNotWinTheGame [
+	"insertar pepardo"
+    | gameBoard gameInstance elDiego loadedDice elDiegoDiceThrowResult playerList |
+
+    elDiego := Player withName: 'El Diego'.
+   	 loadedDice := LoadedDice withSides: 7.
+
+    playerList := { elDiego }.
+
+    gameBoard := Board withPositions: 10.
+    gameInstance := Game withPlayer: playerList andDice: loadedDice andBoard: gameBoard.
+
+    elDiegoDiceThrowResult := elDiego rollLoadedDice: loadedDice .
+    gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
+
+    self assert: (((gameInstance player) at:1) at:2) equals: 7
+]
+
+{ #category : #tests }
 DummyTest >> testAssertALoadedDiceAlwaysReturnsTheNumberItWasLoadedWith [
 	"insertar pepardo"
 	|elDiego  elDiegoDiceThrowResult loadedDice|
@@ -80,7 +99,7 @@ DummyTest >> testAssertThatTheGameIsntOver [
 	elDiegoDiceThrowResult := elDiego rollLoadedDice: loadedDice2.
 	gameInstance update: elDiego whoIsPlayer: 1 positionInBoardBy: elDiegoDiceThrowResult.
 	
-	self assert: (gameInstance isFinished ) equals: false. 
+	self assert: (gameInstance isFinished ) equals: false.
 	
 ]
 
@@ -88,6 +107,130 @@ DummyTest >> testAssertThatTheGameIsntOver [
 DummyTest >> testDummy [
 	"insertar pepardo"
 	self assert: Dummy new isDummy
+]
+
+{ #category : #tests }
+DummyTest >> testFivePlayersPlayTheGameAndNoOneWins [
+	| gameBoard gameInstance playerList playerNico playerRama playerSeba playerJorge playerJulian dice loadedDice aDiceList playerDiceThrowResult|
+	
+	playerNico := Player withName: 'Nico'.
+	playerRama := Player withName: 'Rama'.
+	playerSeba := Player withName: 'Seba'.
+	playerJorge := Player withName: 'Jorge'.
+	playerJulian := Player withName: 'Julian'.
+	
+   dice := Dice withSides: 5.
+	loadedDice := LoadedDice withSides: 50.
+	aDiceList:= { dice }.
+
+   gameBoard := Board withPositions: 50.
+	
+	playerList := OrderedCollection  new.
+	
+	playerList add: playerNico.
+	playerList add: playerRama.
+	playerList add: playerSeba.
+	playerList add: playerJorge.
+	playerList add: playerJulian.
+	
+	gameInstance := Game withPlayer: playerList andDice: aDiceList andBoard: gameBoard.
+
+	"Round 1:"
+	playerDiceThrowResult  := playerNico rollDice: aDiceList.
+	gameInstance update: playerNico whoIsPlayer: 1 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerRama rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 2 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerSeba rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 3 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerJorge rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 4 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerJulian rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 5 positionInBoardBy: playerDiceThrowResult.
+	
+	"Round 2:"
+	playerDiceThrowResult  := playerNico rollDice: aDiceList.
+	gameInstance update: playerNico whoIsPlayer: 1 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerRama rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 2 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerSeba rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 3 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerJorge rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 4 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerJulian rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 5 positionInBoardBy: playerDiceThrowResult.
+
+	self assert: (gameInstance winner isEmpty).
+
+]
+
+{ #category : #tests }
+DummyTest >> testFivePlayersPlayTheGameAndSebaWins [
+	| gameBoard gameInstance playerList playerNico playerRama playerSeba playerJorge playerJulian dice loadedDice aDiceList playerDiceThrowResult|
+	
+	playerNico := Player withName: 'Nico'.
+	playerRama := Player withName: 'Rama'.
+	playerSeba := Player withName: 'Seba'.
+	playerJorge := Player withName: 'Jorge'.
+	playerJulian := Player withName: 'Julian'.
+	
+   dice := Dice withSides: 5.
+	loadedDice := LoadedDice withSides: 50.
+	aDiceList:= { dice }.
+
+   gameBoard := Board withPositions: 50.
+	
+	playerList := OrderedCollection  new.
+	
+	playerList add: playerNico.
+	playerList add: playerRama.
+	playerList add: playerSeba.
+	playerList add: playerJorge.
+	playerList add: playerJulian.
+	
+	gameInstance := Game withPlayer: playerList andDice: aDiceList andBoard: gameBoard.
+
+	"Round 1:"
+	playerDiceThrowResult  := playerNico rollDice: aDiceList.
+	gameInstance update: playerNico whoIsPlayer: 1 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerRama rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 2 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerSeba rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 3 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerJorge rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 4 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerJulian rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 5 positionInBoardBy: playerDiceThrowResult.
+	
+	"Round 2:"
+	playerDiceThrowResult  := playerNico rollDice: aDiceList.
+	gameInstance update: playerNico whoIsPlayer: 1 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerRama rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 2 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerSeba rollLoadedDice: loadedDice .
+	gameInstance update: playerRama whoIsPlayer: 3 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerJorge rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 4 positionInBoardBy: playerDiceThrowResult.
+	
+	playerDiceThrowResult  := playerJulian rollDice: aDiceList .
+	gameInstance update: playerRama whoIsPlayer: 5 positionInBoardBy: playerDiceThrowResult.
+
+	self assert: ((gameInstance winner at:1) name) equals: (playerSeba name).
+
 ]
 
 { #category : #tests }
@@ -137,7 +280,7 @@ DummyTest >> testOnePlayerWithTwoDicesWinTheGame [
 { #category : #tests }
 DummyTest >> testThatElDiegoIsInPosition6AndNicoIsInPosition5 [
 	"insertar pepardo"
-	| gameBoard gameInstance playerList elDiego nico loadedDice2 ice loadedDice1 aDiceList elDiegoDiceThrowResult  	nicoDiceThrowResult nicoPosition elDiegoPosition|
+	| gameBoard gameInstance playerList elDiego nico loadedDice2 loadedDice1 aDiceList elDiegoDiceThrowResult  	nicoDiceThrowResult nicoPosition elDiegoPosition|
 	
 	elDiego := Player withName: 'El Diego'.
 	nico := Player withName: 'Nico'.
