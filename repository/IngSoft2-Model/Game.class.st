@@ -2,10 +2,10 @@ Class {
 	#name : #Game,
 	#superclass : #Object,
 	#instVars : [
-		'player',
-		'dice',
+		'players',
+		'dices',
 		'board',
-		'winner'
+		'leaderboard'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -18,46 +18,68 @@ Game class >> withPlayer: aPlayer andDice: aDice andBoard: aBoard [
 { #category : #'as yet unclassified' }
 Game >> checkAndUpdateWinner [
 
-	winner add: (((player select: [:each | (each  at: 2) >= board positions]) at: 1) at:1)
+	|playerWinner|
+	playerWinner = (players select: [:each | (each  at: 2) >= board positions]).
+	
+	playerWinner isEmpty
+	ifTrue: [leaderboard add: (playerWinner at: 1) ].
 ]
 
 { #category : #'as yet unclassified' }
 Game >> getPositionOfPlayer: playerNumber [
-	^(player at:playerNumber ) at:2
+	^(players at:playerNumber ) at:2
 ]
 
 { #category : #'instance creation' }
 Game >> initializeWithAPlayer: aPlayerList andWithDice: aDice andWithBoard: aBoard [ 
 	|position|
 	position := 0.
-	player := OrderedCollection new.
+	players := OrderedCollection new.
 	
-	player := aPlayerList collect: [:aCurrentPlayer |  player add: {aCurrentPlayer . position}].
+	players := aPlayerList collect: [:aCurrentPlayer |  players add: {aCurrentPlayer . position}].
 
-	dice := aDice.
+	dices := aDice.
 	board := aBoard.
-	winner := OrderedCollection new.
+	leaderboard := OrderedCollection new.
 ]
 
 { #category : #'as yet unclassified' }
 Game >> isFinished [
-	winner size >= 1
+	leaderboard size >= 1
 		ifTrue: [ ^true ]
 		ifFalse: [ ^false ]
 ]
 
+{ #category : #accessing }
+Game >> playGame [
+	self playTurn.
+	^ self.
+]
+
+{ #category : #'as yet unclassified' }
+Game >> playTurn [
+
+	players := players collect: [ :onePlayer | {(onePlayer at: 1).(onePlayer at: 2) + ((onePlayer at: 1) rollDice: dices)} ].
+
+	self checkAndUpdateWinner.
+
+	
+
+	
+]
+
 { #category : #'as yet unclassified' }
 Game >> player [
-	^ player
+	^ players
 ]
 
 { #category : #'as yet unclassified' }
 Game >> update: aPlayer whoIsPlayer: playerNumber positionInBoardBy: numberRolledOnDice [
 	|playerPos|
-	playerPos := (player at: playerNumber) at: 2.
-   (player at: playerNumber) at: 2 put: (numberRolledOnDice  + playerPos).
+	playerPos := (players at: playerNumber) at: 2.
+   (players at: playerNumber) at: 2 put: (numberRolledOnDice  + playerPos).
 	
-	(player select: [:each | (each  at: 2)>= board positions]) isEmpty 
+	(players select: [:each | (each  at: 2)>= board positions]) isEmpty 
 		ifFalse: [ self checkAndUpdateWinner ] 
 	
 	
@@ -66,5 +88,5 @@ Game >> update: aPlayer whoIsPlayer: playerNumber positionInBoardBy: numberRolle
 
 { #category : #'as yet unclassified' }
 Game >> winner [
-	^winner. 
+	^leaderboard at: 1. 
 ]
