@@ -19,17 +19,7 @@ Player >> initializeWithName: aName [
 ]
 
 { #category : #'as yet unclassified' }
-Player >> name [
-	^ name
-]
-
-{ #category : #'as yet unclassified' }
 Player >> rollDice: aDiceList [ 
 ^(aDiceList sum: [:dice | dice obtainRandomFromDice]). 
 
-]
-
-{ #category : #'as yet unclassified' }
-Player >> rollLoadedDice: aLoadedDice [ 
-	^aLoadedDice sides.
 ]
