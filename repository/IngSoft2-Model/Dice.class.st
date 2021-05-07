@@ -18,6 +18,6 @@ Dice >> initializeWithSides: numberOfSides [
 ]
 
 { #category : #'as yet unclassified' }
-Dice >> obtainRandomFromDice [
+Dice >> roll [
 	^Random new seed % sides + 1.
 ]

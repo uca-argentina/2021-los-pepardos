@@ -1,11 +1,11 @@
 Class {
-	#name : #NewTests,
+	#name : #SinglePlayerTests,
 	#superclass : #TestCase,
 	#category : #'IngSoft2-Tests'
 }
 
 { #category : #tests }
-NewTests >> test001ElDiegoPlaysOneTurnAndWins [
+SinglePlayerTests >> test001ElDiegoPlaysOneTurnAndWins [
 
    | gameBoard gameInstance elDiego diceOne dices players |
 	
@@ -15,7 +15,7 @@ NewTests >> test001ElDiegoPlaysOneTurnAndWins [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	gameInstance := Game beingPlayedBy: players with: dices on: gameBoard.
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard.
 
 	gameInstance playTurn.
 
@@ -27,7 +27,7 @@ NewTests >> test001ElDiegoPlaysOneTurnAndWins [
 ]
 
 { #category : #tests }
-NewTests >> test002OnePlayerPlaysTheGameAndWins [
+SinglePlayerTests >> test002OnePlayerPlaysTheGameAndWins [
 
    | gameBoard gameInstance elDiego diceOne dices players |
 	
@@ -37,7 +37,7 @@ NewTests >> test002OnePlayerPlaysTheGameAndWins [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	gameInstance := Game beingPlayedBy: players with: dices on: gameBoard.
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard.
 
 	gameInstance playGame.
 
@@ -49,9 +49,9 @@ NewTests >> test002OnePlayerPlaysTheGameAndWins [
 ]
 
 { #category : #tests }
-NewTests >> test003ElDiegoPlaysWithTwoDicesAndWins [
+SinglePlayerTests >> test003ElDiegoPlaysWithTwoDicesAndWins [
 
-   | gameBoard gameInstance elDiego elSeba diceOne dices players loadedDice |
+   | gameBoard gameInstance elDiego diceOne dices players |
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 4.
@@ -60,7 +60,7 @@ NewTests >> test003ElDiegoPlaysWithTwoDicesAndWins [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	gameInstance := Game beingPlayedBy: players with: dices on: gameBoard.
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard.
 
 	gameInstance playGame.
 
@@ -72,7 +72,7 @@ NewTests >> test003ElDiegoPlaysWithTwoDicesAndWins [
 ]
 
 { #category : #tests }
-NewTests >> test004ElDiegoPlaysOneTurnAndDoesntWin [
+SinglePlayerTests >> test004ElDiegoPlaysOneTurnAndDoesntWin [
 
    | gameBoard gameInstance elDiego diceOne dices players |
 	
@@ -82,11 +82,31 @@ NewTests >> test004ElDiegoPlaysOneTurnAndDoesntWin [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	gameInstance := Game beingPlayedBy: players with: dices on: gameBoard.
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard.
 
 	gameInstance playTurn.
 
 	self assert: (gameInstance leaderboard) isEmpty.
+
+	
+
+	
+]
+
+{ #category : #tests }
+SinglePlayerTests >> test005ElDiegoBeingsPlayingAtPosition0 [
+
+   | gameBoard gameInstance elDiego diceOne dices players |
+	
+	elDiego := Player withName: 'El Diego'.
+   diceOne := Dice withSides: 6.
+   gameBoard := Board withPositions: 1.
+	
+	dices := { diceOne }.
+	players := { elDiego }.
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard.
+
+	self assert: (gameInstance positionOf: elDiego) equals: 0.
 
 	
 

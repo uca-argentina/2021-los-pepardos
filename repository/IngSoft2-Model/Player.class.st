@@ -20,6 +20,6 @@ Player >> initializeWithName: aName [
 
 { #category : #'as yet unclassified' }
 Player >> rollDice: aDiceList [ 
-^(aDiceList sum: [:dice | dice obtainRandomFromDice]). 
+^(aDiceList sum: [:dice | dice roll]). 
 
 ]
