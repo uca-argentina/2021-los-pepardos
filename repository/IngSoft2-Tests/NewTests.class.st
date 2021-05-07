@@ -15,7 +15,7 @@ NewTests >> test001ElDiegoPlaysOneTurnAndWins [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	gameInstance := Game withPlayer: players andDice: dices andBoard: gameBoard.
+	gameInstance := Game beingPlayedBy: players with: dices on: gameBoard.
 
 	gameInstance playTurn.
 
@@ -27,31 +27,7 @@ NewTests >> test001ElDiegoPlaysOneTurnAndWins [
 ]
 
 { #category : #tests }
-NewTests >> test002TwoPlayersPlayOneRoundAndElDiegoWins [
-
-   | gameBoard gameInstance elDiego elNico diceOne diceTwo dices players |
-	
-	elDiego := Player withName: 'El Diego'.
-	elNico := Player withName: 'Nico'.
-   diceOne := Dice withSides: 6.
-	diceTwo := Dice withSides: 5.
-   gameBoard := Board withPositions: 2.
-	
-	dices := { diceOne . diceTwo }.
-	players := { elDiego . elNico }.
-	gameInstance := Game withPlayer: players andDice: dices andBoard: gameBoard.
-
-	gameInstance playTurn.
-
-	self assert: (gameInstance winner) equals: elDiego.
-
-	
-
-	
-]
-
-{ #category : #tests }
-NewTests >> test003OnePlayerPlaysTheGameAndWins [
+NewTests >> test002OnePlayerPlaysTheGameAndWins [
 
    | gameBoard gameInstance elDiego diceOne dices players |
 	
@@ -61,11 +37,56 @@ NewTests >> test003OnePlayerPlaysTheGameAndWins [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	gameInstance := Game withPlayer: players andDice: dices andBoard: gameBoard.
+	gameInstance := Game beingPlayedBy: players with: dices on: gameBoard.
 
 	gameInstance playGame.
 
 	self assert: (gameInstance winner) equals: elDiego.
+
+	
+
+	
+]
+
+{ #category : #tests }
+NewTests >> test003ElDiegoPlaysWithTwoDicesAndWins [
+
+   | gameBoard gameInstance elDiego elSeba diceOne dices players loadedDice |
+	
+	elDiego := Player withName: 'El Diego'.
+   diceOne := Dice withSides: 4.
+   diceOne := Dice withSides: 6.
+   gameBoard := Board withPositions: 75.
+	
+	dices := { diceOne }.
+	players := { elDiego }.
+	gameInstance := Game beingPlayedBy: players with: dices on: gameBoard.
+
+	gameInstance playGame.
+
+	self assert: (gameInstance winner) equals: elDiego.
+
+	
+
+	
+]
+
+{ #category : #tests }
+NewTests >> test004ElDiegoPlaysOneTurnAndDoesntWin [
+
+   | gameBoard gameInstance elDiego diceOne dices players |
+	
+	elDiego := Player withName: 'El Diego'.
+   diceOne := Dice withSides: 6.
+   gameBoard := Board withPositions: 10.
+	
+	dices := { diceOne }.
+	players := { elDiego }.
+	gameInstance := Game beingPlayedBy: players with: dices on: gameBoard.
+
+	gameInstance playTurn.
+
+	self assert: (gameInstance leaderboard) isEmpty.
 
 	
 

@@ -11,6 +11,11 @@ Class {
 }
 
 { #category : #'instance creation' }
+Game class >> beingPlayedBy: players with: dices on: aBoard [ 
+	^self new initializeWithAPlayer: players andWithDice: dices andWithBoard: aBoard.
+]
+
+{ #category : #'instance creation' }
 Game class >> withPlayer: aPlayer andDice: aDice andBoard: aBoard [ 
 	^self new initializeWithAPlayer: aPlayer andWithDice: aDice andWithBoard: aBoard.
 ]
@@ -19,10 +24,9 @@ Game class >> withPlayer: aPlayer andDice: aDice andBoard: aBoard [
 Game >> checkAndUpdateWinner [
 
 	|playerWinner|
-	playerWinner = (players select: [:each | (each  at: 2) >= board positions]).
-	
-	playerWinner isEmpty
-	ifTrue: [leaderboard add: (playerWinner at: 1) ].
+	playerWinner := players select: [:eachPlayer | (eachPlayer at: 2) >= board positions].
+	playerWinner isNotEmpty
+		ifTrue: [leaderboard add: ((playerWinner at: 1) at: 1)].
 ]
 
 { #category : #'as yet unclassified' }
@@ -44,16 +48,15 @@ Game >> initializeWithAPlayer: aPlayerList andWithDice: aDice andWithBoard: aBoa
 ]
 
 { #category : #'as yet unclassified' }
-Game >> isFinished [
-	leaderboard size >= 1
-		ifTrue: [ ^true ]
-		ifFalse: [ ^false ]
+Game >> leaderboard [
+	^ leaderboard
 ]
 
 { #category : #accessing }
 Game >> playGame [
 	self playTurn.
-	^ self.
+	leaderboard isEmpty 
+	ifTrue:[self playGame].
 ]
 
 { #category : #'as yet unclassified' }
@@ -88,5 +91,5 @@ Game >> update: aPlayer whoIsPlayer: playerNumber positionInBoardBy: numberRolle
 
 { #category : #'as yet unclassified' }
 Game >> winner [
-	^leaderboard at: 1. 
+	^(leaderboard at: 1).
 ]
