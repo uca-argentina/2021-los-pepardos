@@ -5,7 +5,6 @@ Class {
 		'players',
 		'dices',
 		'board',
-		'leaderboard',
 		'winner',
 		'lapsNeededToCompleteToWin',
 		'playerStatus'
@@ -34,7 +33,7 @@ IngSoft2Game >> checkAndUpdateWinner [
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> hasFinished [
-	winner isEmpty
+	winner isNil
 		ifTrue: [ ^false ]
 		ifFalse: [ ^true ].
 ]
@@ -61,37 +60,20 @@ IngSoft2Game >> lapsNeededToCompleteToWin [
 	^lapsNeededToCompleteToWin.
 ]
 
-{ #category : #'as yet unclassified' }
-IngSoft2Game >> leaderboard [
-	^ leaderboard
-]
-
 { #category : #accessing }
 IngSoft2Game >> playGame [
 	self playTurn.
-	self winner isNil 
-	ifTrue:[self playGame].
+	self winner ifNil: [ self playGame ]
 ]
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playTurn [
 
-	|dummyPlayer diceRollResult|
-	
-	dummyPlayer := Player new.
-	diceRollResult := dummyPlayer rollDice: dices.	
-
-	playerStatus := playerStatus collect: [ :onePlayer | { 
-		(onePlayer at: 1) . 
-		(board currentPosition: (onePlayer at: 2) whoRolled: diceRollResult) .
-		(board obtainNewLapCountKnowingPlayerHas: (onePlayer at: 3) andRolled: diceRollResult andIsInPosition: (onePlayer at: 2))
-	} ].
-
-	self checkAndUpdateWinner.
-
-	
-
-	
+	playerStatus := playerStatus collect: [ :onePlayer | 
+			{(onePlayer at: 1).
+			(board currentPosition: (onePlayer at: 2) whoRolled: ((onePlayer at: 1) rollDice: dices)).
+			(board obtainNewLapCountKnowingPlayerHas: (onePlayer at: 3) andRolled: ((onePlayer at: 1) rollDice: dices) andIsInPosition: (onePlayer at: 2))} ].
+	self checkAndUpdateWinner
 ]
 
 { #category : #'as yet unclassified' }

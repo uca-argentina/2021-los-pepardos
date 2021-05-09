@@ -16,7 +16,7 @@ Board class >> withPositions: aNumberOfPositions [
 Board >> currentPosition: actualPlaceOnBoard whoRolled: aDiceRollResult [
 
 	actualPlaceOnBoard + aDiceRollResult > positions
-	ifTrue: [ ^ (actualPlaceOnBoard + aDiceRollResult)%positions ]
+	ifTrue: [ ^ ((actualPlaceOnBoard + aDiceRollResult) % positions) ]
 	ifFalse: [ ^actualPlaceOnBoard + aDiceRollResult ].
 ]
 
@@ -27,12 +27,20 @@ Board >> initializeWithPositions: aNumberOfPositions [
 
 { #category : #'as yet unclassified' }
 Board >> obtainNewLapCountKnowingPlayerHas: aCurrentAmountOfLaps andRolled: numberRolled andIsInPosition: currentPlayerPosition [
-	numberRolled + currentPlayerPosition > positions
-	ifTrue: [ ^aCurrentAmountOfLaps + 1 ]
+	(numberRolled + currentPlayerPosition) > positions
+	ifTrue: [ ^ (aCurrentAmountOfLaps + (self totalLapsDoneKnowing: (currentPlayerPosition + numberRolled))) ]
 	ifFalse: [ ^aCurrentAmountOfLaps ]
+	
 ]
 
 { #category : #'as yet unclassified' }
 Board >> positions [
 	^ positions
+]
+
+{ #category : #'as yet unclassified' }
+Board >> totalLapsDoneKnowing: currentPositionAfterDiceRoll [
+	currentPositionAfterDiceRoll > positions
+	ifTrue: [ ^(1 + (self totalLapsDoneKnowing: (currentPositionAfterDiceRoll - positions)))]
+	ifFalse: [ ^0 ]
 ]

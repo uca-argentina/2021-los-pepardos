@@ -15,7 +15,7 @@ SinglePlayerTests >> test001ElDiegoPlaysOneTurnAndWins [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	lapsToWin := 3.
+	lapsToWin := 1.
 	
 	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
@@ -31,7 +31,7 @@ SinglePlayerTests >> test001ElDiegoPlaysOneTurnAndWins [
 { #category : #tests }
 SinglePlayerTests >> test002OnePlayerPlaysTheGameAndWins [
 
-   | gameBoard gameInstance elDiego diceOne dices players |
+   | gameBoard gameInstance elDiego diceOne dices players lapsToWin |
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 6.
@@ -39,7 +39,9 @@ SinglePlayerTests >> test002OnePlayerPlaysTheGameAndWins [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard.
+	lapsToWin := 2.
+	
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
 	gameInstance playGame.
 
@@ -53,7 +55,7 @@ SinglePlayerTests >> test002OnePlayerPlaysTheGameAndWins [
 { #category : #tests }
 SinglePlayerTests >> test003ElDiegoPlaysWithTwoDicesAndWins [
 
-   | gameBoard gameInstance elDiego diceOne dices players |
+   | gameBoard gameInstance elDiego diceOne dices players lapsToWin |
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 4.
@@ -62,7 +64,9 @@ SinglePlayerTests >> test003ElDiegoPlaysWithTwoDicesAndWins [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard.
+	lapsToWin := 2.
+	
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
 	gameInstance playGame.
 
@@ -76,7 +80,7 @@ SinglePlayerTests >> test003ElDiegoPlaysWithTwoDicesAndWins [
 { #category : #tests }
 SinglePlayerTests >> test004ElDiegoPlaysOneTurnAndDoesntWin [
 
-   | gameBoard gameInstance elDiego diceOne dices players |
+   | gameBoard gameInstance elDiego diceOne dices players lapsToWin |
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 6.
@@ -84,11 +88,13 @@ SinglePlayerTests >> test004ElDiegoPlaysOneTurnAndDoesntWin [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard.
+	lapsToWin := 2.
+	
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
 	gameInstance playTurn.
 
-	self assert: (gameInstance leaderboard) isEmpty.
+	self assert: (gameInstance winner) isNil.
 
 	
 
@@ -96,9 +102,9 @@ SinglePlayerTests >> test004ElDiegoPlaysOneTurnAndDoesntWin [
 ]
 
 { #category : #tests }
-SinglePlayerTests >> test005ElDiegoBeingsPlayingAtPosition0 [
+SinglePlayerTests >> test005ElDiegoBeingsPlayingAtPosition1 [
 
-   | gameBoard gameInstance elDiego diceOne dices players |
+   | gameBoard gameInstance elDiego diceOne dices players lapsToWin |
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 6.
@@ -106,9 +112,11 @@ SinglePlayerTests >> test005ElDiegoBeingsPlayingAtPosition0 [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard.
+	lapsToWin := 2.
+	
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	self assert: (gameInstance positionOf: elDiego) equals: 0.
+	self assert: (gameInstance positionOf: elDiego) equals: 1.
 
 	
 
@@ -118,7 +126,7 @@ SinglePlayerTests >> test005ElDiegoBeingsPlayingAtPosition0 [
 { #category : #tests }
 SinglePlayerTests >> test006ElDiegoPlaysAGameWithALoadedAndANormalDiceAndWins [
 
-   | gameBoard gameInstance elDiego normalDice loadedDice dices players |
+   | gameBoard gameInstance elDiego normalDice loadedDice dices players lapsToWin |
 	
 	elDiego := Player withName: 'El Diego'.
    normalDice := Dice withSides: 6.
@@ -127,7 +135,9 @@ SinglePlayerTests >> test006ElDiegoPlaysAGameWithALoadedAndANormalDiceAndWins [
 	
 	dices := { normalDice . loadedDice }.
 	players := { elDiego }.
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard.
+	lapsToWin := 2.
+	
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
 	gameInstance playGame.
 
