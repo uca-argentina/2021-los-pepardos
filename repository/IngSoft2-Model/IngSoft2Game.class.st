@@ -89,17 +89,13 @@ IngSoft2Game >> playGame [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playTurn [
 	playerStatus := playerStatus
-		collect: [ :onePlayer | 
-			{(onePlayer at: 1).
-			(self newPositionAfterRollingDiceOf: onePlayer).
-			(self newLapsAfterRollingDiceOf: onePlayer)} ].
+		collect: [ :onePlayer | {(onePlayer at: 1).	(self newPositionAfterRollingDiceOf: onePlayer).(self newLapsAfterRollingDiceOf: onePlayer)} ].
+	
 	leaderboard := playerStatus.
-	leaderboard
-		sort: [ :onePlayer :anotherPlayer | 
-			(self positionsTravelledBy: onePlayer)
-				> (self positionsTravelledBy: anotherPlayer) ].
-	leaderboard := leaderboard
-		collect: [ :aPlayerStatus | aPlayerStatus at: 1 ].
+	
+	leaderboard	sort: [ :onePlayer :anotherPlayer | (self positionsTravelledBy: onePlayer) > (self positionsTravelledBy: anotherPlayer) ].
+	leaderboard := leaderboard	collect: [ :aPlayerStatus | aPlayerStatus at: 1 ].
+
 	self checkAndUpdateWinner
 ]
 
