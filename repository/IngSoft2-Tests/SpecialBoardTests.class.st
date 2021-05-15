@@ -23,7 +23,7 @@ SpecialBoardTests >> test001ANewBoardOf100PositionsHasTheCorrectDistributionOfEf
 ]
 
 { #category : #tests }
-SpecialBoardTests >> test002APlayerPlaysATurnOnASpecialBoardAndWins [
+SpecialBoardTests >> test002ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWins [
 
    | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
 	
@@ -37,7 +37,7 @@ SpecialBoardTests >> test002APlayerPlaysATurnOnASpecialBoardAndWins [
 	
 	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playTurn.
+	gameInstance playGame.
 
 	self assert: (gameInstance winner) equals: elDiego.
 
