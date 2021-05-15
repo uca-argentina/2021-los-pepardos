@@ -66,18 +66,13 @@ IngSoft2Game >> leaderboard [
 ]
 
 { #category : #'as yet unclassified' }
-IngSoft2Game >> newLapsAfterRollingDiceOf: onePlayer [
-	^ board
-		obtainNewLapCountKnowingPlayerHas: (onePlayer at: 3)
-		andRolled: ((onePlayer at: 1) rollDice: dices)
-		andIsInPosition: (onePlayer at: 2)
+IngSoft2Game >> newLapsAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
+	^ board obtainNewLapCountKnowingPlayerHas: (onePlayerStatus at: 3) andRolled: (aDiceRollResult) andIsInPosition: (onePlayerStatus at: 2)
 ]
 
 { #category : #'as yet unclassified' }
-IngSoft2Game >> newPositionAfterRollingDiceOf: onePlayer [
-	^ board
-		currentPosition: (onePlayer at: 2)
-		whoRolled: ((onePlayer at: 1) rollDice: dices)
+IngSoft2Game >> newPositionAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
+	^ board currentPosition: (onePlayerStatus at: 2)	whoRolled: aDiceRollResult
 ]
 
 { #category : #accessing }
@@ -87,9 +82,28 @@ IngSoft2Game >> playGame [
 ]
 
 { #category : #'as yet unclassified' }
+IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
+	
+	"playerStatus := playerStatus collect: [ :onePlayer | {(onePlayer at: 1).(self newPositionAfterRollingDiceOf: onePlayer).(self newLapsAfterRollingDiceOf: onePlayer)} ]."
+	| diceRollResult |
+	diceRollResult := ((playerStatus at: playerNumber)at:1) rollDice: dices.
+	
+	playerStatus at: playerNumber put: { ((playerStatus at: playerNumber) at: 1).(self newPositionAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult).(self newLapsAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult)}.
+"	((playerStatus at: playerNumber)at:2) = (self newPositionAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult).
+	((playerStatus at: playerNumber)at:3) = (self newLapsAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult)."
+	
+	
+	
+	
+
+
+]
+
+{ #category : #'as yet unclassified' }
 IngSoft2Game >> playTurn [
-	playerStatus := playerStatus
-		collect: [ :onePlayer | {(onePlayer at: 1).	(self newPositionAfterRollingDiceOf: onePlayer).(self newLapsAfterRollingDiceOf: onePlayer)} ].
+	
+	1 to: (playerStatus size) do: [ :i | self playIndividualTurnOfPlayer: i ].
+	"playerStatus := playerStatus collect: [ :onePlayer | {(onePlayer at: 1).(self newPositionAfterRollingDiceOf: onePlayer).(self newLapsAfterRollingDiceOf: onePlayer)} ]."
 	
 	leaderboard := playerStatus.
 	
@@ -97,6 +111,7 @@ IngSoft2Game >> playTurn [
 	leaderboard := leaderboard	collect: [ :aPlayerStatus | aPlayerStatus at: 1 ].
 
 	self checkAndUpdateWinner
+	
 ]
 
 { #category : #'as yet unclassified' }
