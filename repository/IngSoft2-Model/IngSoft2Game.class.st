@@ -84,13 +84,23 @@ IngSoft2Game >> playGame [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
 	
-	"playerStatus := playerStatus collect: [ :onePlayer | {(onePlayer at: 1).(self newPositionAfterRollingDiceOf: onePlayer).(self newLapsAfterRollingDiceOf: onePlayer)} ]."
-	| diceRollResult |
-	diceRollResult := ((playerStatus at: playerNumber)at:1) rollDice: dices.
+	| diceRollResult newBoardPos newBoardPosNumber |
 	
-	playerStatus at: playerNumber put: { ((playerStatus at: playerNumber) at: 1).(self newPositionAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult).(self newLapsAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult)}.
-"	((playerStatus at: playerNumber)at:2) = (self newPositionAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult).
-	((playerStatus at: playerNumber)at:3) = (self newLapsAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult)."
+	diceRollResult := ((playerStatus at: playerNumber)at:1) rollDice: dices.
+	newBoardPosNumber := diceRollResult + ((playerStatus at: playerNumber) at: 2).
+	newBoardPosNumber > board positions 
+	ifTrue: [ newBoardPosNumber := (newBoardPosNumber - board positions) ].
+	newBoardPos := (((board boardPositionsStatus) at: newBoardPosNumber) at: 2).
+	
+	(newBoardPos isKindOf: SpeedUpPosition) | (newBoardPos isKindOf: NonEffectPosition) | (newBoardPos isKindOf: WormHolePosition)
+	ifTrue: [playerStatus at: playerNumber put: {((playerStatus at: playerNumber) at: 1).(self newPositionAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult).(self newLapsAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult)}].
+	
+	(newBoardPos isKindOf: MoonWalkPosition) 
+	ifTrue: [ "moonwalk pa" ].
+	
+	(newBoardPos isKindOf: NukePosition) 
+	ifTrue: [ playerStatus := playerStatus collect: [ :eachPlayer | {(eachPlayer at: 1).1.(eachPlayer at: 3)} ] ].
+
 	
 	
 	
@@ -103,7 +113,6 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
 IngSoft2Game >> playTurn [
 	
 	1 to: (playerStatus size) do: [ :i | self playIndividualTurnOfPlayer: i ].
-	"playerStatus := playerStatus collect: [ :onePlayer | {(onePlayer at: 1).(self newPositionAfterRollingDiceOf: onePlayer).(self newLapsAfterRollingDiceOf: onePlayer)} ]."
 	
 	leaderboard := playerStatus.
 	

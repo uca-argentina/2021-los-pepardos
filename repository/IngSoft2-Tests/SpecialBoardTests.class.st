@@ -9,7 +9,7 @@ SpecialBoardTests >> test001ANewBoardOf100PositionsHasTheCorrectDistributionOfEf
 
    | gameBoard |
 	
-   gameBoard := SpecialEffectsBoard withPositions: 100.
+   gameBoard := Board withPositions: 100.
 	
 	self assert: (gameBoard numberOfNonEffects) equals: 48.
 	self assert: (gameBoard numberOfWormHole) equals: 20.
@@ -29,7 +29,7 @@ SpecialBoardTests >> test002ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWi
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 6.
-   gameBoard := SpecialEffectsBoard withPositions: 100.
+   gameBoard := Board withPositions: 100.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
