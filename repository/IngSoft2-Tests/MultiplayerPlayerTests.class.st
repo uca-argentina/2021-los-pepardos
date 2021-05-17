@@ -12,7 +12,7 @@ MultiplayerPlayerTests >> test001TwoPlayersPlayAGameButElDiegoWins [
 	elDiego := Player withName: 'El Diego'.
 	elArbol := Player withName: 'El Arbol'.
 	loadedDice := LoadedDice rolling: 5.
-   gameBoard := Board withPositions: 15.
+   gameBoard := Board withPositions: 100.
 	
 	dices := { loadedDice }.
 	players := { elDiego . elArbol }.
@@ -38,7 +38,7 @@ MultiplayerPlayerTests >> test002ThreePlayersPlayAndTheGameFinishes [
 	elJorge := Player withName: 'El Jorge'.
 	elJulian := Player withName: 'El Julian'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 10.
+   gameBoard := Board withPositions: 100.
 	
 	dices := { diceOne }.
 	players := { elDiego . elJorge . elJulian }.
@@ -64,7 +64,7 @@ MultiplayerPlayerTests >> test003ThreePlayersPlayATurnAndTheGameDoesntFinish [
 	elJorge := Player withName: 'El Jorge'.
 	elJulian := Player withName: 'El Julian'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 10.
+   gameBoard := Board withPositions: 100.
 	
 	dices := { diceOne }.
 	players := { elDiego . elJorge . elJulian }.
@@ -91,7 +91,7 @@ MultiplayerPlayerTests >> test004TwoPlayersPlayTheGameButElDiegoAlwaysWins [
 	elPele := Player withName: 'El Pele'.
 	loadedDice := LoadedDice rolling: 10.
 
-   gameBoard := Board withPositions: 20.
+   gameBoard := Board withPositions: 200.
 	
 	dices := { loadedDice }.
 	players := { elDiego . elRoberto . elPele}.

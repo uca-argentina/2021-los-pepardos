@@ -35,7 +35,7 @@ SinglePlayerTests >> test002OnePlayerPlaysTheGameAndWins [
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 75.
+   gameBoard := Board withPositions: 100.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -60,7 +60,7 @@ SinglePlayerTests >> test003ElDiegoPlaysWithTwoDicesAndWins [
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 4.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 75.
+   gameBoard := Board withPositions: 100.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -84,7 +84,7 @@ SinglePlayerTests >> test004ElDiegoPlaysOneTurnAndDoesntWin [
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 10.
+   gameBoard := Board withPositions: 100.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -108,7 +108,7 @@ SinglePlayerTests >> test005ElDiegoBeingsPlayingAtPosition1 [
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 1.
+   gameBoard := Board withPositions: 100.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -131,7 +131,7 @@ SinglePlayerTests >> test006ElDiegoPlaysAGameWithALoadedAndANormalDiceAndWins [
 	elDiego := Player withName: 'El Diego'.
    normalDice := Dice withSides: 6.
 	loadedDice := LoadedDice rolling: 6.
-   gameBoard := Board withPositions: 57.
+   gameBoard := Board withPositions: 100.
 	
 	dices := { normalDice . loadedDice }.
 	players := { elDiego }.
