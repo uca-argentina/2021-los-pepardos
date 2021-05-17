@@ -11,7 +11,7 @@ SinglePlayerTests >> test001ElDiegoPlaysOneTurnAndWins [
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 1.
+   gameBoard := Board withPositions: 200.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -19,7 +19,7 @@ SinglePlayerTests >> test001ElDiegoPlaysOneTurnAndWins [
 	
 	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playTurn.
+	gameInstance playGame.
 
 	self assert: (gameInstance winner) equals: elDiego.
 

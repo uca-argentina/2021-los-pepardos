@@ -52,7 +52,7 @@ Board >> initializeWith: aNumberOfPositions [
 	self populateBoardPositionStatusWithEffects.
 	boardPositionsStatus := boardPositionsStatus shuffle.
 	x:=0.
-	boardPositionsStatus := boardPositionsStatus collect: [ :boardPosition | { x:=x+1 . boardPosition }].
+	boardPositionsStatus := boardPositionsStatus collect: [ :boardPosition | { x:=x+1 . boardPosition . Random new seed % positions.}].
 
 
 ]
@@ -100,7 +100,7 @@ Board >> obtainNewLapCountKnowingPlayerHas: aCurrentAmountOfLaps andRolled: numb
 Board >> populateBoardPositionStatusWithEffects [
 
 	1 to: numberOfNonEffects do: [:i | boardPositionsStatus add: NonEffectPosition new ].
-	1 to: numberOfMoonWalk do: [:i | boardPositionsStatus add: MoonWalkPosition new ].
+	1 to: numberOfMoonWalk do: [:i | boardPositionsStatus add: (MoonWalkPosition withN: (Random new seed % positions + 1)) ].
 	1 to: numberOfSpeedUp do: [:i | boardPositionsStatus add: SpeedUpPosition new ].
 	1 to: numberOfWormHole do: [:i | boardPositionsStatus add: WormHolePosition new ].
 	1 to: numberOfNuke do: [:i | boardPositionsStatus add: NukePosition new ].

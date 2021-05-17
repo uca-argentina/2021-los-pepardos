@@ -89,21 +89,25 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
 	diceRollResult := ((playerStatus at: playerNumber)at:1) rollDice: dices.
 	newBoardPosNumber := diceRollResult + ((playerStatus at: playerNumber) at: 2).
 	newBoardPosNumber > board positions 
-	ifTrue: [ newBoardPosNumber := (newBoardPosNumber - board positions) ].
+		ifTrue: [ newBoardPosNumber := (newBoardPosNumber - board positions) ].
 	newBoardPos := (((board boardPositionsStatus) at: newBoardPosNumber) at: 2).
 	
 	(newBoardPos isKindOf: SpeedUpPosition) | (newBoardPos isKindOf: NonEffectPosition) | (newBoardPos isKindOf: WormHolePosition)
-	ifTrue: [playerStatus at: playerNumber put: {((playerStatus at: playerNumber) at: 1).(self newPositionAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult).(self newLapsAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult)}].
+		ifTrue: [playerStatus at: playerNumber put: {((playerStatus at: playerNumber) at: 1).(self newPositionAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult).(self newLapsAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult)}].
 	
 	(newBoardPos isKindOf: MoonWalkPosition) 
-	ifTrue: [ "moonwalk pa" ].
+		ifTrue: [ "moonwalk pa" ].
 	
 	(newBoardPos isKindOf: NukePosition) 
-	ifTrue: [ playerStatus := playerStatus collect: [ :eachPlayer | {(eachPlayer at: 1).1.(eachPlayer at: 3)} ] ].
+		ifTrue: [ playerStatus := playerStatus collect: [ :eachPlayer | {(eachPlayer at: 1).1.(eachPlayer at: 3)} ] ].
 
+	((playerStatus at: playerNumber) at: 2) = 0
+		ifTrue: [ (playerStatus at: playerNumber) at: 2 put: (board positions) ].
+
+	((playerStatus at: playerNumber) at: 2) < 0
+		ifTrue: [ (playerStatus at: playerNumber) at: 2 put: (board positions + ((playerStatus at: playerNumber) at: 2) + 1) ].
 	
-	
-	
+
 	
 
 
