@@ -84,7 +84,7 @@ IngSoft2Game >> playGame [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
 	
-	| diceRollResult newBoardPos newBoardPosNumber |
+	| diceRollResult newBoardPos newBoardPosNumber tempPosition |
 	
 	diceRollResult := ((playerStatus at: playerNumber)at:1) rollDice: dices.
 	newBoardPosNumber := diceRollResult + ((playerStatus at: playerNumber) at: 2).
@@ -96,7 +96,10 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
 		ifTrue: [playerStatus at: playerNumber put: {((playerStatus at: playerNumber) at: 1).(self newPositionAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult).(self newLapsAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult)}].
 	
 	(newBoardPos isKindOf: MoonWalkPosition) 
-		ifTrue: [ "moonwalk pa" ].
+		ifTrue: [ 
+			tempPosition := self positionOf: ((playerStatus at: playerNumber) at: 1).
+			playerStatus := playerStatus do: [: x | x at:2 put: ((x at:2) - (newBoardPos n))].
+			(playerStatus at: 1) at: 2 put: tempPosition. ].
 	
 	(newBoardPos isKindOf: NukePosition) 
 		ifTrue: [ playerStatus := playerStatus collect: [ :eachPlayer | {(eachPlayer at: 1).1.(eachPlayer at: 3)} ] ].

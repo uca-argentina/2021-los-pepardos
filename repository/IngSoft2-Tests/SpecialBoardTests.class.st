@@ -47,3 +47,29 @@ SpecialBoardTests >> test002ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWi
 
 	
 ]
+
+{ #category : #tests }
+SpecialBoardTests >> test003ElDiegoLandsInASpeedUpBoardAndAdvances4Positions [
+
+   | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
+	
+	elDiego := Player withName: 'El Diego'.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := LoadedBoard withPositions: 100.
+	
+	dices := { diceOne }.
+	players := { elDiego }.
+	lapsToWin := 1.
+	
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+
+	gameInstance playTurn.
+
+	self assert: (gameInstance positionOf: elDiego) equals: 6.
+
+	
+
+	
+
+	
+]

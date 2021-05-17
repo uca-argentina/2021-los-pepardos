@@ -16,3 +16,8 @@ MoonWalkPosition class >> withN: anN [
 MoonWalkPosition >> initializeWithN: anN [
 	n := anN.
 ]
+
+{ #category : #'as yet unclassified' }
+MoonWalkPosition >> n [
+	^ n
+]
