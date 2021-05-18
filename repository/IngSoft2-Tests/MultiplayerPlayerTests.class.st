@@ -11,12 +11,12 @@ MultiplayerPlayerTests >> test001TwoPlayersPlayAGameButElDiegoWins [
 	
 	elDiego := Player withName: 'El Diego'.
 	elArbol := Player withName: 'El Arbol'.
-	loadedDice := LoadedDice rolling: 5.
+	loadedDice := LoadedDice rolling: 52.
    gameBoard := Board withPositions: 100.
 	
 	dices := { loadedDice }.
 	players := { elDiego . elArbol }.
-	lapsToWin := 2.
+	lapsToWin := 1.
 	
 	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
@@ -84,25 +84,24 @@ MultiplayerPlayerTests >> test003ThreePlayersPlayATurnAndTheGameDoesntFinish [
 { #category : #tests }
 MultiplayerPlayerTests >> test004TwoPlayersPlayTheGameButElDiegoAlwaysWins [
 
-   | gameBoard gameInstance elDiego elRoberto elPele loadedDice dices players lapsToWin |
+   | gameBoard gameInstance elDiego  elPele loadedDice dices players lapsToWin |
 	
 	elDiego := Player withName: 'El Diego'.
-	elRoberto := Player withName: 'El Roberto'.
 	elPele := Player withName: 'El Pele'.
-	loadedDice := LoadedDice rolling: 10.
+	loadedDice := LoadedDice rolling: 51.
 
-   gameBoard := Board withPositions: 200.
+   gameBoard := Board withPositions: 100.
 	
 	dices := { loadedDice }.
-	players := { elDiego . elRoberto . elPele}.
+	players := { elDiego . elPele}.
 
-	lapsToWin := 2.
+	lapsToWin := 1.
 	
 	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
 	gameInstance playGame.
 
-	self assert: (gameInstance leaderboard) equals: { elDiego . elRoberto . elPele}
+	self assert: (gameInstance leaderboard) equals: { elDiego . elPele}
 
 	
 

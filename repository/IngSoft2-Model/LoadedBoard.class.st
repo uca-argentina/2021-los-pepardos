@@ -50,15 +50,9 @@ LoadedBoard >> initializeWith: aNumberOfPositions [
 	boardPositionsStatus := OrderedCollection new.
 	self populateSpecificNumberOfBoardPositions.
 	self populateBoardPositionStatusWithEffects.
-	boardPositionsStatus := boardPositionsStatus shuffle.
 	x:=0.
 	boardPositionsStatus := boardPositionsStatus collect: [ :boardPosition | { x:=x+1 . boardPosition }].
 	
-	boardPositionsStatus at: 2 put: { 2 . SpeedUpPosition new }.
-	boardPositionsStatus at: 3 put: { 3 . NonEffectPosition new }.
-	boardPositionsStatus at: 4 put: { 4 . NukePosition new }.
-	boardPositionsStatus at: 5 put: { 5 . WormHolePosition new }.
-	boardPositionsStatus at: 6 put: { 6 . MoonWalkPosition withN: 3 }.
 
 
 
@@ -107,11 +101,11 @@ LoadedBoard >> obtainNewLapCountKnowingPlayerHas: aCurrentAmountOfLaps andRolled
 { #category : #accessing }
 LoadedBoard >> populateBoardPositionStatusWithEffects [
 
-	1 to: numberOfNonEffects do: [:i | boardPositionsStatus add: NonEffectPosition new ].
-	1 to: numberOfMoonWalk do: [:i | boardPositionsStatus add: (MoonWalkPosition withN: (Random new seed % positions + 1)) ].
-	1 to: numberOfSpeedUp do: [:i | boardPositionsStatus add: SpeedUpPosition new ].
-	1 to: numberOfWormHole do: [:i | boardPositionsStatus add: WormHolePosition new ].
-	1 to: numberOfNuke do: [:i | boardPositionsStatus add: NukePosition new ].
+	1 to: numberOfNonEffects do: [:i | boardPositionsStatus add: NonEffectPosition new ]. "48%"
+	1 to: numberOfSpeedUp do: [:i | boardPositionsStatus add: SpeedUpPosition new ]. "20%"
+	1 to: numberOfWormHole do: [:i | boardPositionsStatus add: WormHolePosition new ]. "20%"
+	1 to: numberOfMoonWalk do: [:i | boardPositionsStatus add: (MoonWalkPosition withN: (Random new seed % positions + 1)) ]. "10%"
+	1 to: numberOfNuke do: [:i | boardPositionsStatus add: NukePosition new ]. "2%"
 	
 ]
 

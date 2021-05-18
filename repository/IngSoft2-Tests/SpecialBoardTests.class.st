@@ -54,7 +54,7 @@ SpecialBoardTests >> test003ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Posit
    | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
 	
 	elDiego := Player withName: 'El Diego'.
-   diceOne := LoadedDice rolling: 1.
+   diceOne := LoadedDice rolling: 50.
    gameBoard := LoadedBoard withPositions: 100.
 	
 	dices := { diceOne }.
@@ -65,7 +65,7 @@ SpecialBoardTests >> test003ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Posit
 
 	gameInstance playTurn.
 
-	self assert: (gameInstance positionOf: elDiego) equals: 6.
+	self assert: (gameInstance positionOf: elDiego) equals: 55.
 
 	
 
@@ -108,7 +108,7 @@ SpecialBoardTests >> test005APlayerLandsInNukeAndMakesAllPlayersGoToPosition1 [
 	elDiego := Player withName: 'El Diego'.
 	elSeba := Player withName: 'El Seba'.
 	elNico := Player withName: 'El Nico'.
-   diceOne := LoadedDice rolling: 3.
+   diceOne := LoadedDice rolling: 99.
    gameBoard := LoadedBoard withPositions: 100.
 	
 	dices := { diceOne }.
@@ -130,7 +130,7 @@ SpecialBoardTests >> test006ElDiegoLandsInAWormHoleAndGoesBack4Positions [
    | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
 	
 	elDiego := Player withName: 'El Diego'.
-   diceOne := LoadedDice rolling: 4.
+   diceOne := LoadedDice rolling: 70.
    gameBoard := LoadedBoard withPositions: 100.
 	
 	dices := { diceOne }.
@@ -141,6 +141,6 @@ SpecialBoardTests >> test006ElDiegoLandsInAWormHoleAndGoesBack4Positions [
 
 	gameInstance playTurn.
 
-	self assert: (gameInstance positionOf: elDiego) equals: 1.
+	self assert: (gameInstance positionOf: elDiego) equals: 67.
 
 ]

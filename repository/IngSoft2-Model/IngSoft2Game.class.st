@@ -29,7 +29,16 @@ IngSoft2Game >> checkAndUpdateWinner [
 	|playerWinner|
 	playerWinner := playerStatus select: [:eachPlayer | (eachPlayer at: 3) >= lapsNeededToCompleteToWin].
 	playerWinner isNotEmpty
-		ifTrue: [winner := (leaderboard at: 1)].
+		ifTrue: [winner := ((playerWinner at: 1)at:1)].
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> correctedPositionOf: aPos [
+	aPos = 0
+		ifTrue:[	^(board positions) ].
+	aPos < 0
+		ifTrue: [ ^(aPos + board positions + 1) ].
+	^aPos
 ]
 
 { #category : #accessing }
@@ -84,7 +93,7 @@ IngSoft2Game >> playGame [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
 	
-	| diceRollResult newBoardPos newBoardPosNumber tempPosition |
+	| diceRollResult newBoardPos newBoardPosNumber |
 	
 	diceRollResult := ((playerStatus at: playerNumber)at:1) rollDice: dices.
 	newBoardPosNumber := diceRollResult + ((playerStatus at: playerNumber) at: 2).
@@ -97,21 +106,14 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
 	
 	(newBoardPos isKindOf: MoonWalkPosition) 
 		ifTrue: [ 
-			tempPosition := self positionOf: ((playerStatus at: playerNumber) at: 1).
 			playerStatus := playerStatus do: [: x | x at:2 put: ((x at:2) - (newBoardPos n))].
-			(playerStatus at: 1) at: 2 put: tempPosition. ].
+			(playerStatus at: 1) at: 2 put: newBoardPosNumber ].
 	
 	(newBoardPos isKindOf: NukePosition) 
 		ifTrue: [ playerStatus := playerStatus collect: [ :eachPlayer | {(eachPlayer at: 1).1.(eachPlayer at: 3)} ] ].
 
-	((playerStatus at: playerNumber) at: 2) = 0
-		ifTrue: [ (playerStatus at: playerNumber) at: 2 put: (board positions) ].
+	playerStatus := playerStatus collect: [: x | { (x at: 1) . (self correctedPositionOf: (x at: 2)) . (x at: 3) }].
 
-	((playerStatus at: playerNumber) at: 2) < 0
-		ifTrue: [ (playerStatus at: playerNumber) at: 2 put: (board positions + ((playerStatus at: playerNumber) at: 2) + 1) ].
-	
-
-	
 
 
 ]
