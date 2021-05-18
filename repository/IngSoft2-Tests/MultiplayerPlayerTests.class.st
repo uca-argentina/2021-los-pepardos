@@ -12,7 +12,7 @@ MultiplayerPlayerTests >> test001TwoPlayersPlayAGameButElDiegoWins [
 	elDiego := Player withName: 'El Diego'.
 	elArbol := Player withName: 'El Arbol'.
 	loadedDice := LoadedDice rolling: 52.
-   gameBoard := Board withPositions: 100.
+   gameBoard := LoadedBoard withPositions: 100.
 	
 	dices := { loadedDice }.
 	players := { elDiego . elArbol }.
@@ -90,7 +90,7 @@ MultiplayerPlayerTests >> test004TwoPlayersPlayTheGameButElDiegoAlwaysWins [
 	elPele := Player withName: 'El Pele'.
 	loadedDice := LoadedDice rolling: 51.
 
-   gameBoard := Board withPositions: 100.
+   gameBoard := LoadedBoard withPositions: 100.
 	
 	dices := { loadedDice }.
 	players := { elDiego . elPele}.
@@ -101,7 +101,39 @@ MultiplayerPlayerTests >> test004TwoPlayersPlayTheGameButElDiegoAlwaysWins [
 
 	gameInstance playGame.
 
-	self assert: (gameInstance leaderboard) equals: { elDiego . elPele}
+	self assert: (gameInstance leaderboard asArray) equals: { elDiego . elPele }
+
+	
+
+	
+]
+
+{ #category : #tests }
+MultiplayerPlayerTests >> test005FivePlayersPlayTheGameAndTheGameFinishes [
+
+   | gameBoard gameInstance elDiego elPela elPele elPeli elPelo diceOne diceTwo diceThree dices players lapsToWin |
+	
+	elDiego := Player withName: 'El Diego'.
+	elPela := Player withName: 'El Pela'.
+	elPele := Player withName: 'El Pele'.
+	elPeli := Player withName: 'El Peli'.
+	elPelo := Player withName: 'El Pelo'.
+	diceOne := Dice withSides: 5.
+	diceTwo := Dice withSides: 6.
+	diceThree := Dice withSides: 7.
+
+   gameBoard := Board withPositions: 500.
+	
+	dices := { diceOne . diceTwo . diceThree }.
+	players := { elDiego . elPela . elPele . elPeli . elPelo}.
+
+	lapsToWin := 4.
+	
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+
+	gameInstance playGame.
+
+	self assert: (gameInstance hasFinished)
 
 	
 

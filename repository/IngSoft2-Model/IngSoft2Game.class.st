@@ -122,10 +122,8 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
 IngSoft2Game >> playTurn [
 	
 	1 to: (playerStatus size) do: [ :i | self playIndividualTurnOfPlayer: i ].
-	
-	leaderboard := playerStatus.
-	
-	leaderboard	sort: [ :onePlayer :anotherPlayer | (self positionsTravelledBy: onePlayer) > (self positionsTravelledBy: anotherPlayer) ].
+		
+	leaderboard := playerStatus  asSortedCollection: [ :onePlayer :anotherPlayer  | (self positionsTravelledBy: onePlayer) >= (self positionsTravelledBy: anotherPlayer) ].
 	leaderboard := leaderboard	collect: [ :aPlayerStatus | aPlayerStatus at: 1 ].
 
 	self checkAndUpdateWinner
