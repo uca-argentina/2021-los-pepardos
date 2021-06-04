@@ -37,7 +37,7 @@ IngSoft2Game >> correctedPositionOf: aPos [
 	aPos = 0
 		ifTrue:[	^(board positions) ].
 	aPos < 0
-		ifTrue: [ ^(aPos + board positions + 1) ].
+		ifTrue: [ ^(aPos + board positions) ].
 	^aPos
 ]
 
@@ -104,7 +104,7 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
 	
 	(newBoardPos isKindOf: SpeedUpPosition)	| (newBoardPos isKindOf: NonEffectPosition) 	| (newBoardPos isKindOf: WormHolePosition)
 		ifTrue: [ 
-			currentPlayerStatus updatePositionTo: (self newPositionAfter: currentPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: currentPlayerStatus	rolledADiceOf: diceRollResult) ].
+			currentPlayerStatus updatePositionTo: (self newPositionAfter: currentPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: currentPlayerStatus rolledADiceOf: diceRollResult) ].
 
 	(newBoardPos isKindOf: MoonWalkPosition)
 		ifTrue: [ playerStatuses := playerStatuses do: [ :eachStatus | eachStatus correctPositionBy: (newBoardPos n) ].

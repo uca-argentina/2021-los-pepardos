@@ -152,13 +152,13 @@ SinglePlayerTests >> test007ElDiegoPlaysAGameAndIsOnLap3WhenGameIsDone [
 	
 	dices := { normalDice }.
 	players := { elDiego }.
-	lapsToWin := 2.
+	lapsToWin := 3.
 	
 	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
 	gameInstance playGame.
 
-	self assert: (gameInstance lapsCompletedBy: elDiego) equals: 2.
+	self assert: (gameInstance lapsCompletedBy: elDiego) equals: 3.
 
 	
 

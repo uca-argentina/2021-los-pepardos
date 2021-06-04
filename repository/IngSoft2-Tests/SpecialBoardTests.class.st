@@ -55,7 +55,7 @@ SpecialBoardTests >> test003ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Posit
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := LoadedDice rolling: 50.
-   gameBoard := LoadedBoard withPositions: 100.
+   gameBoard := Board withLoadedPositions.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -81,7 +81,7 @@ SpecialBoardTests >> test004ElDiegoLandsInANonEffectBoardPositionAndStaysInTheSa
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := LoadedDice rolling: 2.
-   gameBoard := LoadedBoard withPositions: 100.
+   gameBoard := Board withLoadedPositions.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -109,7 +109,7 @@ SpecialBoardTests >> test005APlayerLandsInNukeAndMakesAllPlayersGoToPosition1 [
 	elSeba := 'El Seba'.
 	elNico := 'El Nico'.
    diceOne := LoadedDice rolling: 99.
-   gameBoard := LoadedBoard withPositions: 100.
+   gameBoard := Board withLoadedPositions.
 	
 	dices := { diceOne }.
 	players := { elDiego . elSeba . elNico }.
@@ -131,7 +131,7 @@ SpecialBoardTests >> test006ElDiegoLandsInAWormHoleAndGoesBack4Positions [
 	
 	elDiego := 'El Diego'.
    diceOne := LoadedDice rolling: 70.
-   gameBoard := LoadedBoard withPositions: 100.
+   gameBoard := Board withLoadedPositions.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -142,5 +142,27 @@ SpecialBoardTests >> test006ElDiegoLandsInAWormHoleAndGoesBack4Positions [
 	gameInstance playTurn.
 
 	self assert: (gameInstance positionOf: elDiego) equals: 67.
+
+]
+
+{ #category : #tests }
+SpecialBoardTests >> test007ElDiegoLandsInTheFirstMoonWalkPositionAndTakesElPeleBack1Space [
+
+   | gameBoard gameInstance elDiego elPele diceOne dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+	elPele := 'El Pele'.
+   diceOne := LoadedDice rolling: 89.
+   gameBoard := Board withLoadedPositions.
+	
+	dices := { diceOne }.
+	players := { elPele . elDiego }.
+	lapsToWin := 1.
+	
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+
+	gameInstance playTurn.
+
+	self assert: (gameInstance positionOf: elDiego) equals: 84.
 
 ]
