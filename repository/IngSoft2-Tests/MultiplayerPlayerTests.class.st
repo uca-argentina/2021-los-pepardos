@@ -22,7 +22,7 @@ MultiplayerPlayerTests >> test001TwoPlayersPlayAGameButElDiegoWins [
 
 	gameInstance playGame.
 
-	self assert: gameInstance winner equals: elDiego.
+	self assert: gameInstance winnerName equals: elDiego.
 
 	
 
@@ -86,8 +86,8 @@ MultiplayerPlayerTests >> test004TwoPlayersPlayTheGameButElDiegoAlwaysWins [
 
    | gameBoard gameInstance elDiego  elPele loadedDice dices players lapsToWin |
 	
-	elDiego := Player withName: 'El Diego'.
-	elPele := Player withName: 'El Pele'.
+	elDiego := 'El Diego'.
+	elPele := 'El Pele'.
 	loadedDice := LoadedDice rolling: 51.
 
    gameBoard := LoadedBoard withPositions: 100.
@@ -113,11 +113,11 @@ MultiplayerPlayerTests >> test005FivePlayersPlayTheGameAndTheGameFinishes [
 
    | gameBoard gameInstance elDiego elPela elPele elPeli elPelo diceOne diceTwo diceThree dices players lapsToWin |
 	
-	elDiego := Player withName: 'El Diego'.
-	elPela := Player withName: 'El Pela'.
-	elPele := Player withName: 'El Pele'.
-	elPeli := Player withName: 'El Peli'.
-	elPelo := Player withName: 'El Pelo'.
+	elDiego := 'El Diego'.
+	elPela := 'El Pela'.
+	elPele := 'El Pele'.
+	elPeli := 'El Peli'.
+	elPelo := 'El Pelo'.
 	diceOne := Dice withSides: 5.
 	diceTwo := Dice withSides: 6.
 	diceThree := Dice withSides: 7.

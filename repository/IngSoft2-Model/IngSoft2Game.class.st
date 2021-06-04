@@ -7,8 +7,8 @@ Class {
 		'board',
 		'winner',
 		'lapsNeededToCompleteToWin',
-		'playerStatus',
-		'leaderboard'
+		'leaderboard',
+		'playerStatuses'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -27,9 +27,9 @@ IngSoft2Game class >> beingPlayedBy: players with: dices on: aBoard wherePlayers
 IngSoft2Game >> checkAndUpdateWinner [
 
 	|playerWinner|
-	playerWinner := playerStatus select: [:eachPlayer | (eachPlayer at: 3) >= lapsNeededToCompleteToWin].
+	playerWinner := playerStatuses select: [:eachStatus | (eachStatus lap) >= lapsNeededToCompleteToWin].
 	playerWinner isNotEmpty
-		ifTrue: [winner := ((playerWinner at: 1)at:1)].
+		ifTrue: [winner := (playerWinner first player)].
 ]
 
 { #category : #'as yet unclassified' }
@@ -41,6 +41,11 @@ IngSoft2Game >> correctedPositionOf: aPos [
 	^aPos
 ]
 
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> ensureBoardPositionsCompliantWithBoard [
+	playerStatuses := playerStatuses do: [ :x | x updatePositionTo: (self correctedPositionOf: x position) ].
+]
+
 { #category : #accessing }
 IngSoft2Game >> hasFinished [
 	winner ifNil: [ ^ false ] ifNotNil: [ ^ true ]
@@ -49,18 +54,17 @@ IngSoft2Game >> hasFinished [
 { #category : #'instance creation' }
 IngSoft2Game >> initializeWith: playingPlayers andWith: gameDices andWith: aBoard wherePlayersNeedToComplete: anAmountOfLaps [
 	
-	players := playingPlayers.
+	players := playingPlayers collect: [:playerName| Player withName: playerName].
 	dices := gameDices.
 	board := aBoard.	
 	lapsNeededToCompleteToWin := anAmountOfLaps.
-	playerStatus := OrderedCollection new.
-	playerStatus := players collect: [:aCurrentPlayer |  playerStatus add: {aCurrentPlayer . 1 . 0}].
+	playerStatuses := players collect: [:player|  PlayerStatus of: player with: 1 at: 0 ].
 
 ]
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> lapsCompletedBy: aPlayer [ 
-	^((playerStatus detect: [:searchedPlayer | (searchedPlayer at: 1) == aPlayer]) at: 3)
+	^((playerStatuses detect: [:searchedPlayer | (searchedPlayer at: 1) == aPlayer]) at: 3)
 ]
 
 { #category : #'as yet unclassified' }
@@ -76,12 +80,12 @@ IngSoft2Game >> leaderboard [
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> newLapsAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
-	^ board obtainNewLapCountKnowingPlayerHas: (onePlayerStatus at: 3) andRolled: (aDiceRollResult) andIsInPosition: (onePlayerStatus at: 2)
+	^ board obtainNewLapCountKnowingPlayerHas: (onePlayerStatus lap) andRolled: (aDiceRollResult) andIsInPosition: (onePlayerStatus position)
 ]
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> newPositionAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
-	^ board currentPosition: (onePlayerStatus at: 2)	whoRolled: aDiceRollResult
+	^ board currentPosition: (onePlayerStatus position)	whoRolled: aDiceRollResult
 ]
 
 { #category : #accessing }
@@ -92,55 +96,58 @@ IngSoft2Game >> playGame [
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
+	| diceRollResult newBoardPos newBoardPosNumber currentPlayerStatus |
 	
-	| diceRollResult newBoardPos newBoardPosNumber |
+	currentPlayerStatus := playerStatuses at: playerNumber.
+	diceRollResult := currentPlayerStatus player rollDice: dices.
+	newBoardPosNumber := diceRollResult + currentPlayerStatus position.
 	
-	diceRollResult := ((playerStatus at: playerNumber)at:1) rollDice: dices.
-	newBoardPosNumber := diceRollResult + ((playerStatus at: playerNumber) at: 2).
-	newBoardPosNumber > board positions 
-		ifTrue: [ newBoardPosNumber := (newBoardPosNumber - board positions) ].
-	newBoardPos := (((board boardPositionsStatus) at: newBoardPosNumber) at: 2).
+	newBoardPosNumber > board positions
+		ifTrue: [ newBoardPosNumber := newBoardPosNumber - board positions ].
+		
+	newBoardPos := (board boardPositionsStatus at: newBoardPosNumber) second.
 	
-	(newBoardPos isKindOf: SpeedUpPosition) | (newBoardPos isKindOf: NonEffectPosition) | (newBoardPos isKindOf: WormHolePosition)
-		ifTrue: [playerStatus at: playerNumber put: {((playerStatus at: playerNumber) at: 1).(self newPositionAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult).(self newLapsAfter: (playerStatus at: playerNumber) rolledADiceOf: diceRollResult)}].
-	
-	(newBoardPos isKindOf: MoonWalkPosition) 
+	(newBoardPos isKindOf: SpeedUpPosition)	| (newBoardPos isKindOf: NonEffectPosition) 	| (newBoardPos isKindOf: WormHolePosition)
 		ifTrue: [ 
-			playerStatus := playerStatus do: [: x | x at:2 put: ((x at:2) - (newBoardPos n))].
-			(playerStatus at: 1) at: 2 put: newBoardPosNumber ].
+			currentPlayerStatus updatePositionTo: (self newPositionAfter: currentPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: currentPlayerStatus	rolledADiceOf: diceRollResult) ].
+
+	(newBoardPos isKindOf: MoonWalkPosition)
+		ifTrue: [ playerStatuses := playerStatuses do: [ :eachStatus | eachStatus correctPositionBy: (newBoardPos n) ].
+			currentPlayerStatus updatePositionTo: newBoardPosNumber ].
+		
+	(newBoardPos isKindOf: NukePosition)
+		ifTrue: [ playerStatuses := playerStatuses collect: 	[ :eachPlayerStatus | eachPlayerStatus updatePositionTo: 1 ] ].
 	
-	(newBoardPos isKindOf: NukePosition) 
-		ifTrue: [ playerStatus := playerStatus collect: [ :eachPlayer | {(eachPlayer at: 1).1.(eachPlayer at: 3)} ] ].
-
-	playerStatus := playerStatus collect: [: x | { (x at: 1) . (self correctedPositionOf: (x at: 2)) . (x at: 3) }].
-
-
-
+	self ensureBoardPositionsCompliantWithBoard.
 ]
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playTurn [
 	
-	1 to: (playerStatus size) do: [ :i | self playIndividualTurnOfPlayer: i ].
+	1 to: (playerStatuses size) do: [ :i | self playIndividualTurnOfPlayer: i ].
 		
-	leaderboard := playerStatus  asSortedCollection: [ :onePlayer :anotherPlayer  | (self positionsTravelledBy: onePlayer) >= (self positionsTravelledBy: anotherPlayer) ].
-	leaderboard := leaderboard	collect: [ :aPlayerStatus | aPlayerStatus at: 1 ].
+	leaderboard := playerStatuses  asSortedCollection: [ :oneStatus :anotherStatus  | (self positionsTravelledBy: oneStatus) >= (self positionsTravelledBy: anotherStatus) ].
+	leaderboard := leaderboard	collect: [ :aPlayerStatus | aPlayerStatus player ].
 
 	self checkAndUpdateWinner
-	
 ]
 
 { #category : #'as yet unclassified' }
-IngSoft2Game >> positionOf: aPlayer [ 
-	^((playerStatus detect: [:searchedPlayer | (searchedPlayer at: 1) == aPlayer]) at: 2)
+IngSoft2Game >> positionOf: aPlayerName [ 
+	^((playerStatuses detect: [:aStatus | (aStatus player) name == aPlayerName]) position)
 ]
 
 { #category : #'as yet unclassified' }
-IngSoft2Game >> positionsTravelledBy: onePlayer [
-	^ (onePlayer at: 2) + ((onePlayer at: 3) * (board positions))
+IngSoft2Game >> positionsTravelledBy: oneStatus [
+	^ (oneStatus position) + ((oneStatus lap) * (board positions))
 ]
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> winner [
 	^winner.
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> winnerName [
+	^self winner name 
 ]

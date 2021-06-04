@@ -27,7 +27,7 @@ SpecialBoardTests >> test002ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWi
 
    | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
 	
-	elDiego := Player withName: 'El Diego'.
+	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
    gameBoard := Board withPositions: 100.
 	
@@ -39,7 +39,7 @@ SpecialBoardTests >> test002ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWi
 
 	gameInstance playGame.
 
-	self assert: (gameInstance winner) equals: elDiego.
+	self assert: (gameInstance winnerName) equals: elDiego.
 
 	
 
@@ -105,9 +105,9 @@ SpecialBoardTests >> test005APlayerLandsInNukeAndMakesAllPlayersGoToPosition1 [
 
    | gameBoard gameInstance elDiego elSeba elNico diceOne dices players lapsToWin|
 	
-	elDiego := Player withName: 'El Diego'.
-	elSeba := Player withName: 'El Seba'.
-	elNico := Player withName: 'El Nico'.
+	elDiego := 'El Diego'.
+	elSeba := 'El Seba'.
+	elNico := 'El Nico'.
    diceOne := LoadedDice rolling: 99.
    gameBoard := LoadedBoard withPositions: 100.
 	
@@ -129,7 +129,7 @@ SpecialBoardTests >> test006ElDiegoLandsInAWormHoleAndGoesBack4Positions [
 
    | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
 	
-	elDiego := Player withName: 'El Diego'.
+	elDiego := 'El Diego'.
    diceOne := LoadedDice rolling: 70.
    gameBoard := LoadedBoard withPositions: 100.
 	

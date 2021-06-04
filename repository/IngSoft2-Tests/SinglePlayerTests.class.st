@@ -9,7 +9,7 @@ SinglePlayerTests >> test001ElDiegoPlaysOneTurnAndWins [
 
    | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
 	
-	elDiego := Player withName: 'El Diego'.
+	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
    gameBoard := Board withPositions: 200.
 	
@@ -21,7 +21,7 @@ SinglePlayerTests >> test001ElDiegoPlaysOneTurnAndWins [
 
 	gameInstance playGame.
 
-	self assert: (gameInstance winner) equals: elDiego.
+	self assert: (gameInstance winnerName) equals: elDiego.
 
 	
 
@@ -33,7 +33,7 @@ SinglePlayerTests >> test002OnePlayerPlaysTheGameAndWins [
 
    | gameBoard gameInstance elDiego diceOne dices players lapsToWin |
 	
-	elDiego := Player withName: 'El Diego'.
+	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
    gameBoard := Board withPositions: 100.
 	
@@ -45,7 +45,7 @@ SinglePlayerTests >> test002OnePlayerPlaysTheGameAndWins [
 
 	gameInstance playGame.
 
-	self assert: (gameInstance winner) equals: elDiego.
+	self assert: (gameInstance winnerName) equals: elDiego.
 
 	
 
@@ -54,27 +54,20 @@ SinglePlayerTests >> test002OnePlayerPlaysTheGameAndWins [
 
 { #category : #tests }
 SinglePlayerTests >> test003ElDiegoPlaysWithTwoDicesAndWins [
-
-   | gameBoard gameInstance elDiego diceOne dices players lapsToWin |
-	
-	elDiego := Player withName: 'El Diego'.
-   diceOne := Dice withSides: 4.
-   diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 100.
-	
-	dices := { diceOne }.
-	players := { elDiego }.
+	| gameBoard gameInstance diceOne dices players lapsToWin |
+	diceOne := Dice withSides: 4.
+	diceOne := Dice withSides: 6.
+	gameBoard := Board withPositions: 100.
+	dices := {diceOne}.
+	players := {'El Diego'}.
 	lapsToWin := 2.
-	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
-
+	gameInstance := IngSoft2Game
+		beingPlayedBy: players
+		with: dices
+		on: gameBoard
+		wherePlayersNeedToComplete: lapsToWin.
 	gameInstance playGame.
-
-	self assert: (gameInstance winner) equals: elDiego.
-
-	
-
-	
+	self assert: gameInstance winnerName equals: 'El Diego'
 ]
 
 { #category : #tests }
@@ -106,7 +99,7 @@ SinglePlayerTests >> test005ElDiegoBeingsPlayingAtPosition1 [
 
    | gameBoard gameInstance elDiego diceOne dices players lapsToWin |
 	
-	elDiego := Player withName: 'El Diego'.
+	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
    gameBoard := Board withPositions: 100.
 	
@@ -128,7 +121,7 @@ SinglePlayerTests >> test006ElDiegoPlaysAGameWithALoadedAndANormalDiceAndWins [
 
    | gameBoard gameInstance elDiego normalDice loadedDice dices players lapsToWin |
 	
-	elDiego := Player withName: 'El Diego'.
+	elDiego := 'El Diego'.
    normalDice := Dice withSides: 6.
 	loadedDice := LoadedDice rolling: 6.
    gameBoard := Board withPositions: 100.
@@ -141,7 +134,7 @@ SinglePlayerTests >> test006ElDiegoPlaysAGameWithALoadedAndANormalDiceAndWins [
 
 	gameInstance playGame.
 
-	self assert: (gameInstance winner) equals: elDiego.
+	self assert: (gameInstance winnerName) equals: elDiego.
 
 	
 
