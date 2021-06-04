@@ -140,3 +140,27 @@ SinglePlayerTests >> test006ElDiegoPlaysAGameWithALoadedAndANormalDiceAndWins [
 
 	
 ]
+
+{ #category : #tests }
+SinglePlayerTests >> test007ElDiegoPlaysAGameAndIsOnLap3WhenGameIsDone [
+
+   | gameBoard gameInstance elDiego normalDice dices players lapsToWin |
+	
+	elDiego := 'El Diego'.
+   normalDice := Dice withSides: 6.
+   gameBoard := Board withPositions: 100.
+	
+	dices := { normalDice }.
+	players := { elDiego }.
+	lapsToWin := 2.
+	
+	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+
+	gameInstance playGame.
+
+	self assert: (gameInstance lapsCompletedBy: elDiego) equals: 2.
+
+	
+
+	
+]

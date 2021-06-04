@@ -16,7 +16,7 @@ PlayerStatus class >> of: aPlayer with: position at: laps [
 
 { #category : #'as yet unclassified' }
 PlayerStatus >> correctPositionBy: aCorrection [
-	position := position + aCorrection.
+	position := position - aCorrection.
 ]
 
 { #category : #'as yet unclassified' }

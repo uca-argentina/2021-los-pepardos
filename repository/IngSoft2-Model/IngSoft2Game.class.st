@@ -64,17 +64,12 @@ IngSoft2Game >> initializeWith: playingPlayers andWith: gameDices andWith: aBoar
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> lapsCompletedBy: aPlayer [ 
-	^((playerStatuses detect: [:searchedPlayer | (searchedPlayer at: 1) == aPlayer]) at: 3)
-]
-
-{ #category : #'as yet unclassified' }
-IngSoft2Game >> lapsNeededToCompleteToWin [
-	^lapsNeededToCompleteToWin.
+	^(playerStatuses detect: [:searchedStatus | (searchedStatus player name) == aPlayer]) lap
 ]
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> leaderboard [
-	^leaderboard.
+	^(leaderboard collect: [:eachPlayer | eachPlayer name])
 	
 ]
 
