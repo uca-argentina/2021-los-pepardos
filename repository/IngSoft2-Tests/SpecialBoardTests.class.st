@@ -11,11 +11,11 @@ SpecialBoardTests >> test001ANewBoardOf100PositionsHasTheCorrectDistributionOfEf
 	
    gameBoard := Board withPositions: 100.
 	
-	self assert: (gameBoard numberOfNonEffects) equals: 48.
-	self assert: (gameBoard numberOfWormHole) equals: 20.
-	self assert: (gameBoard numberOfSpeedUp) equals: 20.
-	self assert: (gameBoard numberOfMoonWalk) equals: 10.
-	self assert: (gameBoard numberOfNuke) equals: 2.
+	self assert: (gameBoard numberOf: 'NonEffect') equals: 48.
+	self assert: (gameBoard numberOf: 'WormHole') equals: 20.
+	self assert: (gameBoard numberOf: 'SpeedUp') equals: 20.
+	self assert: (gameBoard numberOf: 'MoonWalk') equals: 10.
+	self assert: (gameBoard numberOf: 'Nuke') equals: 2.
 
 	
 

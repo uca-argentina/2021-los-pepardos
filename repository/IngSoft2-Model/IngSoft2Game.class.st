@@ -14,11 +14,6 @@ Class {
 }
 
 { #category : #'instance creation' }
-IngSoft2Game class >> beingPlayedBy: players with: dices on: aBoard [ 
-	^self new initializeWith: players andWith: dices andWith: aBoard.
-]
-
-{ #category : #'instance creation' }
 IngSoft2Game class >> beingPlayedBy: players with: dices on: aBoard wherePlayersNeedToComplete: anAmountOfLaps [
 	^self new initializeWith: players andWith: dices andWith: aBoard wherePlayersNeedToComplete: anAmountOfLaps.
 ]
@@ -26,7 +21,7 @@ IngSoft2Game class >> beingPlayedBy: players with: dices on: aBoard wherePlayers
 { #category : #'as yet unclassified' }
 IngSoft2Game >> applyBasicEffectTo: aPlayerStatus withARollOf: diceRollResult [ 
 
-	aPlayerStatus updatePositionTo: (self newPositionAfter: aPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: aPlayerStatus rolledADiceOf: diceRollResult)
+		aPlayerStatus updateBasicPositionTo: (self newPositionAfter: aPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: aPlayerStatus rolledADiceOf: diceRollResult).
 ]
 
 { #category : #'as yet unclassified' }

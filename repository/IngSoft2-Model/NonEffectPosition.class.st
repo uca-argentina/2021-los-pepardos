@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+NonEffectPosition >> amountOf: aString [ 
+	aString = 'NonEffect'
+	ifTrue: [ ^1 ].
+	^0.
+]
+
+{ #category : #'as yet unclassified' }
 NonEffectPosition >> applyEffectTo: aPlayerStatus afterLandingOn: aNonEffectPosition withARollOf: anInteger onGame: anIngSoft2Game [ 
 
 	anIngSoft2Game applyBasicEffectTo: aPlayerStatus withARollOf: anInteger. 
