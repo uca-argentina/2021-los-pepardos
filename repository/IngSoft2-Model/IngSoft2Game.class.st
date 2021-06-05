@@ -24,18 +24,24 @@ IngSoft2Game class >> beingPlayedBy: players with: dices on: aBoard wherePlayers
 ]
 
 { #category : #'as yet unclassified' }
-IngSoft2Game >> applyChangesTo: currentPlayerStatus afterLandingOn: newBoardPosNumber withADiceRollOf: diceRollResult andBoardPos: newBoardPos [
+IngSoft2Game >> applyBasicEffectTo: aPlayerStatus withARollOf: diceRollResult [ 
+
+	aPlayerStatus updatePositionTo: (self newPositionAfter: aPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: aPlayerStatus rolledADiceOf: diceRollResult)
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition withARollOf: anInteger [ 
 	
-	(newBoardPos isKindOf: SpeedUpPosition)	| (newBoardPos isKindOf: NonEffectPosition) | (newBoardPos isKindOf: WormHolePosition)
-		ifTrue: [ 
-		currentPlayerStatus updatePositionTo: (self newPositionAfter: currentPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: currentPlayerStatus rolledADiceOf: diceRollResult) ].
-	(newBoardPos isKindOf: MoonWalkPosition)
-		ifTrue: [ playerStatuses := playerStatuses
-				do: [ :eachStatus | eachStatus correctPositionBy: newBoardPos n ].
-			currentPlayerStatus updatePositionTo: newBoardPosNumber ].
-	(newBoardPos isKindOf: NukePosition)
-		ifTrue: [ playerStatuses := playerStatuses
-				collect: [ :eachPlayerStatus | eachPlayerStatus updatePositionTo: 1 ] ]
+	| newBoardPosNumber |
+	newBoardPosNumber := aPlayerStatus position.
+	playerStatuses := playerStatuses do: [ :eachStatus | eachStatus correctPositionBy: (aMoonWalkPosition n) ].
+	aPlayerStatus updatePositionTo: newBoardPosNumber.
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> applyNukeEffectTo: aPlayerStatus [
+
+	playerStatuses := playerStatuses collect: [ :eachPlayerStatus | eachPlayerStatus updatePositionTo: 1 ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -110,14 +116,13 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 	| diceRollResult newBoardPos newBoardPosNumber |
 	
 	diceRollResult := playerStatus player rollDice: dices.
-	
 	newBoardPosNumber := diceRollResult + playerStatus position.
+
 	newBoardPosNumber > board positions
 		ifTrue: [ newBoardPosNumber := newBoardPosNumber - board positions ].
-	newBoardPos := (board boardPositionsStatus at: newBoardPosNumber) second.
-	
-	self applyChangesTo: playerStatus afterLandingOn: newBoardPosNumber withADiceRollOf: diceRollResult andBoardPos: newBoardPos.
-	
+
+	newBoardPos := (board boardPositionsStatus at: newBoardPosNumber) second.	
+	newBoardPos applyEffectTo: playerStatus afterLandingOn: newBoardPos withARollOf: diceRollResult onGame: self. 
 	self ensureBoardPositionsCompliantWithBoard.
 ]
 

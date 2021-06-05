@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+WormHolePosition >> applyEffectTo: aPlayerStatus afterLandingOn: aWormHolePosition withARollOf: anInteger onGame: anIngSoft2Game [ 
+
+	anIngSoft2Game applyBasicEffectTo: aPlayerStatus withARollOf: anInteger. 
+]
+
+{ #category : #'as yet unclassified' }
 WormHolePosition >> changeInPosition [
 	^-4
 ]

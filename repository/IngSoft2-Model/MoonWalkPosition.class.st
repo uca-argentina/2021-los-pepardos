@@ -13,6 +13,12 @@ MoonWalkPosition class >> withN: anN [
 ]
 
 { #category : #'as yet unclassified' }
+MoonWalkPosition >> applyEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition withARollOf: anInteger onGame: anIngSoft2Game [ 
+	
+	anIngSoft2Game applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition withARollOf: anInteger. 
+]
+
+{ #category : #'as yet unclassified' }
 MoonWalkPosition >> initializeWithN: anN [
 	n := anN.
 ]
