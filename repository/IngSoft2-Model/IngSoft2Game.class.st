@@ -25,7 +25,7 @@ IngSoft2Game >> applyBasicEffectTo: aPlayerStatus withARollOf: diceRollResult [
 ]
 
 { #category : #'as yet unclassified' }
-IngSoft2Game >> applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition withARollOf: anInteger [ 
+IngSoft2Game >> applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition [
 	
 	| newBoardPosNumber |
 	newBoardPosNumber := aPlayerStatus position.
@@ -116,7 +116,7 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 	newBoardPosNumber > board positions
 		ifTrue: [ newBoardPosNumber := newBoardPosNumber - board positions ].
 
-	newBoardPos := (board boardPositionsStatus at: newBoardPosNumber) second.	
+	newBoardPos := ((board boardPositionsStatuses at: newBoardPosNumber) positionEffect).	
 	newBoardPos applyEffectTo: playerStatus afterLandingOn: newBoardPos withARollOf: diceRollResult onGame: self. 
 	self ensureBoardPositionsCompliantWithBoard.
 ]

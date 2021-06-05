@@ -49,11 +49,6 @@ PlayerStatus >> updateBasicPositionTo: newPosition andLapsTo: newLap [
 ]
 
 { #category : #'as yet unclassified' }
-PlayerStatus >> updateLapsTo: aNewAmountOfLaps [
-	lap := aNewAmountOfLaps.
-]
-
-{ #category : #'as yet unclassified' }
 PlayerStatus >> updatePositionTo: aNumber [ 
 	position := aNumber.
 ]

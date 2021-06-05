@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'positions',
-		'boardPositionsStatus'
+		'boardPositionsStatuses'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -19,13 +19,13 @@ Board class >> withPositions: aNumberOfPositions [
 ]
 
 { #category : #'as yet unclassified' }
-Board >> boardPositionsStatus [
-	^ boardPositionsStatus
+Board >> boardPositionsStatuses [
+	^ boardPositionsStatuses
 ]
 
 { #category : #'as yet unclassified' }
 Board >> changeInMovementCausedByPosition: aPosition [
-	^((boardPositionsStatus at: aPosition) at: 2) changeInPosition
+	^((boardPositionsStatuses at: aPosition) positionEffect) changeInPosition
 ]
 
 { #category : #'as yet unclassified' }
@@ -46,13 +46,13 @@ Board >> currentPosition: currPos whoRolled: diceNumber [
 { #category : #'as yet unclassified' }
 Board >> initializeWith: aNumberOfPositions [
 	| x |
-
-	positions := aNumberOfPositions.
-	boardPositionsStatus := OrderedCollection new.
-	self populateBoardPositionStatusWithEffects.
-	boardPositionsStatus := boardPositionsStatus shuffle.
 	x:=0.
-	boardPositionsStatus := boardPositionsStatus collect: [ :boardPosition | { x:=x+1 . boardPosition }].
+	positions := aNumberOfPositions.
+	boardPositionsStatuses := OrderedCollection new.
+	self populateBoardPositionStatusWithEffects.
+	boardPositionsStatuses := boardPositionsStatuses shuffle.
+	boardPositionsStatuses := boardPositionsStatuses collect: [ :boardPositionStatus | BoardPositionStatus withNumber: (x:=x+1) andEffect: boardPositionStatus ].
+	"boardPositionsStatuses := boardPositionsStatuses collect: [ :boardPosition | { x:=x+1 . boardPosition }]."
 
 
 ]
@@ -60,17 +60,18 @@ Board >> initializeWith: aNumberOfPositions [
 { #category : #'as yet unclassified' }
 Board >> initializeWithLoadedFixedBoard [
 	|x|
-	positions := 100.
-	boardPositionsStatus := OrderedCollection new.
-	self populateBoardPositionStatusWithEffects.
 	x:=0.
-	boardPositionsStatus := boardPositionsStatus collect: [ :boardPosition | { x:=x+1 . boardPosition }].
+	positions := 100.
+	boardPositionsStatuses := OrderedCollection new.
+	self populateBoardPositionStatusWithEffects.
+	boardPositionsStatuses := boardPositionsStatuses collect: [ :boardPositionStatus | BoardPositionStatus withNumber: (x:=x+1) andEffect: boardPositionStatus ].
+	
 ]
 
 { #category : #'as yet unclassified' }
 Board >> numberOf: aString [ 
 	
-	^boardPositionsStatus sum: [:boardPosStatus | (boardPosStatus at: 2) amountOf: aString].
+	^boardPositionsStatuses sum: [:boardPosStatus | (boardPosStatus positionEffect) amountOf: aString].
 ]
 
 { #category : #'as yet unclassified' }
@@ -90,11 +91,11 @@ Board >> obtainNewLapCountKnowingPlayerHas: aCurrentAmountOfLaps andRolled: numb
 { #category : #'as yet unclassified' }
 Board >> populateBoardPositionStatusWithEffects [
 
-	1 to: (positions * 0.48) do: [:i | boardPositionsStatus add: NonEffectPosition new ].
-	1 to: (positions * 0.2) do: [:i | boardPositionsStatus add: SpeedUpPosition new ].
-	1 to: (positions * 0.2) do: [:i | boardPositionsStatus add: WormHolePosition new ].
-	1 to: (positions * 0.1) do: [:i | boardPositionsStatus add: (MoonWalkPosition withN: i) ].
-	1 to: (positions * 0.02) do: [:i | boardPositionsStatus add: NukePosition new ].
+	1 to: (positions * 0.48) do: [:i | boardPositionsStatuses add: NonEffectPosition new ].
+	1 to: (positions * 0.2) do: [:i | boardPositionsStatuses add: SpeedUpPosition new ].
+	1 to: (positions * 0.2) do: [:i | boardPositionsStatuses add: WormHolePosition new ].
+	1 to: (positions * 0.1) do: [:i | boardPositionsStatuses add: (MoonWalkPosition withN: i) ].
+	1 to: (positions * 0.02) do: [:i | boardPositionsStatuses add: NukePosition new ].
 ]
 
 { #category : #'as yet unclassified' }

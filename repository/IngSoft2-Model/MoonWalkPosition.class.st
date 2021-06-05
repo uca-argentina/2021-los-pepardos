@@ -22,7 +22,7 @@ MoonWalkPosition >> amountOf: aString [
 { #category : #'as yet unclassified' }
 MoonWalkPosition >> applyEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition withARollOf: anInteger onGame: anIngSoft2Game [ 
 	
-	anIngSoft2Game applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition withARollOf: anInteger. 
+	anIngSoft2Game applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition. 
 ]
 
 { #category : #'as yet unclassified' }
