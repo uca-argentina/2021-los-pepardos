@@ -53,7 +53,7 @@ PlayerStatus >> updatePositionTo: aNumber [
 ]
 
 { #category : #'as yet unclassified' }
-PlayerStatus >> updatePositionTo: newPosition andLapsTo: newLap [
+PlayerStatus >> updatePositionTo: newPosition andLapsTo: newLap [ 
 	position := newPosition.
 	lap := newLap.
 ]

@@ -24,6 +24,21 @@ IngSoft2Game class >> beingPlayedBy: players with: dices on: aBoard wherePlayers
 ]
 
 { #category : #'as yet unclassified' }
+IngSoft2Game >> applyChangesTo: currentPlayerStatus afterLandingOn: newBoardPosNumber withADiceRollOf: diceRollResult andBoardPos: newBoardPos [
+	
+	(newBoardPos isKindOf: SpeedUpPosition)	| (newBoardPos isKindOf: NonEffectPosition) | (newBoardPos isKindOf: WormHolePosition)
+		ifTrue: [ 
+		currentPlayerStatus updatePositionTo: (self newPositionAfter: currentPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: currentPlayerStatus rolledADiceOf: diceRollResult) ].
+	(newBoardPos isKindOf: MoonWalkPosition)
+		ifTrue: [ playerStatuses := playerStatuses
+				do: [ :eachStatus | eachStatus correctPositionBy: newBoardPos n ].
+			currentPlayerStatus updatePositionTo: newBoardPosNumber ].
+	(newBoardPos isKindOf: NukePosition)
+		ifTrue: [ playerStatuses := playerStatuses
+				collect: [ :eachPlayerStatus | eachPlayerStatus updatePositionTo: 1 ] ]
+]
+
+{ #category : #'as yet unclassified' }
 IngSoft2Game >> checkAndUpdateWinner [
 
 	|playerWinner|
@@ -90,28 +105,18 @@ IngSoft2Game >> playGame [
 ]
 
 { #category : #'as yet unclassified' }
-IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
-	| diceRollResult newBoardPos newBoardPosNumber currentPlayerStatus |
+IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
+
+	| diceRollResult newBoardPos newBoardPosNumber |
 	
-	currentPlayerStatus := playerStatuses at: playerNumber.
-	diceRollResult := currentPlayerStatus player rollDice: dices.
-	newBoardPosNumber := diceRollResult + currentPlayerStatus position.
+	diceRollResult := playerStatus player rollDice: dices.
 	
+	newBoardPosNumber := diceRollResult + playerStatus position.
 	newBoardPosNumber > board positions
 		ifTrue: [ newBoardPosNumber := newBoardPosNumber - board positions ].
-		
 	newBoardPos := (board boardPositionsStatus at: newBoardPosNumber) second.
 	
-	(newBoardPos isKindOf: SpeedUpPosition)	| (newBoardPos isKindOf: NonEffectPosition) 	| (newBoardPos isKindOf: WormHolePosition)
-		ifTrue: [ 
-			currentPlayerStatus updatePositionTo: (self newPositionAfter: currentPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: currentPlayerStatus rolledADiceOf: diceRollResult) ].
-
-	(newBoardPos isKindOf: MoonWalkPosition)
-		ifTrue: [ playerStatuses := playerStatuses do: [ :eachStatus | eachStatus correctPositionBy: (newBoardPos n) ].
-			currentPlayerStatus updatePositionTo: newBoardPosNumber ].
-		
-	(newBoardPos isKindOf: NukePosition)
-		ifTrue: [ playerStatuses := playerStatuses collect: 	[ :eachPlayerStatus | eachPlayerStatus updatePositionTo: 1 ] ].
+	self applyChangesTo: playerStatus afterLandingOn: newBoardPosNumber withADiceRollOf: diceRollResult andBoardPos: newBoardPos.
 	
 	self ensureBoardPositionsCompliantWithBoard.
 ]
@@ -119,7 +124,7 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerNumber [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playTurn [
 	
-	1 to: (playerStatuses size) do: [ :i | self playIndividualTurnOfPlayer: i ].
+	playerStatuses do: [:playerStatus | self playIndividualTurnOfPlayer: playerStatus].
 		
 	leaderboard := playerStatuses  asSortedCollection: [ :oneStatus :anotherStatus  | (self positionsTravelledBy: oneStatus) >= (self positionsTravelledBy: anotherStatus) ].
 	leaderboard := leaderboard	collect: [ :aPlayerStatus | aPlayerStatus player ].
