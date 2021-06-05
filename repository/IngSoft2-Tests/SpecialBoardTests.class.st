@@ -25,7 +25,7 @@ SpecialBoardTests >> test001ANewBoardOf100PositionsHasTheCorrectDistributionOfEf
 { #category : #tests }
 SpecialBoardTests >> test002ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWins [
 
-   | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
+   | gameBoard game elDiego diceOne dices players lapsToWin|
 	
 	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
@@ -35,11 +35,11 @@ SpecialBoardTests >> test002ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWi
 	players := { elDiego }.
 	lapsToWin := 1.
 	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playGame.
+	game playGame.
 
-	self assert: (gameInstance winnerName) equals: elDiego.
+	self assert: (game winnerName) equals: elDiego.
 
 	
 
@@ -51,7 +51,7 @@ SpecialBoardTests >> test002ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWi
 { #category : #tests }
 SpecialBoardTests >> test003ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Positions [
 
-   | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
+   | gameBoard game elDiego diceOne dices players lapsToWin|
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := LoadedDice rolling: 50.
@@ -61,11 +61,11 @@ SpecialBoardTests >> test003ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Posit
 	players := { elDiego }.
 	lapsToWin := 1.
 	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playTurn.
+	game playTurn.
 
-	self assert: (gameInstance positionOf: elDiego) equals: 55.
+	self assert: (game positionOf: elDiego) equals: 55.
 
 	
 
@@ -77,7 +77,7 @@ SpecialBoardTests >> test003ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Posit
 { #category : #tests }
 SpecialBoardTests >> test004ElDiegoLandsInANonEffectBoardPositionAndStaysInTheSamePlace [
 
-   | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
+   | gameBoard game elDiego diceOne dices players lapsToWin|
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := LoadedDice rolling: 2.
@@ -87,11 +87,11 @@ SpecialBoardTests >> test004ElDiegoLandsInANonEffectBoardPositionAndStaysInTheSa
 	players := { elDiego }.
 	lapsToWin := 1.
 	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playTurn.
+	game playTurn.
 
-	self assert: (gameInstance positionOf: elDiego) equals: 3.
+	self assert: (game positionOf: elDiego) equals: 3.
 
 	
 
@@ -103,7 +103,7 @@ SpecialBoardTests >> test004ElDiegoLandsInANonEffectBoardPositionAndStaysInTheSa
 { #category : #tests }
 SpecialBoardTests >> test005APlayerLandsInNukeAndMakesAllPlayersGoToPosition1 [
 
-   | gameBoard gameInstance elDiego elSeba elNico diceOne dices players lapsToWin|
+   | gameBoard game elDiego elSeba elNico diceOne dices players lapsToWin|
 	
 	elDiego := 'El Diego'.
 	elSeba := 'El Seba'.
@@ -115,19 +115,19 @@ SpecialBoardTests >> test005APlayerLandsInNukeAndMakesAllPlayersGoToPosition1 [
 	players := { elDiego . elSeba . elNico }.
 	lapsToWin := 1.
 	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playTurn.
+	game playTurn.
 
-	self assert: (gameInstance positionOf: elDiego) equals: 1.
-	self assert: (gameInstance positionOf: elNico) equals: 1.
-	self assert: (gameInstance positionOf: elSeba) equals: 1.
+	self assert: (game positionOf: elDiego) equals: 1.
+	self assert: (game positionOf: elNico) equals: 1.
+	self assert: (game positionOf: elSeba) equals: 1.
 ]
 
 { #category : #tests }
 SpecialBoardTests >> test006ElDiegoLandsInAWormHoleAndGoesBack4Positions [
 
-   | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
+   | gameBoard game elDiego diceOne dices players lapsToWin|
 	
 	elDiego := 'El Diego'.
    diceOne := LoadedDice rolling: 70.
@@ -137,18 +137,18 @@ SpecialBoardTests >> test006ElDiegoLandsInAWormHoleAndGoesBack4Positions [
 	players := { elDiego }.
 	lapsToWin := 1.
 	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playTurn.
+	game playTurn.
 
-	self assert: (gameInstance positionOf: elDiego) equals: 67.
+	self assert: (game positionOf: elDiego) equals: 67.
 
 ]
 
 { #category : #tests }
 SpecialBoardTests >> test007ElDiegoLandsInTheFirstMoonWalkPositionAndTakesElPeleBack1Space [
 
-   | gameBoard gameInstance elDiego elPele diceOne dices players lapsToWin|
+   | gameBoard game elDiego elPele diceOne dices players lapsToWin|
 	
 	elDiego := 'El Diego'.
 	elPele := 'El Pele'.
@@ -159,10 +159,10 @@ SpecialBoardTests >> test007ElDiegoLandsInTheFirstMoonWalkPositionAndTakesElPele
 	players := { elPele . elDiego }.
 	lapsToWin := 1.
 	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playTurn.
+	game playTurn.
 
-	self assert: (gameInstance positionOf: elDiego) equals: 84.
+	self assert: (game positionOf: elDiego) equals: 84.
 
 ]

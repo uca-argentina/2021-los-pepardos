@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #tests }
-SinglePlayerTests >> test001ElDiegoPlaysOneTurnAndWins [
+SinglePlayerTests >> test001ElDiegoPlaysAndWins [
 
-   | gameBoard gameInstance elDiego diceOne dices players lapsToWin|
+   | gameBoard game elDiego diceOne dices players lapsToWin|
 	
 	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
@@ -17,35 +17,11 @@ SinglePlayerTests >> test001ElDiegoPlaysOneTurnAndWins [
 	players := { elDiego }.
 	lapsToWin := 1.
 	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playGame.
+	game playGame.
 
-	self assert: (gameInstance winnerName) equals: elDiego.
-
-	
-
-	
-]
-
-{ #category : #tests }
-SinglePlayerTests >> test002OnePlayerPlaysTheGameAndWins [
-
-   | gameBoard gameInstance elDiego diceOne dices players lapsToWin |
-	
-	elDiego := 'El Diego'.
-   diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 100.
-	
-	dices := { diceOne }.
-	players := { elDiego }.
-	lapsToWin := 2.
-	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
-
-	gameInstance playGame.
-
-	self assert: (gameInstance winnerName) equals: elDiego.
+	self assert: (game winnerName) equals: elDiego.
 
 	
 
@@ -53,27 +29,27 @@ SinglePlayerTests >> test002OnePlayerPlaysTheGameAndWins [
 ]
 
 { #category : #tests }
-SinglePlayerTests >> test003ElDiegoPlaysWithTwoDicesAndWins [
-	| gameBoard gameInstance diceOne dices players lapsToWin |
+SinglePlayerTests >> test002ElDiegoPlaysWithTwoDicesAndWins [
+	| gameBoard game diceOne dices players lapsToWin |
+	
 	diceOne := Dice withSides: 4.
 	diceOne := Dice withSides: 6.
 	gameBoard := Board withPositions: 100.
+	
 	dices := {diceOne}.
 	players := {'El Diego'}.
 	lapsToWin := 2.
-	gameInstance := IngSoft2Game
-		beingPlayedBy: players
-		with: dices
-		on: gameBoard
-		wherePlayersNeedToComplete: lapsToWin.
-	gameInstance playGame.
-	self assert: gameInstance winnerName equals: 'El Diego'
+	
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard	wherePlayersNeedToComplete: lapsToWin.
+		
+	game playGame.
+	self assert: game winnerName equals: 'El Diego'
 ]
 
 { #category : #tests }
-SinglePlayerTests >> test004ElDiegoPlaysOneTurnAndDoesntWin [
+SinglePlayerTests >> test003ElDiegoPlaysOneTurnAndDoesntWin [
 
-   | gameBoard gameInstance elDiego diceOne dices players lapsToWin |
+   | gameBoard game elDiego diceOne dices players lapsToWin |
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := Dice withSides: 6.
@@ -83,11 +59,11 @@ SinglePlayerTests >> test004ElDiegoPlaysOneTurnAndDoesntWin [
 	players := { elDiego }.
 	lapsToWin := 2.
 	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playTurn.
+	game playTurn.
 
-	self assert: (gameInstance winner) isNil.
+	self assert: (game winner) isNil.
 
 	
 
@@ -95,9 +71,9 @@ SinglePlayerTests >> test004ElDiegoPlaysOneTurnAndDoesntWin [
 ]
 
 { #category : #tests }
-SinglePlayerTests >> test005ElDiegoBeingsPlayingAtPosition1 [
+SinglePlayerTests >> test004ElDiegoBeingsPlayingAtPosition1 [
 
-   | gameBoard gameInstance elDiego diceOne dices players lapsToWin |
+   | gameBoard game elDiego diceOne dices players lapsToWin |
 	
 	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
@@ -107,9 +83,10 @@ SinglePlayerTests >> test005ElDiegoBeingsPlayingAtPosition1 [
 	players := { elDiego }.
 	lapsToWin := 2.
 	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	self assert: (gameInstance positionOf: elDiego) equals: 1.
+	self assert: (game positionOf: elDiego) equals: 1.
+	self assert: (game lapsCompletedBy: elDiego) equals: 0.
 
 	
 
@@ -117,9 +94,9 @@ SinglePlayerTests >> test005ElDiegoBeingsPlayingAtPosition1 [
 ]
 
 { #category : #tests }
-SinglePlayerTests >> test006ElDiegoPlaysAGameWithALoadedAndANormalDiceAndWins [
+SinglePlayerTests >> test005ElDiegoPlaysAGameWithALoadedAndANormalDiceAndWins [
 
-   | gameBoard gameInstance elDiego normalDice loadedDice dices players lapsToWin |
+   | gameBoard game elDiego normalDice loadedDice dices players lapsToWin |
 	
 	elDiego := 'El Diego'.
    normalDice := Dice withSides: 6.
@@ -130,11 +107,11 @@ SinglePlayerTests >> test006ElDiegoPlaysAGameWithALoadedAndANormalDiceAndWins [
 	players := { elDiego }.
 	lapsToWin := 2.
 	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playGame.
+	game playGame.
 
-	self assert: (gameInstance winnerName) equals: elDiego.
+	self assert: (game winnerName) equals: elDiego.
 
 	
 
@@ -142,9 +119,9 @@ SinglePlayerTests >> test006ElDiegoPlaysAGameWithALoadedAndANormalDiceAndWins [
 ]
 
 { #category : #tests }
-SinglePlayerTests >> test007ElDiegoPlaysAGameAndIsOnLap3WhenGameIsDone [
+SinglePlayerTests >> test006ElDiegoPlaysAGameAndIsOnLap3WhenGameIsDone [
 
-   | gameBoard gameInstance elDiego normalDice dices players lapsToWin |
+   | gameBoard game elDiego normalDice dices players lapsToWin |
 	
 	elDiego := 'El Diego'.
    normalDice := Dice withSides: 6.
@@ -154,11 +131,11 @@ SinglePlayerTests >> test007ElDiegoPlaysAGameAndIsOnLap3WhenGameIsDone [
 	players := { elDiego }.
 	lapsToWin := 3.
 	
-	gameInstance := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	gameInstance playGame.
+	game playGame.
 
-	self assert: (gameInstance lapsCompletedBy: elDiego) equals: 3.
+	self assert: (game lapsCompletedBy: elDiego) equals: 3.
 
 	
 
