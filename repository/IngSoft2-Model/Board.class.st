@@ -91,11 +91,12 @@ Board >> obtainNewLapCountKnowingPlayerHas: aCurrentAmountOfLaps andRolled: numb
 { #category : #'as yet unclassified' }
 Board >> populateBoardPositionStatusWithEffects [
 
-	1 to: (positions * 0.48) do: [:i | boardPositionsStatuses add: NonEffectPosition new ].
+	1 to: (positions * 0.38) do: [:i | boardPositionsStatuses add: NonEffectPosition new ].
 	1 to: (positions * 0.2) do: [:i | boardPositionsStatuses add: SpeedUpPosition new ].
 	1 to: (positions * 0.2) do: [:i | boardPositionsStatuses add: WormHolePosition new ].
 	1 to: (positions * 0.1) do: [:i | boardPositionsStatuses add: (MoonWalkPosition withN: i) ].
 	1 to: (positions * 0.02) do: [:i | boardPositionsStatuses add: NukePosition new ].
+	1 to: (positions * 0.1) do: [:i | boardPositionsStatuses add: CardDealerPosition new ].
 ]
 
 { #category : #'as yet unclassified' }

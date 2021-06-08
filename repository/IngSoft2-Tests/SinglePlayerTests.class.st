@@ -63,7 +63,7 @@ SinglePlayerTests >> test003ElDiegoPlaysOneTurnAndDoesntWin [
 
 	game playTurn.
 
-	self assert: (game winner) isNil.
+	self deny: game hasFinished.
 
 	
 

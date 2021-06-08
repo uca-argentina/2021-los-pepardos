@@ -5,25 +5,7 @@ Class {
 }
 
 { #category : #tests }
-SpecialBoardTests >> test001ANewBoardOf100PositionsHasTheCorrectDistributionOfEffects [
-
-   | gameBoard |
-	
-   gameBoard := Board withPositions: 100.
-	
-	self assert: (gameBoard numberOf: 'NonEffect') equals: 48.
-	self assert: (gameBoard numberOf: 'WormHole') equals: 20.
-	self assert: (gameBoard numberOf: 'SpeedUp') equals: 20.
-	self assert: (gameBoard numberOf: 'MoonWalk') equals: 10.
-	self assert: (gameBoard numberOf: 'Nuke') equals: 2.
-
-	
-
-	
-]
-
-{ #category : #tests }
-SpecialBoardTests >> test002ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWins [
+SpecialBoardTests >> test001ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWins [
 
    | gameBoard game elDiego diceOne dices players lapsToWin|
 	
@@ -49,7 +31,7 @@ SpecialBoardTests >> test002ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWi
 ]
 
 { #category : #tests }
-SpecialBoardTests >> test003ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Positions [
+SpecialBoardTests >> test002ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Positions [
 
    | gameBoard game elDiego diceOne dices players lapsToWin|
 	
@@ -75,7 +57,7 @@ SpecialBoardTests >> test003ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Posit
 ]
 
 { #category : #tests }
-SpecialBoardTests >> test004ElDiegoLandsInANonEffectBoardPositionAndStaysInTheSamePlace [
+SpecialBoardTests >> test003ElDiegoLandsInANonEffectBoardPositionAndStaysInTheSamePlace [
 
    | gameBoard game elDiego diceOne dices players lapsToWin|
 	
@@ -101,7 +83,7 @@ SpecialBoardTests >> test004ElDiegoLandsInANonEffectBoardPositionAndStaysInTheSa
 ]
 
 { #category : #tests }
-SpecialBoardTests >> test005APlayerLandsInNukeAndMakesAllPlayersGoToPosition1 [
+SpecialBoardTests >> test004APlayerLandsInNukeAndMakesAllPlayersGoToPosition1 [
 
    | gameBoard game elDiego elSeba elNico diceOne dices players lapsToWin|
 	
@@ -125,7 +107,7 @@ SpecialBoardTests >> test005APlayerLandsInNukeAndMakesAllPlayersGoToPosition1 [
 ]
 
 { #category : #tests }
-SpecialBoardTests >> test006ElDiegoLandsInAWormHoleAndGoesBack4Positions [
+SpecialBoardTests >> test005ElDiegoLandsInAWormHoleAndGoesBack4Positions [
 
    | gameBoard game elDiego diceOne dices players lapsToWin|
 	
@@ -146,13 +128,13 @@ SpecialBoardTests >> test006ElDiegoLandsInAWormHoleAndGoesBack4Positions [
 ]
 
 { #category : #tests }
-SpecialBoardTests >> test007ElDiegoLandsInTheFirstMoonWalkPositionAndTakesElPeleBack1Space [
+SpecialBoardTests >> test006ElDiegoLandsInTheFirstMoonWalkPositionAndTakesElPeleBack1Space [
 
    | gameBoard game elDiego elPele diceOne dices players lapsToWin|
 	
 	elDiego := 'El Diego'.
 	elPele := 'El Pele'.
-   diceOne := LoadedDice rolling: 89.
+   diceOne := LoadedDice rolling: 79.
    gameBoard := Board withLoadedPositions.
 	
 	dices := { diceOne }.
@@ -163,6 +145,6 @@ SpecialBoardTests >> test007ElDiegoLandsInTheFirstMoonWalkPositionAndTakesElPele
 
 	game playTurn.
 
-	self assert: (game positionOf: elDiego) equals: 84.
+	self assert: (game positionOf: elDiego) equals: 74.
 
 ]

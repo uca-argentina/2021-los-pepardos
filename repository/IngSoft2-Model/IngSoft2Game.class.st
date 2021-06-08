@@ -19,6 +19,11 @@ IngSoft2Game class >> beingPlayedBy: players with: dices on: aBoard wherePlayers
 ]
 
 { #category : #'as yet unclassified' }
+IngSoft2Game >> amounfOfCardsOf: aPlayer [
+	^ ((playerStatuses detect: [:searchedStatus | (searchedStatus player name) == aPlayer]) hand) cards size.
+]
+
+{ #category : #'as yet unclassified' }
 IngSoft2Game >> applyBasicEffectTo: aPlayerStatus withARollOf: diceRollResult [ 
 
 		aPlayerStatus updateBasicPositionTo: (self newPositionAfter: aPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: aPlayerStatus rolledADiceOf: diceRollResult).

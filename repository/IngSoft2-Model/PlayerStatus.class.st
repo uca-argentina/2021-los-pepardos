@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'player',
 		'position',
-		'lap'
+		'lap',
+		'hand'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -20,10 +21,16 @@ PlayerStatus >> correctPositionBy: aCorrection [
 ]
 
 { #category : #'as yet unclassified' }
+PlayerStatus >> hand [
+	^ hand
+]
+
+{ #category : #'as yet unclassified' }
 PlayerStatus >> initializeOf: aPlayer with: aPosition at: aLap [
 	player := aPlayer.
 	position := aPosition.
 	lap := aLap.
+	hand := Hand withRandomCards: 2.
 	
 ]
 
