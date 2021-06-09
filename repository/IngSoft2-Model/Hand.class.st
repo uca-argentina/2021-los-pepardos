@@ -13,8 +13,13 @@ Hand class >> withRandomCards: anAmountOfRandomCards [
 ]
 
 { #category : #'as yet unclassified' }
-Hand >> addNewCard [
-	cards add: (self pickNewCard)
+Hand >> addNewCard: aCard [ 
+	cards add: aCard.
+]
+
+{ #category : #'as yet unclassified' }
+Hand >> addNewRandomCard [
+	cards add: (self pickNewRandomCard)
 ]
 
 { #category : #'as yet unclassified' }
@@ -25,11 +30,11 @@ Hand >> cards [
 { #category : #'as yet unclassified' }
 Hand >> initializeWithRandomCards: amountOfCards [
 	cards := OrderedCollection new.
-	1 to: (amountOfCards) do: [:i | cards add: (self pickNewCard) ].
+	1 to: (amountOfCards) do: [:i | cards add: (self pickNewRandomCard) ].
 ]
 
 { #category : #'as yet unclassified' }
-Hand >> pickNewCard [
+Hand >> pickNewRandomCard [
 	^ ({ OverloadCard new . SpeedCard new . AccelerationCard new . CancellationCard new . RedoCard new . RepeatCard new } atRandom)
 	
 ]

@@ -13,5 +13,5 @@ CardDealerPosition >> amountOf: aString [
 
 { #category : #'as yet unclassified' }
 CardDealerPosition >> applyEffectTo: aPlayerStatus afterLandingOn: aCardDealerPosition withARollOf: anInteger onGame: anIngSoft2Game [ 
-	aPlayerStatus hand addNewCard.
+	aPlayerStatus hand addNewRandomCard.
 ]

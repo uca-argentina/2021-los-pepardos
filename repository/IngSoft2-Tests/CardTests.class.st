@@ -62,3 +62,32 @@ CardTests >> test003ElDiegoLandsInACardDealerPositionAndNowHas3Cards [
 
 
 ]
+
+{ #category : #tests }
+CardTests >> test004ElDiegoUsesASpeedCardAndHasAnActiveSpeedEffect [
+
+   | gameBoard game elDiego diceOne dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: SpeedCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+	
+	dices := { diceOne }.
+	players := { elDiego }.
+	lapsToWin := 1.
+	
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	
+	game playTurn.
+	
+	self assert: (game amounfOfCardsOf: elDiego) equals: 3.
+	
+	game make: elDiego useCard: SpeedCard new on: elDiego.
+
+	self assert: (game amounfOfCardsOf: elDiego) equals: 2.
+	self assert: (game activeEffectsOf: elDiego) equals: { 'Speed' }.
+
+
+
+
+]

@@ -95,6 +95,11 @@ IngSoft2Game >> leaderboard [
 ]
 
 { #category : #'as yet unclassified' }
+IngSoft2Game >> make: aString useCard: aSpeedCard on: aString3 [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
 IngSoft2Game >> newLapsAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
 	^ board obtainNewLapCountKnowingPlayerHas: (onePlayerStatus lap) andRolled: (aDiceRollResult) andIsInPosition: (onePlayerStatus position)
 ]
