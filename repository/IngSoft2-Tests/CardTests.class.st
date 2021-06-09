@@ -9,14 +9,14 @@ CardTests >> test001ANewBoardHasTheCorrectNumberOfEffects [
 
    | gameBoard |
 	
-	gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . CardDealerPosition new . NonEffectPosition new }.
+	gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . CardDealerPosition new . NonEffectPosition new . WormHolePosition new . NukePosition new }.
 	
 	self assert: (gameBoard numberOf: 'NonEffect') equals: 3.
 	self assert: (gameBoard numberOf: 'CardDealer') equals: 1.
-	self assert: (gameBoard numberOf: 'WormHole') equals: 0.
+	self assert: (gameBoard numberOf: 'WormHole') equals: 1.
 	self assert: (gameBoard numberOf: 'SpeedUp') equals: 1.
 	self assert: (gameBoard numberOf: 'MoonWalk') equals: 1.
-	self assert: (gameBoard numberOf: 'Nuke') equals: 0.
+	self assert: (gameBoard numberOf: 'Nuke') equals: 1.
 
 
 ]
