@@ -123,6 +123,7 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 
 	newBoardPos := ((board boardPositionsStatuses at: newBoardPosNumber) positionEffect).	
 	newBoardPos applyEffectTo: playerStatus afterLandingOn: newBoardPos withARollOf: diceRollResult onGame: self. 
+
 	self ensureBoardPositionsCompliantWithBoard.
 ]
 

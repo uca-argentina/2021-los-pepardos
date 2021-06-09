@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+NonEffectPosition >> * aNumber [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
 NonEffectPosition >> amountOf: aString [ 
 	aString = 'NonEffect'
 	ifTrue: [ ^1 ].

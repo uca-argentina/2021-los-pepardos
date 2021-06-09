@@ -11,7 +11,7 @@ SinglePlayerTests >> test001ElDiegoPlaysAndWins [
 	
 	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 200.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -32,9 +32,9 @@ SinglePlayerTests >> test001ElDiegoPlaysAndWins [
 SinglePlayerTests >> test002ElDiegoPlaysWithTwoDicesAndWins [
 	| gameBoard game diceOne dices players lapsToWin |
 	
+	diceOne := Dice withSides: 3.
 	diceOne := Dice withSides: 4.
-	diceOne := Dice withSides: 6.
-	gameBoard := Board withPositions: 100.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . SpeedUpPosition new }.
 	
 	dices := {diceOne}.
 	players := {'El Diego'}.
@@ -52,8 +52,8 @@ SinglePlayerTests >> test003ElDiegoPlaysOneTurnAndDoesntWin [
    | gameBoard game elDiego diceOne dices players lapsToWin |
 	
 	elDiego := Player withName: 'El Diego'.
-   diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 100.
+   diceOne := Dice withSides: 3.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -77,7 +77,7 @@ SinglePlayerTests >> test004ElDiegoBeingsPlayingAtPosition1 [
 	
 	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 100.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -99,9 +99,9 @@ SinglePlayerTests >> test005ElDiegoPlaysAGameWithALoadedAndANormalDiceAndWins [
    | gameBoard game elDiego normalDice loadedDice dices players lapsToWin |
 	
 	elDiego := 'El Diego'.
-   normalDice := Dice withSides: 6.
-	loadedDice := LoadedDice rolling: 6.
-   gameBoard := Board withPositions: 100.
+   normalDice := Dice withSides: 3.
+	loadedDice := LoadedDice rolling: 4.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new }.
 	
 	dices := { normalDice . loadedDice }.
 	players := { elDiego }.
@@ -125,7 +125,7 @@ SinglePlayerTests >> test006ElDiegoPlaysAGameAndIsOnLap3WhenGameIsDone [
 	
 	elDiego := 'El Diego'.
    normalDice := Dice withSides: 6.
-   gameBoard := Board withPositions: 100.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new }.
 	
 	dices := { normalDice }.
 	players := { elDiego }.
@@ -140,4 +140,11 @@ SinglePlayerTests >> test006ElDiegoPlaysAGameAndIsOnLap3WhenGameIsDone [
 	
 
 	
+]
+
+{ #category : #tests }
+SinglePlayerTests >> test007DiceCannotHaveLessThan3Sides [
+
+   self should: [Dice withSides: 2] raise: Error whoseDescriptionIncludes: 'Sides must be >= 3' description: 'Banana'.
+																								"sides > 3"           "lo usa pharo cuando falla el test"
 ]

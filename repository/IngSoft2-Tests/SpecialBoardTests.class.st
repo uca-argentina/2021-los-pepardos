@@ -11,7 +11,7 @@ SpecialBoardTests >> test001ElDiegoPlaysAGameWhereTheBoardHasSpecialEffectsAndWi
 	
 	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 100.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -36,8 +36,8 @@ SpecialBoardTests >> test002ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Posit
    | gameBoard game elDiego diceOne dices players lapsToWin|
 	
 	elDiego := Player withName: 'El Diego'.
-   diceOne := LoadedDice rolling: 50.
-   gameBoard := Board withLoadedPositions.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -47,7 +47,7 @@ SpecialBoardTests >> test002ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Posit
 
 	game playTurn.
 
-	self assert: (game positionOf: elDiego) equals: 55.
+	self assert: (game positionOf: elDiego) equals: 6.
 
 	
 
@@ -63,7 +63,7 @@ SpecialBoardTests >> test003ElDiegoLandsInANonEffectBoardPositionAndStaysInTheSa
 	
 	elDiego := Player withName: 'El Diego'.
    diceOne := LoadedDice rolling: 2.
-   gameBoard := Board withLoadedPositions.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -90,8 +90,8 @@ SpecialBoardTests >> test004APlayerLandsInNukeAndMakesAllPlayersGoToPosition1 [
 	elDiego := 'El Diego'.
 	elSeba := 'El Seba'.
 	elNico := 'El Nico'.
-   diceOne := LoadedDice rolling: 99.
-   gameBoard := Board withLoadedPositions.
+   diceOne := LoadedDice rolling: 3.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . NukePosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego . elSeba . elNico }.
@@ -107,13 +107,13 @@ SpecialBoardTests >> test004APlayerLandsInNukeAndMakesAllPlayersGoToPosition1 [
 ]
 
 { #category : #tests }
-SpecialBoardTests >> test005ElDiegoLandsInAWormHoleAndGoesBack4Positions [
+SpecialBoardTests >> test005ElDiegoLandsInAWormHoleAndGoesBackToPosition1 [
 
    | gameBoard game elDiego diceOne dices players lapsToWin|
 	
 	elDiego := 'El Diego'.
-   diceOne := LoadedDice rolling: 70.
-   gameBoard := Board withLoadedPositions.
+   diceOne := LoadedDice rolling: 4.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -123,7 +123,7 @@ SpecialBoardTests >> test005ElDiegoLandsInAWormHoleAndGoesBack4Positions [
 
 	game playTurn.
 
-	self assert: (game positionOf: elDiego) equals: 67.
+	self assert: (game positionOf: elDiego) equals: 1.
 
 ]
 
@@ -134,8 +134,8 @@ SpecialBoardTests >> test006ElDiegoLandsInTheFirstMoonWalkPositionAndTakesElPele
 	
 	elDiego := 'El Diego'.
 	elPele := 'El Pele'.
-   diceOne := LoadedDice rolling: 79.
-   gameBoard := Board withLoadedPositions.
+   diceOne := LoadedDice rolling: 2.
+   gameBoard := Board with: { NonEffectPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 }.
 	
 	dices := { diceOne }.
 	players := { elPele . elDiego }.
@@ -145,6 +145,7 @@ SpecialBoardTests >> test006ElDiegoLandsInTheFirstMoonWalkPositionAndTakesElPele
 
 	game playTurn.
 
-	self assert: (game positionOf: elDiego) equals: 74.
+	self assert: (game positionOf: elDiego) equals: 2.
+	self assert: (game lapsCompletedBy: elPele) equals: 0.
 
 ]

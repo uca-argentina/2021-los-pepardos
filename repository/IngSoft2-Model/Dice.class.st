@@ -8,8 +8,15 @@ Class {
 }
 
 { #category : #'instance creation' }
-Dice class >> withSides: numberOfSides [ 
-	^self new initializeWithSides: numberOfSides.
+Dice class >> assertValidSides: numberOfSides [
+	numberOfSides >= 3
+		ifFalse: [ Error signal: 'Sides must be >= 3' ]
+]
+
+{ #category : #'instance creation' }
+Dice class >> withSides: numberOfSides [
+	self assertValidSides: numberOfSides.
+	^ self new initializeWithSides: numberOfSides
 ]
 
 { #category : #'instance creation' }

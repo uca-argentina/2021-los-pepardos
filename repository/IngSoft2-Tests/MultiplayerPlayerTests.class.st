@@ -11,8 +11,8 @@ MultiplayerPlayerTests >> test001TwoPlayersPlayAGameButElDiegoWins [
 	
 	elDiego := Player withName: 'El Diego'.
 	elArbol := Player withName: 'El Arbol'.
-	loadedDice := LoadedDice rolling: 52.
-   gameBoard := Board withLoadedPositions.
+	loadedDice := LoadedDice rolling: 5.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new }.
 	
 	dices := { loadedDice }.
 	players := { elDiego . elArbol }.
@@ -38,7 +38,7 @@ MultiplayerPlayerTests >> test002ThreePlayersPlayAndTheGameFinishes [
 	elJorge := Player withName: 'El Jorge'.
 	elJulian := Player withName: 'El Julian'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 100.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego . elJorge . elJulian }.
@@ -63,8 +63,8 @@ MultiplayerPlayerTests >> test003ThreePlayersPlayATurnAndTheGameDoesntFinish [
 	elDiego := Player withName: 'El Diego'.
 	elJorge := Player withName: 'El Jorge'.
 	elJulian := Player withName: 'El Julian'.
-   diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 100.
+   diceOne := Dice withSides: 3.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego . elJorge . elJulian }.
@@ -88,9 +88,9 @@ MultiplayerPlayerTests >> test004TwoPlayersPlayTheGameButElDiegoWins [
 	
 	elDiego := 'El Diego'.
 	elPele := 'El Pele'.
-	loadedDice := LoadedDice rolling: 51.
+	loadedDice := LoadedDice rolling: 7.
 
-   gameBoard := Board withLoadedPositions.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new }.
 	
 	dices := { loadedDice }.
 	players := { elDiego . elPele}.
@@ -122,7 +122,7 @@ MultiplayerPlayerTests >> test005FivePlayersPlayTheGameAndTheGameFinishes [
 	diceTwo := Dice withSides: 6.
 	diceThree := Dice withSides: 7.
 
-   gameBoard := Board withPositions: 500.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new . NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new . NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new . NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new }.
 	
 	dices := { diceOne . diceTwo . diceThree }.
 	players := { elDiego . elPela . elPele . elPeli . elPelo}.

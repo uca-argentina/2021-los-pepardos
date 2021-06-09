@@ -5,18 +5,18 @@ Class {
 }
 
 { #category : #tests }
-CardTests >> test001ANewBoardOf100PositionsNowHas10LessNonEffectAnd10MoreCardDealer [
+CardTests >> test001ANewBoardHasTheCorrectNumberOfEffects [
 
    | gameBoard |
 	
-   gameBoard := Board withPositions: 100.
+	gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . CardDealerPosition new . NonEffectPosition new }.
 	
-	self assert: (gameBoard numberOf: 'NonEffect') equals: 38.
-	self assert: (gameBoard numberOf: 'CardDealer') equals: 10.
-	self assert: (gameBoard numberOf: 'WormHole') equals: 20.
-	self assert: (gameBoard numberOf: 'SpeedUp') equals: 20.
-	self assert: (gameBoard numberOf: 'MoonWalk') equals: 10.
-	self assert: (gameBoard numberOf: 'Nuke') equals: 2.
+	self assert: (gameBoard numberOf: 'NonEffect') equals: 3.
+	self assert: (gameBoard numberOf: 'CardDealer') equals: 1.
+	self assert: (gameBoard numberOf: 'WormHole') equals: 0.
+	self assert: (gameBoard numberOf: 'SpeedUp') equals: 1.
+	self assert: (gameBoard numberOf: 'MoonWalk') equals: 1.
+	self assert: (gameBoard numberOf: 'Nuke') equals: 0.
 
 
 ]
@@ -28,7 +28,7 @@ CardTests >> test002ElDiegoBeginsPlayingWith2Cards [
 	
 	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board withPositions: 200.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -36,7 +36,7 @@ CardTests >> test002ElDiegoBeginsPlayingWith2Cards [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	self assert: (game amounfOfCardsOf: elDiego) equals: 2.
+	self assert: (game amounfOfCardsOf: elDiego) equals: 2. "replace amountOfCardsOf to cards -> size"
 
 
 ]
@@ -47,8 +47,8 @@ CardTests >> test003ElDiegoLandsInACardDealerPositionAndNowHas3Cards [
    | gameBoard game elDiego diceOne dices players lapsToWin|
 	
 	elDiego := 'El Diego'.
-   diceOne := LoadedDice rolling: 90.
-   gameBoard := Board withLoadedPositions.
+   diceOne := LoadedDice rolling: 4.
+   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . CardDealerPosition new . NonEffectPosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
