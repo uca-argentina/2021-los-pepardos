@@ -45,6 +45,7 @@ Hand >> removeCardOf: aCardType [
 	| cardToDelete |
 	cardToDelete := (cards detect: [:card | (card type) = aCardType]).
 	cards remove: cardToDelete.
+	^cardToDelete
 
 
 ]

@@ -19,6 +19,16 @@ IngSoft2Game class >> beingPlayedBy: players with: dices on: aBoard wherePlayers
 ]
 
 { #category : #'as yet unclassified' }
+IngSoft2Game >> activeEffectsOf: aPlayerName [
+    ^((playerStatuses detect: [:searchedStatus | (searchedStatus player name) == aPlayerName]) activeEffects) collect: [ :eachCard | eachCard type ]
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> add: aCard toActiveEffectOf: aPlayerStatus [  
+	aPlayerStatus activeEffectsAdd: aCard.
+]
+
+{ #category : #'as yet unclassified' }
 IngSoft2Game >> amounfOfCardsOf: aPlayer [
 	^ ((playerStatuses detect: [:searchedStatus | (searchedStatus player name) == aPlayer]) hand) cards size.
 ]
@@ -27,6 +37,11 @@ IngSoft2Game >> amounfOfCardsOf: aPlayer [
 IngSoft2Game >> applyBasicEffectTo: aPlayerStatus withARollOf: diceRollResult [ 
 
 		aPlayerStatus updateBasicPositionTo: (self newPositionAfter: aPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: aPlayerStatus rolledADiceOf: diceRollResult).
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> applyBoostTo: aPlayerStatus afterUsing: aCard [ 
+	aCard applyCardEffectTo: aPlayerStatus.
 ]
 
 { #category : #'as yet unclassified' }
@@ -96,15 +111,16 @@ IngSoft2Game >> leaderboard [
 
 { #category : #accessing }
 IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
-	
-	| playerStatusOfCardUser playerStatusOfCardTarget |
+
+	| playerStatusOfCardUser playerStatusOfCardTarget cardRemoved |
 	playerStatusOfCardUser := self playerStatusOf: aPlayerName.
 	playerStatusOfCardTarget := self playerStatusOf: cardPlayerTargetName.
 	
 	(self thePlayer: playerStatusOfCardUser has: aCardType)
 		ifFalse: [ ^ self ].
-	playerStatusOfCardUser removeCardOf: aCardType.
-	"self add: aCardType toActiveEffectOf: playerStatusOfCardTarget."
+	cardRemoved := playerStatusOfCardUser removeCardOf: aCardType.
+	self add: cardRemoved toActiveEffectOf: playerStatusOfCardTarget.
+	self applyBoostTo: playerStatusOfCardTarget afterUsing: cardRemoved.
 ]
 
 { #category : #'as yet unclassified' }
@@ -126,9 +142,9 @@ IngSoft2Game >> playGame [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 
-	| diceRollResult newBoardPos newBoardPosNumber |
+	| diceRollResult  newBoardPos newBoardPosNumber |
 	
-	diceRollResult := playerStatus player rollDice: dices.
+	diceRollResult := (playerStatus player rollDice: dices) + (playerStatus activeBoost).
 	newBoardPosNumber := diceRollResult + playerStatus position.
 
 	newBoardPosNumber > board positions
@@ -168,9 +184,9 @@ IngSoft2Game >> positionsTravelledBy: oneStatus [
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> thePlayer: aPlayerStatus has: aString [ 
-	((aPlayerStatus hand) cards collect: [ :card | card type == aString ]) size > 0
-	ifTrue: [ ^true ].
-	^false.
+	((aPlayerStatus hand) cards collect: [ :card | card type = aString ]) isEmpty
+	ifTrue: [ ^false ].
+	^true.
 	
 	
 ]

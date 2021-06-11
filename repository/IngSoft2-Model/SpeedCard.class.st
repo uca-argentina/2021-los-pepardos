@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+SpeedCard >> applyCardEffectTo: aPlayerStatus [ 
+	aPlayerStatus modifyActiveBoostBy: 1
+]
+
+{ #category : #'as yet unclassified' }
 SpeedCard >> type [
 	type := 'Speed'.
 	^type.

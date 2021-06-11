@@ -14,7 +14,13 @@ LoadedCardDealerPosition class >> handing: aCardType [
 
 { #category : #'as yet unclassified' }
 LoadedCardDealerPosition >> applyEffectTo: aPlayerStatus afterLandingOn: aLoadedCardDealerPosition withARollOf: anInteger onGame: anIngSoft2Game [ 
-	aPlayerStatus hand addNewCard: loadedCard
+	aPlayerStatus hand addNewCard: loadedCard.
+	anIngSoft2Game applyBasicEffectTo: aPlayerStatus withARollOf: anInteger. 
+]
+
+{ #category : #'as yet unclassified' }
+LoadedCardDealerPosition >> changeInPosition [
+	^0
 ]
 
 { #category : #'as yet unclassified' }
