@@ -94,9 +94,17 @@ IngSoft2Game >> leaderboard [
 	
 ]
 
-{ #category : #'as yet unclassified' }
-IngSoft2Game >> make: aString useCard: aSpeedCard on: aString3 [ 
-	self shouldBeImplemented.
+{ #category : #accessing }
+IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
+	
+	| playerStatusOfCardUser playerStatusOfCardTarget |
+	playerStatusOfCardUser := self playerStatusOf: aPlayerName.
+	playerStatusOfCardTarget := self playerStatusOf: cardPlayerTargetName.
+	
+	(self thePlayer: playerStatusOfCardUser has: aCardType)
+		ifFalse: [ ^ self ].
+	playerStatusOfCardUser removeCardOf: aCardType.
+	"self add: aCardType toActiveEffectOf: playerStatusOfCardTarget."
 ]
 
 { #category : #'as yet unclassified' }
@@ -144,6 +152,11 @@ IngSoft2Game >> playTurn [
 ]
 
 { #category : #'as yet unclassified' }
+IngSoft2Game >> playerStatusOf: aPlayerName [
+		^playerStatuses detect: [:aStatus | (aStatus player) name == aPlayerName]
+]
+
+{ #category : #'as yet unclassified' }
 IngSoft2Game >> positionOf: aPlayerName [ 
 	^((playerStatuses detect: [:aStatus | (aStatus player) name == aPlayerName]) position)
 ]
@@ -151,6 +164,15 @@ IngSoft2Game >> positionOf: aPlayerName [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> positionsTravelledBy: oneStatus [
 	^ (oneStatus position) + ((oneStatus lap) * (board positions))
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> thePlayer: aPlayerStatus has: aString [ 
+	((aPlayerStatus hand) cards collect: [ :card | card type == aString ]) size > 0
+	ifTrue: [ ^true ].
+	^false.
+	
+	
 ]
 
 { #category : #'as yet unclassified' }

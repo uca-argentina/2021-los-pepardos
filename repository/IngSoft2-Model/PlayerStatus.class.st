@@ -50,6 +50,11 @@ PlayerStatus >> position [
 ]
 
 { #category : #'as yet unclassified' }
+PlayerStatus >> removeCardOf: aCardType [
+	hand removeCardOf: aCardType.
+]
+
+{ #category : #'as yet unclassified' }
 PlayerStatus >> updateBasicPositionTo: newPosition andLapsTo: newLap [ 
 	position := newPosition.
 	lap := newLap.

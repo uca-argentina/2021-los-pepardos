@@ -38,3 +38,13 @@ Hand >> pickNewRandomCard [
 	^ ({ OverloadCard new . SpeedCard new . AccelerationCard new . CancellationCard new . RedoCard new . RepeatCard new } atRandom)
 	
 ]
+
+{ #category : #'as yet unclassified' }
+Hand >> removeCardOf: aCardType [ 
+
+	| cardToDelete |
+	cardToDelete := (cards detect: [:card | (card type) = aCardType]).
+	cards remove: cardToDelete.
+
+
+]
