@@ -24,10 +24,20 @@ Board >> changeInMovementCausedByPosition: aPosition [
 ]
 
 { #category : #'as yet unclassified' }
+Board >> compliantBoardPosOf: aPos [
+	aPos = 0
+		ifTrue:[	^positions ].
+	aPos < 0
+		ifTrue: [ ^(aPos + positions +1) ].
+	^aPos
+]
+
+{ #category : #'as yet unclassified' }
 Board >> currentPosition: currPos whoRolled: diceNumber [
 
 	|endPosNoEffects|
 	endPosNoEffects := currPos + diceNumber.
+	endPosNoEffects := self compliantBoardPosOf: endPosNoEffects.
 	endPosNoEffects > positions 
 	ifTrue: [ endPosNoEffects := endPosNoEffects - positions ].
 	
@@ -59,6 +69,7 @@ Board >> obtainNewLapCountKnowingPlayerHas: aCurrentAmountOfLaps andRolled: numb
 
 	|endPosNoEffects|
 	endPosNoEffects := currentPlayerPosition + numberRolled.
+	endPosNoEffects := self compliantBoardPosOf: endPosNoEffects.
 	endPosNoEffects > positions 
 	ifTrue: [ endPosNoEffects := endPosNoEffects - positions ].
 	

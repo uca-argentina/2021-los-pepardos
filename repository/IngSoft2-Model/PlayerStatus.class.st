@@ -33,6 +33,11 @@ PlayerStatus >> activeEffectsAdd: aCard [
 ]
 
 { #category : #'as yet unclassified' }
+PlayerStatus >> correctLapBy: aNumber [
+	lap := lap + aNumber
+]
+
+{ #category : #'as yet unclassified' }
 PlayerStatus >> correctPositionBy: aCorrection [
 	position := position - aCorrection.
 ]

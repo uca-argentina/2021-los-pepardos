@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+OverloadCard >> applyCardEffectTo: aPlayerStatus [ 
+	aPlayerStatus modifyActiveBoostBy: -2
+]
+
+{ #category : #'as yet unclassified' }
 OverloadCard >> type [
 	type := 'Overload'.
 	^type.

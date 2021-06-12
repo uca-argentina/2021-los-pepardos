@@ -73,7 +73,7 @@ IngSoft2Game >> correctedPositionOf: aPos [
 	aPos = 0
 		ifTrue:[	^(board positions) ].
 	aPos < 0
-		ifTrue: [ ^(aPos + board positions) ].
+		ifTrue: [ ^(aPos + board positions +1) ].
 	^aPos
 ]
 
@@ -139,21 +139,25 @@ IngSoft2Game >> playGame [
 	self winner ifNil: [ self playGame ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 
-	| diceRollResult  newBoardPos newBoardPosNumber |
-	
-	diceRollResult := (playerStatus player rollDice: dices) + (playerStatus activeBoost).
+	| diceRollResult newBoardPos newBoardPosNumber |
+
+	diceRollResult := (playerStatus player rollDice: dices) + playerStatus activeBoost.
 	newBoardPosNumber := diceRollResult + playerStatus position.
+	
+	newBoardPosNumber <= 0
+	ifTrue: [ playerStatus correctLapBy: -1 ].
+	
+	newBoardPosNumber := newBoardPosNumber > board positions
+		ifTrue: [ newBoardPosNumber - board positions ]
+		ifFalse: [ self correctedPositionOf: newBoardPosNumber ].
 
-	newBoardPosNumber > board positions
-		ifTrue: [ newBoardPosNumber := newBoardPosNumber - board positions ].
+	newBoardPos := (board boardPositionsStatuses at: newBoardPosNumber)	positionEffect.
+	newBoardPos applyEffectTo: playerStatus afterLandingOn: newBoardPos withARollOf: diceRollResult 	onGame: self.
 
-	newBoardPos := ((board boardPositionsStatuses at: newBoardPosNumber) positionEffect).	
-	newBoardPos applyEffectTo: playerStatus afterLandingOn: newBoardPos withARollOf: diceRollResult onGame: self. 
-
-	self ensureBoardPositionsCompliantWithBoard.
+	self ensureBoardPositionsCompliantWithBoard
 ]
 
 { #category : #'as yet unclassified' }
