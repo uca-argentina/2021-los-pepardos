@@ -238,3 +238,32 @@ CardTests >> test009ElDiegoUsesAnOverloadCardAtElPeleTwiceAndTheFinalPositionOfE
 
 
 ]
+
+{ #category : #tests }
+CardTests >> test010ElDiegoUsesAnAccelerationCardAndIncreasesEveryonesPositonBy1 [
+    "QUE GRANDE EL DIEGO, es su test, el del 10"
+   | gameBoard game elDiego elPele elMessi diceOne dices players lapsToWin|
+
+    elDiego := 'El Diego'.
+    elPele := 'El Pele'.
+    elMessi := 'El Messi'.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: AccelerationCard new . LoadedCardDealerPosition handing: OverloadCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+
+    dices := { diceOne }.
+    players := { elDiego . elPele . elMessi }.
+    lapsToWin := 1.
+
+    game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+
+    game playTurn.
+    game make: elDiego useCard: 'Acceleration' on: elDiego.
+    game playTurn.
+
+    self assert: (game positionOf: elDiego) equals: 4.
+    self assert: (game positionOf: elPele) equals: 4.
+    self assert: (game positionOf: elMessi) equals: 4.
+
+
+
+]

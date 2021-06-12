@@ -41,7 +41,7 @@ IngSoft2Game >> applyBasicEffectTo: aPlayerStatus withARollOf: diceRollResult [
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> applyBoostTo: aPlayerStatus afterUsing: aCard [ 
-	aCard applyCardEffectTo: aPlayerStatus.
+	aCard applyCardEffectTo: aPlayerStatus on: self.
 ]
 
 { #category : #'as yet unclassified' }
@@ -57,6 +57,12 @@ IngSoft2Game >> applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPo
 IngSoft2Game >> applyNukeEffectTo: aPlayerStatus [
 
 	playerStatuses := playerStatuses collect: [ :eachPlayerStatus | eachPlayerStatus updatePositionTo: 1 ]
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> boostEveryPlayerBy: aNumber [
+	playerStatuses do: [ :each | each modifyActiveBoostBy: aNumber ].
+	
 ]
 
 { #category : #'as yet unclassified' }

@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+AccelerationCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
+	aGame boostEveryPlayerBy: 1
+]
+
+{ #category : #'as yet unclassified' }
 AccelerationCard >> type [
 	type := 'Acceleration'.
 	^type.
