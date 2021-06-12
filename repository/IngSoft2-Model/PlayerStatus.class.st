@@ -79,6 +79,16 @@ PlayerStatus >> position [
 ]
 
 { #category : #'as yet unclassified' }
+PlayerStatus >> removeActiveEffectOf: aCardType [ 
+
+	| effectToDelete |
+	effectToDelete := (activeEffects detect: [:card | (card type) = aCardType]).
+	activeEffects remove: effectToDelete.
+	^effectToDelete
+
+]
+
+{ #category : #'as yet unclassified' }
 PlayerStatus >> removeCardOf: aCardType [
 	^(hand removeCardOf: aCardType)
 ]

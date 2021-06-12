@@ -9,7 +9,12 @@ Class {
 
 { #category : #'as yet unclassified' }
 AccelerationCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
-	aGame boostEveryPlayerBy: 1
+	aGame boostEveryPlayerBy: (self boostApplied)
+]
+
+{ #category : #'as yet unclassified' }
+AccelerationCard >> boostApplied [
+	^1
 ]
 
 { #category : #'as yet unclassified' }

@@ -9,7 +9,12 @@ Class {
 
 { #category : #'as yet unclassified' }
 SpeedCard >> applyCardEffectTo: aPlayerStatus on: anIngSoft2Game [ 
-	aPlayerStatus modifyActiveBoostBy: 1
+	aPlayerStatus modifyActiveBoostBy: (self boostApplied)
+]
+
+{ #category : #'as yet unclassified' }
+SpeedCard >> boostApplied [
+	^1
 ]
 
 { #category : #'as yet unclassified' }

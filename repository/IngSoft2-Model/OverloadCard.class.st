@@ -9,7 +9,12 @@ Class {
 
 { #category : #'as yet unclassified' }
 OverloadCard >> applyCardEffectTo: aPlayerStatus on: anIngSoft2Game [ 
-	aPlayerStatus modifyActiveBoostBy: -2
+	aPlayerStatus modifyActiveBoostBy: (self boostApplied)
+]
+
+{ #category : #'as yet unclassified' }
+OverloadCard >> boostApplied [
+	^-2
 ]
 
 { #category : #'as yet unclassified' }

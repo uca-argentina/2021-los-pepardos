@@ -130,6 +130,27 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
 ]
 
 { #category : #'as yet unclassified' }
+IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName toRemove: removedCardType [
+	
+	| playerStatusOfCardUser playerStatusOfCardTarget  effectRemoved |
+
+	playerStatusOfCardUser := self playerStatusOf: aPlayerName.
+	playerStatusOfCardTarget := self playerStatusOf: cardPlayerTargetName.
+	
+	(self thePlayer: playerStatusOfCardUser has: aCardType)
+		ifFalse: [ ^ self ].
+		
+	playerStatusOfCardUser removeCardOf: aCardType.
+	effectRemoved := playerStatusOfCardTarget removeActiveEffectOf: removedCardType.
+	
+	removedCardType = 'Acceleration'
+		ifTrue: [ self boostEveryPlayerBy: -1 ]
+		ifFalse: [ playerStatusOfCardTarget modifyActiveBoostBy: (effectRemoved boostApplied) ].
+
+	
+]
+
+{ #category : #'as yet unclassified' }
 IngSoft2Game >> newLapsAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
 	^ board obtainNewLapCountKnowingPlayerHas: (onePlayerStatus lap) andRolled: (aDiceRollResult) andIsInPosition: (onePlayerStatus position)
 ]

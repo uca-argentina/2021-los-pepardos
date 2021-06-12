@@ -267,3 +267,37 @@ CardTests >> test010ElDiegoUsesAnAccelerationCardAndIncreasesEveryonesPositonBy1
 
 
 ]
+
+{ #category : #tests }
+CardTests >> test011ElDiegoUsesACancellationCardOnElPeleAndRemovesHisSpeedCard [
+
+   | gameBoard game elDiego elPele diceOne dices players lapsToWin|
+
+    elDiego := 'El Diego'.
+    elPele := 'El Pele'.
+
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { LoadedCardDealerPosition handing: CancellationCard new . LoadedCardDealerPosition handing: OverloadCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+
+    dices := { diceOne }.
+    players := { elDiego . elPele }.
+    lapsToWin := 1.
+
+    game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+
+    game playTurn.
+    game make: elDiego useCard: 'Overload' on: elPele.
+
+	 self assert: (game activeEffectsOf: elPele) equals: (OrderedCollection withAll: #('Overload')).
+
+    game playTurn.
+	 game make: elPele useCard: 'Cancellation' on: elPele toRemove: 'Overload'.
+
+    self assert: (game positionOf: elDiego) equals: 3.
+    self assert: (game positionOf: elPele) equals: 1.
+	 self assert: (game activeEffectsOf: elPele) isEmpty.
+
+
+
+
+]
