@@ -409,3 +409,31 @@ CardTests >> test015ElDiegoUsesARedoCardAfterARedoCardWasPlayedAndHas3SpeedActiv
 	game playTurn.
 	self assert: (game positionOf: elDiego) equals: 5.
 ]
+
+{ #category : #tests }
+CardTests >> test016ElDiegoUsesARedoCardAfterAAccelerationCardWasPlayedAfterAOverloardCardWasPlayedAndHisBoostIs0 [
+
+   | gameBoard game elDiego diceOne dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+   diceOne := LoadedDice rolling: 3.
+   gameBoard := Board with: { NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . LoadedCardDealerPosition handing: OverloadCard new . LoadedCardDealerPosition handing: SpeedCard new . NonEffectPosition new . LoadedCardDealerPosition handing: RedoCard new }.
+	
+	dices := { diceOne }.
+	players := { elDiego }.
+	lapsToWin := 1.
+	
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	
+	game playTurn.
+	game make: elDiego useCard: 'Overload' on: elDiego.
+	game playTurn.
+	game make: elDiego useCard: 'Speed' on: elDiego.
+	game playTurn.
+	game make: elDiego useCard: 'Redo' on: elDiego.
+	
+	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Overload' 'Speed' 'Speed')).
+	
+	game playTurn.
+	self assert: (game positionOf: elDiego) equals: 3.
+]
