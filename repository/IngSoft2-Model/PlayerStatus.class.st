@@ -7,7 +7,8 @@ Class {
 		'lap',
 		'hand',
 		'activeEffects',
-		'activeBoost'
+		'activeBoost',
+		'cardHistory'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -55,12 +56,18 @@ PlayerStatus >> initializeOf: aPlayer with: aPosition at: aLap [
 	hand := Hand withRandomCards: 2.
 	activeEffects := OrderedCollection new.
 	activeBoost := 0.
+	cardHistory := OrderedCollection new.
 	
 ]
 
 { #category : #'as yet unclassified' }
 PlayerStatus >> lap [
 	^ lap
+]
+
+{ #category : #'as yet unclassified' }
+PlayerStatus >> lastCardPlayed [
+	^ cardHistory last
 ]
 
 { #category : #'as yet unclassified' }
@@ -91,6 +98,11 @@ PlayerStatus >> removeActiveEffectOf: aCardType [
 { #category : #'as yet unclassified' }
 PlayerStatus >> removeCardOf: aCardType [
 	^(hand removeCardOf: aCardType)
+]
+
+{ #category : #'as yet unclassified' }
+PlayerStatus >> setLastCardPlayed: aCard [ 
+	cardHistory add: aCard
 ]
 
 { #category : #'as yet unclassified' }

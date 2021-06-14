@@ -18,6 +18,11 @@ SpeedCard >> boostApplied [
 ]
 
 { #category : #'as yet unclassified' }
+SpeedCard >> isPermanent [
+	^true
+]
+
+{ #category : #'as yet unclassified' }
 SpeedCard >> type [
 	type := 'Speed'.
 	^type.

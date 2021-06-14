@@ -18,6 +18,11 @@ OverloadCard >> boostApplied [
 ]
 
 { #category : #'as yet unclassified' }
+OverloadCard >> isPermanent [
+	^true
+]
+
+{ #category : #'as yet unclassified' }
 OverloadCard >> type [
 	type := 'Overload'.
 	^type.

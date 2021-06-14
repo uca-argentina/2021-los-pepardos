@@ -8,7 +8,8 @@ Class {
 		'winner',
 		'lapsNeededToCompleteToWin',
 		'leaderboard',
-		'playerStatuses'
+		'playerStatuses',
+		'lastCardPlayed'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -26,6 +27,12 @@ IngSoft2Game >> activeEffectsOf: aPlayerName [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> add: aCard toActiveEffectOf: aPlayerStatus [  
 	aPlayerStatus activeEffectsAdd: aCard.
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> addThe: aCard toHistoryOf: aPlayerStatus [ 
+	lastCardPlayed := aCard.
+	aPlayerStatus setLastCardPlayed: aCard.
 ]
 
 { #category : #'as yet unclassified' }
@@ -110,6 +117,20 @@ IngSoft2Game >> lapsCompletedBy: aPlayer [
 ]
 
 { #category : #'as yet unclassified' }
+IngSoft2Game >> lastCardPlayed [
+	^ lastCardPlayed
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> lastCardPlayedBy: aPlayerName [
+
+	| cardPlayerStatus |
+	
+	cardPlayerStatus := self playerStatusOf: aPlayerName.
+	^ cardPlayerStatus lastCardPlayed.
+]
+
+{ #category : #'as yet unclassified' }
 IngSoft2Game >> leaderboard [
 	^(leaderboard collect: [:eachPlayer | eachPlayer name])
 	
@@ -124,15 +145,20 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
 	
 	(self thePlayer: playerStatusOfCardUser has: aCardType)
 		ifFalse: [ ^ self ].
+		
 	cardRemoved := playerStatusOfCardUser removeCardOf: aCardType.
-	self add: cardRemoved toActiveEffectOf: playerStatusOfCardTarget.
+	
+	cardRemoved isPermanent
+	ifTrue: [ 	self add: cardRemoved toActiveEffectOf: playerStatusOfCardTarget].
+				
 	self applyBoostTo: playerStatusOfCardTarget afterUsing: cardRemoved.
+	self addThe: cardRemoved toHistoryOf: playerStatusOfCardUser.
 ]
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName toRemove: removedCardType [
 	
-	| playerStatusOfCardUser playerStatusOfCardTarget  effectRemoved |
+	| playerStatusOfCardUser playerStatusOfCardTarget  effectRemoved cardRemoved |
 
 	playerStatusOfCardUser := self playerStatusOf: aPlayerName.
 	playerStatusOfCardTarget := self playerStatusOf: cardPlayerTargetName.
@@ -140,12 +166,14 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName to
 	(self thePlayer: playerStatusOfCardUser has: aCardType)
 		ifFalse: [ ^ self ].
 		
-	playerStatusOfCardUser removeCardOf: aCardType.
+	cardRemoved := playerStatusOfCardUser removeCardOf: aCardType.
 	effectRemoved := playerStatusOfCardTarget removeActiveEffectOf: removedCardType.
 	
 	removedCardType = 'Acceleration'
 		ifTrue: [ self boostEveryPlayerBy: -1 ]
-		ifFalse: [ playerStatusOfCardTarget modifyActiveBoostBy: (effectRemoved boostApplied) ].
+		ifFalse: [ playerStatusOfCardTarget modifyActiveBoostBy: (effectRemoved boostApplied negated) ].
+	
+	self addThe: cardRemoved toHistoryOf: playerStatusOfCardUser.
 
 	
 ]
@@ -158,6 +186,16 @@ IngSoft2Game >> newLapsAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> newPositionAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
 	^ board currentPosition: (onePlayerStatus position)	whoRolled: aDiceRollResult
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> play: aCard on: aPlayerStatus [ 
+
+	aCard isPermanent
+		ifTrue: [ self add: aCard toActiveEffectOf: aPlayerStatus].
+				
+	self applyBoostTo: aPlayerStatus afterUsing: aCard.
+
 ]
 
 { #category : #accessing }

@@ -18,6 +18,11 @@ AccelerationCard >> boostApplied [
 ]
 
 { #category : #'as yet unclassified' }
+AccelerationCard >> isPermanent [
+	^true
+]
+
+{ #category : #'as yet unclassified' }
 AccelerationCard >> type [
 	type := 'Acceleration'.
 	^type.
