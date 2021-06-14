@@ -141,10 +141,3 @@ SinglePlayerTests >> test006ElDiegoPlaysAGameAndIsOnLap3WhenGameIsDone [
 
 	
 ]
-
-{ #category : #tests }
-SinglePlayerTests >> test007DiceCannotHaveLessThan3Sides [
-
-   self should: [Dice withSides: 2] raise: Error whoseDescriptionIncludes: 'Sides must be >= 3' description: 'Banana'.
-																								"sides > 3"           "lo usa pharo cuando falla el test"
-]

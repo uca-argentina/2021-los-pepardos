@@ -14,9 +14,23 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #'as yet unclassified' }
+IngSoft2Game class >> assertValidLaps: laps [ 
+	laps > 0
+		ifFalse: [ Error signal: 'Game must have more than one lap' ]
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game class >> assertValidPlayers: players [
+	players size >= 1
+		ifFalse: [ Error signal: 'Game must have at least one player' ]
+]
+
 { #category : #'instance creation' }
 IngSoft2Game class >> beingPlayedBy: players with: dices on: aBoard wherePlayersNeedToComplete: anAmountOfLaps [
-	^self new initializeWith: players andWith: dices andWith: aBoard wherePlayersNeedToComplete: anAmountOfLaps.
+	self assertValidPlayers: players.
+	self assertValidLaps: anAmountOfLaps.
+		^self new initializeWith: players andWith: dices andWith: aBoard wherePlayersNeedToComplete: anAmountOfLaps.
 ]
 
 { #category : #'as yet unclassified' }
