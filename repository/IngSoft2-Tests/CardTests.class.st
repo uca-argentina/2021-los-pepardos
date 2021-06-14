@@ -437,3 +437,33 @@ CardTests >> test016ElDiegoUsesARedoCardAfterAAccelerationCardWasPlayedAfterAOve
 	game playTurn.
 	self assert: (game positionOf: elDiego) equals: 3.
 ]
+
+{ #category : #tests }
+CardTests >> test017ElDiegoUsesARedoCardAndPlaysACancellationAgain [
+
+   | gameBoard game elDiego diceOne dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { LoadedCardDealerPosition handing: RedoCard new . LoadedCardDealerPosition handing: SpeedCard new . NonEffectPosition new . LoadedCardDealerPosition handing: SpeedCard new . NonEffectPosition new . NonEffectPosition new . LoadedCardDealerPosition handing: CancellationCard new . NonEffectPosition new }.
+	
+	dices := { diceOne }.
+	players := { elDiego }.
+	lapsToWin := 1.
+	
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	
+	game playTurn.
+	game make: elDiego useCard: 'Speed' on: elDiego.
+	game playTurn.
+	game make: elDiego useCard: 'Speed' on: elDiego.
+	game playTurn.
+	game make: elDiego useCard: 'Cancellation' on: elDiego toRemove: 'Speed'.
+	game playTurn.
+	game make: elDiego useCard: 'Redo' on: elDiego toRemove: 'Speed'.
+	
+	self assert: (game activeEffectsOf: elDiego) isEmpty.
+	
+	game playTurn.
+	self assert: (game positionOf: elDiego) equals: 2.
+]
