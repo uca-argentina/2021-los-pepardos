@@ -2,14 +2,20 @@ Class {
 	#name : #RedoCard,
 	#superclass : #Object,
 	#instVars : [
-		'type'
+		'type',
+		'cardPreviouslyPlayed'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'as yet unclassified' }
 RedoCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
-	aGame play: (aPlayerStatus lastCardPlayed) on: aPlayerStatus
+
+	|reversedCardHistory lastPermanentCardPlayed |
+	reversedCardHistory := aPlayerStatus cardHistory reverse.
+	cardPreviouslyPlayed := aPlayerStatus hand cards last.
+	lastPermanentCardPlayed := reversedCardHistory detect: [ :card | card isPermanent ].
+	aGame play: lastPermanentCardPlayed on: aPlayerStatus.
 ]
 
 { #category : #'as yet unclassified' }

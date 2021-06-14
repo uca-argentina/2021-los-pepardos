@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+RepeatCard >> isPermanent [
+	^false
+]
+
+{ #category : #'as yet unclassified' }
 RepeatCard >> type [
 	type := 'Repeat'.
 	^type.

@@ -126,8 +126,8 @@ IngSoft2Game >> lastCardPlayedBy: aPlayerName [
 
 	| cardPlayerStatus |
 	
-	cardPlayerStatus := self playerStatusOf: aPlayerName.
-	^ cardPlayerStatus lastCardPlayed.
+	cardPlayerStatus := self playerStatusOf: aPlayerName. 
+	^ (cardPlayerStatus cardHistory last).
 ]
 
 { #category : #'as yet unclassified' }

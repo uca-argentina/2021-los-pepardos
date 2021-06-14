@@ -34,6 +34,11 @@ PlayerStatus >> activeEffectsAdd: aCard [
 ]
 
 { #category : #'as yet unclassified' }
+PlayerStatus >> cardHistory [
+	^ cardHistory
+]
+
+{ #category : #'as yet unclassified' }
 PlayerStatus >> correctLapBy: aNumber [
 	lap := lap + aNumber
 ]
@@ -67,7 +72,11 @@ PlayerStatus >> lap [
 
 { #category : #'as yet unclassified' }
 PlayerStatus >> lastCardPlayed [
-	^ cardHistory last
+
+	| lastCardPlayed |
+	lastCardPlayed := hand cards reverse.
+	lastCardPlayed := lastCardPlayed detect: [ :card | card isPermanent ].
+	^ lastCardPlayed
 ]
 
 { #category : #'as yet unclassified' }

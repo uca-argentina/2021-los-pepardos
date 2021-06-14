@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+CancellationCard >> isPermanent [
+	^false
+]
+
+{ #category : #'as yet unclassified' }
 CancellationCard >> type [
 	type := 'Cancellation'.
 	^type
