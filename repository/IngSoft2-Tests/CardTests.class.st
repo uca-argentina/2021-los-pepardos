@@ -467,3 +467,32 @@ CardTests >> test017ElDiegoUsesARedoCardAndPlaysACancellationAgain [
 	game playTurn.
 	self assert: (game positionOf: elDiego) equals: 2.
 ]
+
+{ #category : #tests }
+CardTests >> test018ElDiegoUsesASpeedCardAndElPeleUsesARepeatCardAndBothHaveSpeedBoostsApplied [
+
+   | gameBoard game elDiego elPele diceOne dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+	elPele := 'El Pele'.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: SpeedCard new . LoadedCardDealerPosition handing: RepeatCard new . NonEffectPosition new . NonEffectPosition new . LoadedCardDealerPosition handing: CancellationCard new . NonEffectPosition new }.
+	
+	dices := { diceOne }.
+	players := { elDiego . elPele }.
+	lapsToWin := 1.
+	
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	
+	game playTurn.
+	game make: elDiego useCard: 'Speed' on: elDiego.
+	game playTurn.
+	game make: elPele useCard: 'Repeat' on: elPele.
+	
+	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Speed')).
+	self assert: (game activeEffectsOf: elPele) equals: (OrderedCollection withAll: #('Speed')).
+	
+	game playTurn.
+	self assert: (game positionOf: elDiego) equals: 6.
+	self assert: (game positionOf: elPele) equals: 5.
+]

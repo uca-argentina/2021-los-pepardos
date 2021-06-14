@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+RepeatCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
+	aGame play: (aGame lastCardPlayed) on: aPlayerStatus.
+]
+
+{ #category : #'as yet unclassified' }
 RepeatCard >> isPermanent [
 	^false
 ]
