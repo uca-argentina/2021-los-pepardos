@@ -26,7 +26,7 @@ ObjectCreation >> test002GameMustHaveMoreThan0Players [
 ]
 
 { #category : #tests }
-ObjectCreation >> test002GameMustHaveMoreThan1LapToComplete [
+ObjectCreation >> test003GameMustHaveMoreThan1LapToComplete [
 
    self should: [ IngSoft2Game beingPlayedBy: {'El Diego'} 
 										with: (Dice withSides: 3) 
@@ -34,6 +34,16 @@ ObjectCreation >> test002GameMustHaveMoreThan1LapToComplete [
 										wherePlayersNeedToComplete: -2 ] 
 									
 		raise: Error whoseDescriptionIncludes: 'Game must have more than one lap' description: 'Laps must be >= than 1'.
+
+
+	
+]
+
+{ #category : #tests }
+ObjectCreation >> test004BoardMustHaveMoreThanTwoPositions [
+
+   self should: [ Board with: {NonEffectPosition new} ] 
+        raise: Error whoseDescriptionIncludes: 'Board has less than 2 positions' description: 'Board must have more than one position'.
 
 
 	

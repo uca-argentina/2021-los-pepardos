@@ -9,8 +9,15 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+Board class >> assertValidAmountOfPositions: effects [.
+	effects size >= 2
+		ifFalse: [ Error signal: 'Board has less than 2 positions' ]
+]
+
+{ #category : #'as yet unclassified' }
 Board class >> with: effects [
-	^self new initializeWithEffects: effects.
+	self assertValidAmountOfPositions: effects.
+		^self new initializeWithEffects: effects.
 ]
 
 { #category : #'as yet unclassified' }
