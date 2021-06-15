@@ -68,3 +68,23 @@ ObjectCreation >> test006AHandBeCreatedWithMoreOrEqualsThan1Card [
 
 	
 ]
+
+{ #category : #tests }
+ObjectCreation >> test007APlayerCannotPlayTheGameAfterItHasFinished [
+		
+	| gameBoard game elDiego diceOne dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+	
+	dices := { diceOne }.
+	players := { elDiego}.
+	lapsToWin := 1.
+	
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	
+	game playGame.
+	self should: [ game playTurn ]
+   		raise: Error whoseDescriptionIncludes: 'The game has already finished' description: 'Sent playTurn after the game finished'.
+]

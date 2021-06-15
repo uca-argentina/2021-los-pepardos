@@ -260,6 +260,9 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playTurn [
 	
+	self hasFinished
+		ifTrue: [self raiseExceptionThatTheGameCannotLongerBePlayed].
+		
 	playerStatuses do: [:playerStatus | self playIndividualTurnOfPlayer: playerStatus].
 	
 	leaderboard := playerStatuses  asSortedCollection: [ :oneStatus :anotherStatus  | (self positionsTravelledBy: oneStatus) >= (self positionsTravelledBy: anotherStatus) ].
@@ -286,6 +289,11 @@ IngSoft2Game >> positionOf: aPlayerName [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> positionsTravelledBy: oneStatus [
 	^ (oneStatus position) + ((oneStatus lap) * (board positions))
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> raiseExceptionThatTheGameCannotLongerBePlayed [
+	Error signal: 'The game has already finished'.
 ]
 
 { #category : #'as yet unclassified' }
