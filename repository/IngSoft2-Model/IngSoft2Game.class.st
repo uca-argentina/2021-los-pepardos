@@ -82,6 +82,12 @@ IngSoft2Game >> applyNukeEffectTo: aPlayerStatus [
 ]
 
 { #category : #'as yet unclassified' }
+IngSoft2Game >> assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser [
+	(playerStatuses at: currentTurn) = playerStatusOfCardUser 
+	ifFalse: [ Error signal: 'Permanent cards can only be used during the players turn' ]
+]
+
+{ #category : #'as yet unclassified' }
 IngSoft2Game >> boostEveryPlayerBy: aNumber [
 	playerStatuses do: [ :each | each modifyActiveBoostBy: aNumber ].
 	
@@ -123,7 +129,7 @@ IngSoft2Game >> initializeWith: playingPlayers andWith: gameDices andWith: aBoar
 	board := aBoard.	
 	lapsNeededToCompleteToWin := anAmountOfLaps.
 	playerStatuses := players collect: [:player|  PlayerStatus of: player with: 1 at: 0 ].
-	currentTurn := self playerStatusOf: (players first name).
+	currentTurn := 1.
 
 ]
 
@@ -156,8 +162,12 @@ IngSoft2Game >> leaderboard [
 IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
 
 	| playerStatusOfCardUser playerStatusOfCardTarget cardRemoved |
+		
 	playerStatusOfCardUser := self playerStatusOf: aPlayerName.
 	playerStatusOfCardTarget := self playerStatusOf: cardPlayerTargetName.
+	
+	(playerStatusOfCardUser hand cards detect: [:card | (card type) = aCardType]) isPermanent
+	ifTrue: [self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser].
 	
 	(self thePlayer: playerStatusOfCardUser has: aCardType)
 		ifFalse: [ ^ self ].
@@ -178,6 +188,9 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName to
 
 	playerStatusOfCardUser := self playerStatusOf: aPlayerName.
 	playerStatusOfCardTarget := self playerStatusOf: cardPlayerTargetName.
+	
+	(playerStatusOfCardUser hand cards detect: [:card | (card type) = aCardType]) isPermanent
+		ifTrue: [self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser].
 	
 	(self thePlayer: playerStatusOfCardUser has: aCardType)
 		ifFalse: [ ^ self ].
@@ -225,9 +238,6 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 
 	| diceRollResult newBoardPos newBoardPosNumber |
 
-	self hasFinished
-	ifFalse: [self setCurrentPlayer: playerStatus].
-
 	diceRollResult := (playerStatus player rollDice: dices) + playerStatus activeBoost.
 	newBoardPosNumber := diceRollResult + playerStatus position.
 	
@@ -239,21 +249,29 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 		ifFalse: [ self correctedPositionOf: newBoardPosNumber ].
 
 	newBoardPos := (board boardPositionsStatuses at: newBoardPosNumber)	positionEffect.
-	newBoardPos applyEffectTo: playerStatus afterLandingOn: newBoardPos withARollOf: diceRollResult 	onGame: self.
+	newBoardPos applyEffectTo: playerStatus afterLandingOn: newBoardPos withARollOf: diceRollResult onGame: self.
 
 	self ensureBoardPositionsCompliantWithBoard.
-
+	
+	currentTurn >= playerStatuses size 
+	ifTrue: [ currentTurn := 1 ]
+	ifFalse: [ currentTurn + 1 ].
 ]
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playTurn [
 	
 	playerStatuses do: [:playerStatus | self playIndividualTurnOfPlayer: playerStatus].
-		
+	
 	leaderboard := playerStatuses  asSortedCollection: [ :oneStatus :anotherStatus  | (self positionsTravelledBy: oneStatus) >= (self positionsTravelledBy: anotherStatus) ].
 	leaderboard := leaderboard	collect: [ :aPlayerStatus | aPlayerStatus player ].
 
 	self checkAndUpdateWinner
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> playerNumberOf: aPlayerStatus [ 
+	self shouldBeImplemented.
 ]
 
 { #category : #'as yet unclassified' }

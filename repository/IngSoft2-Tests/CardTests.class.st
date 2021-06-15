@@ -276,26 +276,27 @@ CardTests >> test011ElDiegoUsesACancellationCardOnElPeleAndRemovesHisSpeedCard [
     elDiego := 'El Diego'.
     elPele := 'El Pele'.
 
-   diceOne := LoadedDice rolling: 1.
+	diceOne := LoadedDice rolling: 1.
    gameBoard := Board with: { LoadedCardDealerPosition handing: CancellationCard new . LoadedCardDealerPosition handing: OverloadCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
 
-    dices := { diceOne }.
-    players := { elDiego . elPele }.
-    lapsToWin := 1.
+	dices := { diceOne }.
+   players := { elDiego . elPele }.
+   lapsToWin := 1.
 
-    game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+   game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-    game playTurn.
-    game make: elDiego useCard: 'Overload' on: elPele.
+   game playTurn.
+   game make: elDiego useCard: 'Overload' on: elPele.
 
-	 self assert: (game activeEffectsOf: elPele) equals: (OrderedCollection withAll: #('Overload')).
+	self assert: (game activeEffectsOf: elPele) equals: (OrderedCollection withAll: #('Overload')).
 
-    game playTurn.
-	 game make: elPele useCard: 'Cancellation' on: elPele toRemove: 'Overload'.
+	game playTurn.
+	game playIndividualTurnOfPlayer: (game playerStatusOf: elDiego).
+	game make: elPele useCard: 'Cancellation' on: elPele toRemove: 'Overload'.
 
-    self assert: (game positionOf: elDiego) equals: 3.
-    self assert: (game positionOf: elPele) equals: 1.
-	 self assert: (game activeEffectsOf: elPele) isEmpty.
+   self assert: (game positionOf: elDiego) equals: 4.
+   self assert: (game positionOf: elPele) equals: 1.
+	self assert: (game activeEffectsOf: elPele) isEmpty.
 
 
 
@@ -487,13 +488,14 @@ CardTests >> test018ElDiegoUsesASpeedCardAndElPeleUsesARepeatCardAndBothHaveSpee
 	game playTurn.
 	game make: elDiego useCard: 'Speed' on: elDiego.
 	game playTurn.
+	game playIndividualTurnOfPlayer: (game playerStatusOf: elDiego).
 	game make: elPele useCard: 'Repeat' on: elPele.
 	
 	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Speed')).
 	self assert: (game activeEffectsOf: elPele) equals: (OrderedCollection withAll: #('Speed')).
 	
 	game playTurn.
-	self assert: (game positionOf: elDiego) equals: 6.
+	self assert: (game positionOf: elDiego) equals: 1.
 	self assert: (game positionOf: elPele) equals: 5.
 ]
 
@@ -505,7 +507,7 @@ CardTests >> test019APlayerCanOnlyPlayAPermanentCardDuringItsTurn [
 	elDiego := 'El Diego'.
 	elPele := 'El Pele'.
    diceOne := LoadedDice rolling: 1.
-   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: SpeedCard new . LoadedCardDealerPosition handing: RepeatCard new . NonEffectPosition new . NonEffectPosition new . LoadedCardDealerPosition handing: CancellationCard new . NonEffectPosition new }.
+   gameBoard := Board with: { LoadedCardDealerPosition handing: RedoCard new . LoadedCardDealerPosition handing: SpeedCard new . NonEffectPosition new . LoadedCardDealerPosition handing: RedoCard new . NonEffectPosition new . NonEffectPosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego . elPele }.
@@ -514,14 +516,10 @@ CardTests >> test019APlayerCanOnlyPlayAPermanentCardDuringItsTurn [
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
 	game playTurn.
-	game make: elDiego useCard: 'Speed' on: elDiego.
-	game playTurn.
-	game make: elPele useCard: 'Repeat' on: elPele.
+	 self should: [ game make: elPele useCard: 'Speed' on: elPele ]
+        raise: Error whoseDescriptionIncludes: 'Permanent cards can only be used during the players turn' description: 'Unable to use permanent card'.
 	
-	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Speed')).
-	self assert: (game activeEffectsOf: elPele) equals: (OrderedCollection withAll: #('Speed')).
 	
-	game playTurn.
-	self assert: (game positionOf: elDiego) equals: 6.
-	self assert: (game positionOf: elPele) equals: 5.
+
+
 ]
