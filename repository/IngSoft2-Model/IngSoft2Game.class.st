@@ -9,7 +9,8 @@ Class {
 		'lapsNeededToCompleteToWin',
 		'leaderboard',
 		'playerStatuses',
-		'lastCardPlayed'
+		'lastCardPlayed',
+		'currentTurn'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -122,6 +123,7 @@ IngSoft2Game >> initializeWith: playingPlayers andWith: gameDices andWith: aBoar
 	board := aBoard.	
 	lapsNeededToCompleteToWin := anAmountOfLaps.
 	playerStatuses := players collect: [:player|  PlayerStatus of: player with: 1 at: 0 ].
+	currentTurn := self playerStatusOf: (players first name).
 
 ]
 
@@ -223,6 +225,9 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 
 	| diceRollResult newBoardPos newBoardPosNumber |
 
+	self hasFinished
+	ifFalse: [self setCurrentPlayer: playerStatus].
+
 	diceRollResult := (playerStatus player rollDice: dices) + playerStatus activeBoost.
 	newBoardPosNumber := diceRollResult + playerStatus position.
 	
@@ -236,7 +241,8 @@ IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 	newBoardPos := (board boardPositionsStatuses at: newBoardPosNumber)	positionEffect.
 	newBoardPos applyEffectTo: playerStatus afterLandingOn: newBoardPos withARollOf: diceRollResult 	onGame: self.
 
-	self ensureBoardPositionsCompliantWithBoard
+	self ensureBoardPositionsCompliantWithBoard.
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -263,6 +269,11 @@ IngSoft2Game >> positionOf: aPlayerName [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> positionsTravelledBy: oneStatus [
 	^ (oneStatus position) + ((oneStatus lap) * (board positions))
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> setCurrentPlayer: aPlayerStatus [ 
+	currentTurn := aPlayerStatus
 ]
 
 { #category : #'as yet unclassified' }
