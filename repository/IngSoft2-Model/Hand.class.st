@@ -8,8 +8,15 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-Hand class >> withRandomCards: anAmountOfRandomCards [
-	^self new initializeWithRandomCards: anAmountOfRandomCards.
+Hand class >> assertValidAmountOfCards: anAmountOfCards [
+	anAmountOfCards > 1
+		ifFalse: [ Error signal: 'Amount of cards must be > 0' ] 
+]
+
+{ #category : #'as yet unclassified' }
+Hand class >> withRandomCards: anAmountOfCards [
+	self assertValidAmountOfCards: anAmountOfCards.
+		^self new initializeWithRandomCards: anAmountOfCards.
 ]
 
 { #category : #'as yet unclassified' }

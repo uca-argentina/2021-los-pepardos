@@ -7,9 +7,16 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #asserting }
+MoonWalkPosition class >> assertValidN: anN [
+	anN > 0
+	ifFalse: [ Error signal: 'N in Moonwalk must be > 0' ].
+]
+
 { #category : #'as yet unclassified' }
 MoonWalkPosition class >> withN: anN [
-	^self new initializeWithN: anN.
+	self assertValidN: anN.
+		^self new initializeWithN: anN.
 ]
 
 { #category : #'as yet unclassified' }

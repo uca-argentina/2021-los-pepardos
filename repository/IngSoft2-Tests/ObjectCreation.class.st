@@ -48,3 +48,23 @@ ObjectCreation >> test004BoardMustHaveMoreThanTwoPositions [
 
 	
 ]
+
+{ #category : #tests }
+ObjectCreation >> test005MoonWalkNMustBeGreaterThan0 [
+
+   self should: [ MoonWalkPosition withN: 0 ] 
+        raise: Error whoseDescriptionIncludes: 'N in Moonwalk must be > 0' description: 'MoonWalkPosition N must be > 0'.
+
+
+	
+]
+
+{ #category : #tests }
+ObjectCreation >> test006AHandBeCreatedWithMoreOrEqualsThan1Card [
+
+   self should: [ Hand withRandomCards: 0 ]
+        raise: Error whoseDescriptionIncludes: 'Amount of cards must be > 0' description: 'A Hand must be initialized with more than 0 cards'.
+
+
+	
+]
