@@ -477,7 +477,7 @@ CardTests >> test018ElDiegoUsesASpeedCardAndElPeleUsesARepeatCardAndBothHaveSpee
 	elDiego := 'El Diego'.
 	elPele := 'El Pele'.
    diceOne := LoadedDice rolling: 1.
-   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: SpeedCard new . LoadedCardDealerPosition handing: RepeatCard new . NonEffectPosition new . NonEffectPosition new . LoadedCardDealerPosition handing: CancellationCard new . NonEffectPosition new }.
+   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: SpeedCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: RepeatCard new }.
 	
 	dices := { diceOne }.
 	players := { elDiego . elPele }.
@@ -495,7 +495,7 @@ CardTests >> test018ElDiegoUsesASpeedCardAndElPeleUsesARepeatCardAndBothHaveSpee
 	self assert: (game activeEffectsOf: elPele) equals: (OrderedCollection withAll: #('Speed')).
 	
 	game playTurn.
-	self assert: (game positionOf: elDiego) equals: 1.
+	self assert: (game positionOf: elDiego) equals: 8.
 	self assert: (game positionOf: elPele) equals: 5.
 ]
 

@@ -167,16 +167,15 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
 	playerStatusOfCardTarget := self playerStatusOf: cardPlayerTargetName.
 	
 	(playerStatusOfCardUser hand cards detect: [:card | (card type) = aCardType]) isPermanent
-	ifTrue: [self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser].
+		ifTrue: [self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser].
 	
 	(self thePlayer: playerStatusOfCardUser has: aCardType)
 		ifFalse: [ ^ self ].
 		
 	cardRemoved := playerStatusOfCardUser removeCardOf: aCardType.
-	
 	cardRemoved isPermanent
-	ifTrue: [ 	self add: cardRemoved toActiveEffectOf: playerStatusOfCardTarget].
-				
+	ifTrue: [ self add: cardRemoved toActiveEffectOf: playerStatusOfCardTarget].
+
 	self applyBoostTo: playerStatusOfCardTarget afterUsing: cardRemoved.
 	self addThe: cardRemoved toHistoryOf: playerStatusOfCardUser.
 ]
