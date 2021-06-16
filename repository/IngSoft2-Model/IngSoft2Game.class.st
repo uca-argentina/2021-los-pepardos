@@ -46,7 +46,8 @@ IngSoft2Game >> add: aCard toActiveEffectOf: aPlayerStatus [
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> addThe: aCard toHistoryOf: aPlayerStatus [ 
-	lastCardPlayed := aCard.
+	aCard isPermanent 
+		ifTrue: [lastCardPlayed := aCard].
 	aPlayerStatus setLastCardPlayed: aCard.
 ]
 
@@ -79,6 +80,16 @@ IngSoft2Game >> applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPo
 IngSoft2Game >> applyNukeEffectTo: aPlayerStatus [
 
 	playerStatuses := playerStatuses collect: [ :eachPlayerStatus | eachPlayerStatus updatePositionTo: 1 ]
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> assert: playerStatus hasA: aCard [
+
+	(((playerStatus hand) cards collect: [ :card | card type = aCard ]) includes: true)
+		ifFalse: [ Error signal: 'Player doesnt own that card' ].
+
+	
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -166,11 +177,10 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
 	playerStatusOfCardUser := self playerStatusOf: aPlayerName.
 	playerStatusOfCardTarget := self playerStatusOf: cardPlayerTargetName.
 	
+	self assert: playerStatusOfCardUser hasA: aCardType.
+
 	(playerStatusOfCardUser hand cards detect: [:card | (card type) = aCardType]) isPermanent
 		ifTrue: [self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser].
-	
-	(self thePlayer: playerStatusOfCardUser has: aCardType)
-		ifFalse: [ ^ self ].
 		
 	cardRemoved := playerStatusOfCardUser removeCardOf: aCardType.
 	cardRemoved isPermanent
@@ -191,8 +201,7 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName to
 	(playerStatusOfCardUser hand cards detect: [:card | (card type) = aCardType]) isPermanent
 		ifTrue: [self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser].
 	
-	(self thePlayer: playerStatusOfCardUser has: aCardType)
-		ifFalse: [ ^ self ].
+	self assert: playerStatusOfCardUser hasA: aCardType.
 		
 	cardRemoved := playerStatusOfCardUser removeCardOf: aCardType.
 	effectRemoved := playerStatusOfCardTarget removeActiveEffectOf: removedCardType.

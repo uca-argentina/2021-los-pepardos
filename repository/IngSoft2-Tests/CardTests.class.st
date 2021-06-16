@@ -393,7 +393,7 @@ CardTests >> test015ElDiegoUsesARedoCardAfterARedoCardWasPlayedAndHas3SpeedActiv
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	lapsToWin := 1.
+	lapsToWin := 2.
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
@@ -450,7 +450,7 @@ CardTests >> test017ElDiegoUsesARedoCardAndPlaysACancellationAgain [
 	
 	dices := { diceOne }.
 	players := { elDiego }.
-	lapsToWin := 1.
+	lapsToWin := 2.
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
@@ -522,4 +522,69 @@ CardTests >> test019APlayerCanOnlyPlayAPermanentCardDuringItsTurn [
 	
 
 
+]
+
+{ #category : #tests }
+CardTests >> test020ElDiegoUsesARepeatCardAndCopiesTheLastEffectApplied [
+
+   | gameBoard game elDiego diceOne dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: SpeedCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: RepeatCard new }.
+	
+	dices := { diceOne }.
+	players := { elDiego .}.
+	lapsToWin := 3.
+	
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	
+	game playTurn.
+	game make: elDiego useCard: 'Speed' on: elDiego.
+	game playTurn.
+	game make: elDiego useCard: 'Repeat' on: elDiego.
+	game playTurn.
+	game make: elDiego useCard: 'Repeat' on: elDiego.
+	
+	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Speed' 'Speed' 'Speed')).
+	
+	game playTurn.
+	self assert: (game positionOf: elDiego) equals: 3.
+]
+
+{ #category : #tests }
+CardTests >> test021OnlyEffectCardsAppearAsLastPlayedGameWise [
+
+   | gameBoard game elDiego diceOne dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: SpeedCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: RepeatCard new . LoadedCardDealerPosition handing: SpeedCard new . LoadedCardDealerPosition handing: SpeedCard new . LoadedCardDealerPosition handing: AccelerationCard new . LoadedCardDealerPosition handing: RepeatCard new }.
+	
+	dices := { diceOne }.
+	players := { elDiego .}.
+	lapsToWin := 3.
+	
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	
+	game playTurn.
+	game make: elDiego useCard: 'Speed' on: elDiego.
+	self assert: (game lastCardPlayed type) equals: 'Speed'.
+	
+	game playTurn.
+	game make: elDiego useCard: 'Repeat' on: elDiego.
+	self assert: (game lastCardPlayed type) equals: 'Speed'.
+	
+	game playTurn.
+	game make: elDiego useCard: 'Acceleration' on: elDiego.
+	self assert: (game lastCardPlayed type) equals: 'Acceleration'.
+
+	game playTurn.
+	game make: elDiego useCard: 'Repeat' on: elDiego.
+	self assert: (game lastCardPlayed type) equals: 'Acceleration'.
+	
+	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Speed' 'Speed' 'Acceleration' 'Acceleration')).
+	
+	game playTurn.
+	self assert: (game positionOf: elDiego) equals: 8.
 ]

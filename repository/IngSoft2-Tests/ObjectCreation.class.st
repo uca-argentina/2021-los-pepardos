@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 ObjectCreation >> test001DiceCannotHaveLessThan3Sides [
 
-   self should: [Dice withSides: 2] raise: Error whoseDescriptionIncludes: 'Sides must be >= 3' description: 'Banana'.
+   self should: [Dice withSides: 2] raise: Error whoseDescriptionIncludes: 'Sides must be >= 3' description: 'Dice must have > 3 sides'.
 																								"sides > 3"           "lo usa pharo cuando falla el test"
 ]
 
@@ -87,4 +87,24 @@ ObjectCreation >> test007APlayerCannotPlayTheGameAfterItHasFinished [
 	game playGame.
 	self should: [ game playTurn ]
    		raise: Error whoseDescriptionIncludes: 'The game has already finished' description: 'Sent playTurn after the game finished'.
+]
+
+{ #category : #tests }
+ObjectCreation >> test008APlayerCannotPlayACardThatHeDoesntHave [
+		
+	| gameBoard game elDiego diceOne dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+	
+	dices := { diceOne }.
+	players := { elDiego }.
+	lapsToWin := 1.
+	
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	
+	game playTurn.
+	self should: [ game make: elDiego useCard: 'Sunny' on: elDiego ]
+   		raise: Error whoseDescriptionIncludes: 'Player doesnt own that card' description: 'Player doesnt own this card'.
 ]
