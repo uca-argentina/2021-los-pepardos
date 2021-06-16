@@ -296,11 +296,6 @@ IngSoft2Game >> playTurn [
 ]
 
 { #category : #'as yet unclassified' }
-IngSoft2Game >> playerNumberOf: aPlayerStatus [ 
-	self shouldBeImplemented.
-]
-
-{ #category : #'as yet unclassified' }
 IngSoft2Game >> playerStatusOf: aPlayerName [
 	self assertGameIsBeingPlayedBy: aPlayerName.
 		^playerStatuses detect: [:aStatus | (aStatus player) name == aPlayerName]
@@ -324,15 +319,6 @@ IngSoft2Game >> raiseExceptionThatTheGameCannotLongerBePlayed [
 { #category : #'as yet unclassified' }
 IngSoft2Game >> setCurrentPlayer: aPlayerStatus [ 
 	currentTurn := aPlayerStatus
-]
-
-{ #category : #'as yet unclassified' }
-IngSoft2Game >> thePlayer: aPlayerStatus has: aString [ 
-	((aPlayerStatus hand) cards collect: [ :card | card type = aString ]) isEmpty
-	ifTrue: [ ^false ].
-	^true.
-	
-	
 ]
 
 { #category : #'as yet unclassified' }
