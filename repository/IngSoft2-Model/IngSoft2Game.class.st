@@ -92,6 +92,12 @@ IngSoft2Game >> assert: playerStatus hasA: aCard [
 ]
 
 { #category : #'as yet unclassified' }
+IngSoft2Game >> assert: playerName hasTheActiveEffectOf: aCard [
+	(((self playerStatusOf: playerName) activeEffects collect: [ :card | card type ]) includes: aCard)
+		ifFalse: [ Error signal: 'Player has no such active effect' ].
+]
+
+{ #category : #'as yet unclassified' }
 IngSoft2Game >> assertGameIsBeingPlayedBy: aPlayerName [
 	((playerStatuses collect: [:aStatus | (aStatus player) name == aPlayerName]) includes: true)
 		ifFalse: [ Error signal: 'Incorrect player' ].
@@ -201,6 +207,8 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
 IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName toRemove: removedCardType [
 	
 	| playerStatusOfCardUser playerStatusOfCardTarget  effectRemoved cardRemoved |
+
+	self assert: cardPlayerTargetName hasTheActiveEffectOf: removedCardType.
 
 	playerStatusOfCardUser := self playerStatusOf: aPlayerName.
 	playerStatusOfCardTarget := self playerStatusOf: cardPlayerTargetName.

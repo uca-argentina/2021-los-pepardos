@@ -286,7 +286,7 @@ CardTests >> test011ElDiegoUsesACancellationCardOnElPeleAndRemovesHisSpeedCard [
    game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
    game playTurn.
-   game make: elDiego useCard: 'Overload' on: elPele.
+	game make: elDiego useCard: 'Overload' on: elPele.
 
 	self assert: (game activeEffectsOf: elPele) equals: (OrderedCollection withAll: #('Overload')).
 

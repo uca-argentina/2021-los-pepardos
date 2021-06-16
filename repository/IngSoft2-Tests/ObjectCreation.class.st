@@ -116,7 +116,7 @@ ObjectCreation >> test009ACardCannotBeUsedOnAnIncorrectPlayer [
 	
 	elDiego := 'El Diego'.
    diceOne := LoadedDice rolling: 1.
-   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: SpeedCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: CancellationCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -125,6 +125,6 @@ ObjectCreation >> test009ACardCannotBeUsedOnAnIncorrectPlayer [
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
 	game playTurn.
-	self should: [ game make: elDiego useCard: 'Speed' on: 'El juanpi' ]
-   		raise: Error whoseDescriptionIncludes: 'Incorrect player' description: 'Incorrect player chosen'.
+	self should: [ game make: elDiego useCard: 'Cancellation' on: elDiego toRemove: 'Speed' ]
+   		raise: Error whoseDescriptionIncludes: 'Player has no such active effect' description: 'Player has no such active effect'.
 ]
