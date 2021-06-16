@@ -108,3 +108,23 @@ ObjectCreation >> test008APlayerCannotPlayACardThatHeDoesntHave [
 	self should: [ game make: elDiego useCard: 'Sunny' on: elDiego ]
    		raise: Error whoseDescriptionIncludes: 'Player doesnt own that card' description: 'Player doesnt own this card'.
 ]
+
+{ #category : #tests }
+ObjectCreation >> test009ACardCannotBeUsedOnAnIncorrectPlayer [
+		
+	| gameBoard game elDiego diceOne dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: SpeedCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+	
+	dices := { diceOne }.
+	players := { elDiego }.
+	lapsToWin := 1.
+	
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	
+	game playTurn.
+	self should: [ game make: elDiego useCard: 'Speed' on: 'El juanpi' ]
+   		raise: Error whoseDescriptionIncludes: 'Incorrect player' description: 'Incorrect player chosen'.
+]

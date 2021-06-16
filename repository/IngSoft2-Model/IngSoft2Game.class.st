@@ -84,12 +84,19 @@ IngSoft2Game >> applyNukeEffectTo: aPlayerStatus [
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> assert: playerStatus hasA: aCard [
-
 	(((playerStatus hand) cards collect: [ :card | card type = aCard ]) includes: true)
 		ifFalse: [ Error signal: 'Player doesnt own that card' ].
 
 	
 	
+]
+
+{ #category : #'as yet unclassified' }
+IngSoft2Game >> assertGameIsBeingPlayedBy: aPlayerName [
+	((playerStatuses collect: [:aStatus | (aStatus player) name == aPlayerName]) includes: true)
+		ifFalse: [ Error signal: 'Incorrect player' ].
+			
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -287,6 +294,7 @@ IngSoft2Game >> playerNumberOf: aPlayerStatus [
 
 { #category : #'as yet unclassified' }
 IngSoft2Game >> playerStatusOf: aPlayerName [
+	self assertGameIsBeingPlayedBy: aPlayerName.
 		^playerStatuses detect: [:aStatus | (aStatus player) name == aPlayerName]
 ]
 
