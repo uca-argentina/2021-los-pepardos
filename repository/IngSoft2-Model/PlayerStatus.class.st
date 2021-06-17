@@ -76,7 +76,7 @@ PlayerStatus >> lastCardPlayed [
 	| lastCardPlayed |
 	lastCardPlayed := hand cards reverse.
 	lastCardPlayed := lastCardPlayed detect: [ :card | card isPermanent ].
-	^ lastCardPlayed
+	^lastCardPlayed
 ]
 
 { #category : #'as yet unclassified' }

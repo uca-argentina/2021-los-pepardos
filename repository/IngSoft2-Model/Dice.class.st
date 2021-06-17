@@ -10,7 +10,7 @@ Class {
 { #category : #'instance creation' }
 Dice class >> assertValidSides: numberOfSides [
 	numberOfSides >= 3
-		ifFalse: [ Error signal: 'Sides must be >= 3' ]
+		ifFalse: [ Error signal: 'Sides must be at least 3' ]
 ]
 
 { #category : #'instance creation' }

@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 ObjectCreation >> test001DiceCannotHaveLessThan3Sides [
 
-   self should: [Dice withSides: 2] raise: Error whoseDescriptionIncludes: 'Sides must be >= 3' description: 'Dice must have > 3 sides'.
+   self should: [Dice withSides: 2] raise: Error whoseDescriptionIncludes: 'Sides must be at least 3' description: 'Dice must have at least 3 sides'.
 																								"sides > 3"           "lo usa pharo cuando falla el test"
 ]
 
@@ -53,7 +53,7 @@ ObjectCreation >> test004BoardMustHaveMoreThanTwoPositions [
 ObjectCreation >> test005MoonWalkNMustBeGreaterThan0 [
 
    self should: [ MoonWalkPosition withN: 0 ] 
-        raise: Error whoseDescriptionIncludes: 'N in Moonwalk must be > 0' description: 'MoonWalkPosition N must be > 0'.
+        raise: Error whoseDescriptionIncludes: 'N in Moonwalk must be > 0' description: 'MoonWalkPosition N value must be at least 1'.
 
 
 	
@@ -127,4 +127,55 @@ ObjectCreation >> test009ACardCannotBeUsedOnAnIncorrectPlayer [
 	game playTurn.
 	self should: [ game make: elDiego useCard: 'Cancellation' on: elDiego toRemove: 'Speed' ]
    		raise: Error whoseDescriptionIncludes: 'Player has no such active effect' description: 'Player has no such active effect'.
+]
+
+{ #category : #tests }
+ObjectCreation >> test010TheGameCannotBePlayedBySomeoneWithoutName [
+		
+	| gameBoard game elDiego diceOne dices players lapsToWin|
+	
+	elDiego := ''.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: CancellationCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+	
+	dices := { diceOne }.
+	players := { elDiego }.
+	lapsToWin := 1.
+
+	self should: [ game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin. ]
+   		raise: Error whoseDescriptionIncludes: 'A player cannot be initialized without a name' description: 'Incorrect name of player'.
+]
+
+{ #category : #tests }
+ObjectCreation >> test011TheGameCannotBePlayedByPlayersWithTheSameName [
+		
+	| gameBoard game elDiego impostor diceOne dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+	impostor := 'El Diego'.
+   diceOne := LoadedDice rolling: 1.
+   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: CancellationCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+	
+	dices := { diceOne }.
+	players := { elDiego . impostor }.
+	lapsToWin := 1.
+
+	self should: [ game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin. ]
+   		raise: Error whoseDescriptionIncludes: 'The name of a player is already in use' description: 'The name of a player is already in use'.
+]
+
+{ #category : #tests }
+ObjectCreation >> test012TheGameHasToHaveAtLeastOneDie [
+		
+	| gameBoard game elDiego dices players lapsToWin|
+	
+	elDiego := 'El Diego'.
+   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: CancellationCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+	
+	dices := {}.
+	players := { elDiego }.
+	lapsToWin := 1.
+
+	self should: [ game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin. ]
+   		raise: Error whoseDescriptionIncludes: 'The game has to have at least one die' description: 'The game couldnt find any die'.
 ]
