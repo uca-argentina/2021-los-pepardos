@@ -1,23 +1,19 @@
+"
+I am a NonEffectPosition.
+I know how to apply my own non effect position effect.
+"
 Class {
 	#name : #NonEffectPosition,
 	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
-NonEffectPosition >> amountOf: aString [ 
-	aString = 'NonEffect'
-	ifTrue: [ ^1 ].
-	^0.
+{ #category : #'board effect' }
+NonEffectPosition >> applyTo: aPlayerStatus withARollOf: anInteger on: aBoard beingPlayedOn: anIngSoft2Game [ 
+	aBoard applyBasicEffectTo: aPlayerStatus withARollOf: anInteger.
 ]
 
-{ #category : #'as yet unclassified' }
-NonEffectPosition >> applyEffectTo: aPlayerStatus afterLandingOn: aNonEffectPosition withARollOf: anInteger onGame: anIngSoft2Game [ 
-
-	anIngSoft2Game applyBasicEffectTo: aPlayerStatus withARollOf: anInteger. 
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'board effect' }
 NonEffectPosition >> changeInPosition [
 	^0
 ]

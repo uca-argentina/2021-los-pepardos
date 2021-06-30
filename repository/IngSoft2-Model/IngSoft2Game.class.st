@@ -1,3 +1,7 @@
+"
+I am an IngSoft2Game.
+
+"
 Class {
 	#name : #IngSoft2Game,
 	#superclass : #Object,
@@ -60,55 +64,34 @@ IngSoft2Game class >> beingPlayedBy: players with: dices on: aBoard wherePlayers
 			^self new initializeWith: players andWith: dices andWith: aBoard wherePlayersNeedToComplete: anAmountOfLaps.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'playerStatus ' }
 IngSoft2Game >> activeEffectsOf: aPlayerName [
     ^((playerStatuses detect: [:searchedStatus | (searchedStatus player name) == aPlayerName]) activeEffects) collect: [ :eachCard | eachCard type ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'card effect' }
 IngSoft2Game >> add: aCard toActiveEffectOf: aPlayerStatus [  
 	aPlayerStatus activeEffectsAdd: aCard.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'card effect' }
 IngSoft2Game >> addThe: aCard toHistoryOf: aPlayerStatus [ 
 	aCard isPermanent 
 		ifTrue: [lastCardPlayed := aCard].
-	aPlayerStatus setLastCardPlayed: aCard.
+	aPlayerStatus addToCardPlayedHistory: aCard.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'playerStatus ' }
 IngSoft2Game >> amounfOfCardsOf: aPlayer [
 	^ ((playerStatuses detect: [:searchedStatus | (searchedStatus player name) == aPlayer]) hand) cards size.
 ]
 
-{ #category : #'as yet unclassified' }
-IngSoft2Game >> applyBasicEffectTo: aPlayerStatus withARollOf: diceRollResult [ 
-
-		aPlayerStatus updateBasicPositionTo: (self newPositionAfter: aPlayerStatus rolledADiceOf: diceRollResult) andLapsTo: (self newLapsAfter: aPlayerStatus rolledADiceOf: diceRollResult).
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'card effect' }
 IngSoft2Game >> applyBoostTo: aPlayerStatus afterUsing: aCard [ 
 	aCard applyCardEffectTo: aPlayerStatus on: self.
 ]
 
-{ #category : #'as yet unclassified' }
-IngSoft2Game >> applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition [
-	
-	| newBoardPosNumber |
-	newBoardPosNumber := aPlayerStatus position.
-	playerStatuses := playerStatuses do: [ :eachStatus | eachStatus correctPositionBy: (aMoonWalkPosition n) ].
-	aPlayerStatus updatePositionTo: newBoardPosNumber.
-]
-
-{ #category : #'as yet unclassified' }
-IngSoft2Game >> applyNukeEffectTo: aPlayerStatus [
-
-	playerStatuses := playerStatuses collect: [ :eachPlayerStatus | eachPlayerStatus updatePositionTo: 1 ]
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #asserting }
 IngSoft2Game >> assert: playerStatus hasA: aCard [
 	(((playerStatus hand) cards collect: [ :card | card type = aCard ]) includes: true)
 		ifFalse: [ Error signal: 'Player doesnt own that card' ].
@@ -117,13 +100,13 @@ IngSoft2Game >> assert: playerStatus hasA: aCard [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #asserting }
 IngSoft2Game >> assert: playerName hasTheActiveEffectOf: aCard [
 	(((self playerStatusOf: playerName) activeEffects collect: [ :card | card type ]) includes: aCard)
 		ifFalse: [ Error signal: 'Player has no such active effect' ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #asserting }
 IngSoft2Game >> assertGameIsBeingPlayedBy: aPlayerName [
 	((playerStatuses collect: [:aStatus | (aStatus player) name == aPlayerName]) includes: true)
 		ifFalse: [ Error signal: 'Incorrect player' ].
@@ -131,19 +114,19 @@ IngSoft2Game >> assertGameIsBeingPlayedBy: aPlayerName [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #asserting }
 IngSoft2Game >> assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser [
 	(playerStatuses at: currentTurn) = playerStatusOfCardUser 
 	ifFalse: [ Error signal: 'Permanent cards can only be used during the players turn' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'card effect' }
 IngSoft2Game >> boostEveryPlayerBy: aNumber [
 	playerStatuses do: [ :each | each modifyActiveBoostBy: aNumber ].
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'game status' }
 IngSoft2Game >> checkAndUpdateWinner [
 
 	|playerWinner|
@@ -152,7 +135,12 @@ IngSoft2Game >> checkAndUpdateWinner [
 		ifTrue: [winner := (playerWinner first player)].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'position modification' }
+IngSoft2Game >> correctAllPlayersPositionBy: anNumber [
+	playerStatuses := playerStatuses do: [ :eachStatus | eachStatus correctPositionBy: anNumber ].
+]
+
+{ #category : #'position modification' }
 IngSoft2Game >> correctedPositionOf: aPos [
 	aPos = 0
 		ifTrue:[	^(board positions) ].
@@ -161,12 +149,12 @@ IngSoft2Game >> correctedPositionOf: aPos [
 	^aPos
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'game status' }
 IngSoft2Game >> ensureBoardPositionsCompliantWithBoard [
 	playerStatuses := playerStatuses do: [ :x | x updatePositionTo: (self correctedPositionOf: x position) ].
 ]
 
-{ #category : #accessing }
+{ #category : #'game status' }
 IngSoft2Game >> hasFinished [
 	winner ifNil: [ ^ false ] ifNotNil: [ ^ true ]
 ]
@@ -183,17 +171,17 @@ IngSoft2Game >> initializeWith: playingPlayers andWith: gameDices andWith: aBoar
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'playerStatus ' }
 IngSoft2Game >> lapsCompletedBy: aPlayer [ 
 	^(playerStatuses detect: [:searchedStatus | (searchedStatus player name) == aPlayer]) lap
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'game status' }
 IngSoft2Game >> lastCardPlayed [
 	^ lastCardPlayed
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'game status' }
 IngSoft2Game >> lastCardPlayedBy: aPlayerName [
 
 	| cardPlayerStatus |
@@ -202,13 +190,13 @@ IngSoft2Game >> lastCardPlayedBy: aPlayerName [
 	^ (cardPlayerStatus cardHistory last).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'game status' }
 IngSoft2Game >> leaderboard [
 	^(leaderboard collect: [:eachPlayer | eachPlayer name])
 	
 ]
 
-{ #category : #accessing }
+{ #category : #'card effect' }
 IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
 
 	| playerStatusOfCardUser playerStatusOfCardTarget cardRemoved |
@@ -221,7 +209,7 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
 	(playerStatusOfCardUser hand cards detect: [:card | (card type) = aCardType]) isPermanent
 		ifTrue: [self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser].
 		
-	cardRemoved := playerStatusOfCardUser removeCardOf: aCardType.
+	cardRemoved := playerStatusOfCardUser remove: aCardType.
 	cardRemoved isPermanent
 	ifTrue: [ self add: cardRemoved toActiveEffectOf: playerStatusOfCardTarget].
 
@@ -229,7 +217,7 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
 	self addThe: cardRemoved toHistoryOf: playerStatusOfCardUser.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'card effect' }
 IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName toRemove: removedCardType [
 	
 	| playerStatusOfCardUser playerStatusOfCardTarget  effectRemoved cardRemoved |
@@ -244,7 +232,7 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName to
 	
 	self assert: playerStatusOfCardUser hasA: aCardType.
 		
-	cardRemoved := playerStatusOfCardUser removeCardOf: aCardType.
+	cardRemoved := playerStatusOfCardUser remove: aCardType.
 	effectRemoved := playerStatusOfCardTarget removeActiveEffectOf: removedCardType.
 	
 	removedCardType = 'Acceleration'
@@ -256,17 +244,22 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName to
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'position modification' }
+IngSoft2Game >> makeAllPlayersBeInPosition: anPosition [
+	playerStatuses := playerStatuses collect: [ :eachPlayerStatus | eachPlayerStatus updatePositionTo: 1 ]
+]
+
+{ #category : #'position modification' }
 IngSoft2Game >> newLapsAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
 	^ board obtainNewLapCountKnowingPlayerHas: (onePlayerStatus lap) andRolled: (aDiceRollResult) andIsInPosition: (onePlayerStatus position)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'position modification' }
 IngSoft2Game >> newPositionAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
 	^ board currentPosition: (onePlayerStatus position)	whoRolled: aDiceRollResult
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'card effect' }
 IngSoft2Game >> play: aCard on: aPlayerStatus [ 
 
 	aCard isPermanent
@@ -276,39 +269,31 @@ IngSoft2Game >> play: aCard on: aPlayerStatus [
 
 ]
 
-{ #category : #accessing }
+{ #category : #play }
 IngSoft2Game >> playGame [
-	self playTurn.
+	self playRound.
 	self winner ifNil: [ self playGame ]
 ]
 
-{ #category : #accessing }
+{ #category : #play }
 IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 
-	| diceRollResult newBoardPos newBoardPosNumber |
+	| diceRollResult |
 
 	diceRollResult := (playerStatus player rollDice: dices) + playerStatus activeBoost.
-	newBoardPosNumber := diceRollResult + playerStatus position.
+	board movePlayer: playerStatus by: diceRollResult on: self.
 	
-	newBoardPosNumber <= 0
-	ifTrue: [ playerStatus correctLapBy: -1 ].
-	
-	newBoardPosNumber := newBoardPosNumber > board positions
-		ifTrue: [ newBoardPosNumber - board positions ]
-		ifFalse: [ self correctedPositionOf: newBoardPosNumber ].
-
-	newBoardPos := (board boardPositionsStatuses at: newBoardPosNumber)	positionEffect.
-	newBoardPos applyEffectTo: playerStatus afterLandingOn: newBoardPos withARollOf: diceRollResult onGame: self.
-
 	self ensureBoardPositionsCompliantWithBoard.
 	
 	currentTurn >= playerStatuses size 
 	ifTrue: [ currentTurn := 1 ]
 	ifFalse: [ currentTurn + 1 ].
+
+
 ]
 
-{ #category : #'as yet unclassified' }
-IngSoft2Game >> playTurn [
+{ #category : #play }
+IngSoft2Game >> playRound [
 	
 	self hasFinished
 		ifTrue: [self raiseExceptionThatTheGameCannotLongerBePlayed].
@@ -321,33 +306,33 @@ IngSoft2Game >> playTurn [
 	self checkAndUpdateWinner
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'playerStatus ' }
 IngSoft2Game >> playerStatusOf: aPlayerName [
 	self assertGameIsBeingPlayedBy: aPlayerName.
 		^playerStatuses detect: [:aStatus | (aStatus player) name == aPlayerName]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'playerStatus ' }
 IngSoft2Game >> positionOf: aPlayerName [ 
 	^((playerStatuses detect: [:aStatus | (aStatus player) name == aPlayerName]) position)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'playerStatus ' }
 IngSoft2Game >> positionsTravelledBy: oneStatus [
 	^ (oneStatus position) + ((oneStatus lap) * (board positions))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #asserting }
 IngSoft2Game >> raiseExceptionThatTheGameCannotLongerBePlayed [
 	Error signal: 'The game has already finished'.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'game status' }
 IngSoft2Game >> winner [
 	^winner.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'game status' }
 IngSoft2Game >> winnerName [
 	^self winner name 
 ]

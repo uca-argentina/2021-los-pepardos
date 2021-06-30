@@ -1,3 +1,7 @@
+"
+I am a Player.
+I can roll a dice and I have a name.
+"
 Class {
 	#name : #Player,
 	#superclass : #Object,
@@ -21,13 +25,13 @@ Player >> initializeWithName: aName [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Player >> name [ 
 	^name
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'dice roll' }
 Player >> rollDice: aDiceList [ 
 ^(aDiceList sum: [:dice | dice roll]). 
 

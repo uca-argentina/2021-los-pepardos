@@ -1,3 +1,7 @@
+"
+I am a BoardPositionStatus
+I am made up of a number and an effect.
+"
 Class {
 	#name : #BoardPositionStatus,
 	#superclass : #Object,
@@ -13,13 +17,13 @@ BoardPositionStatus class >> withNumber: aNumber andEffect: anEffect [
 	^self new initializeWith: aNumber andEffect: anEffect.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 BoardPositionStatus >> initializeWith: aNumber andEffect: anEffectPosition [
 	number := aNumber.
 	positionEffect := anEffectPosition.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 BoardPositionStatus >> positionEffect [
 	^ positionEffect
 ]

@@ -1,3 +1,11 @@
+"
+I am an Acceleration Card.
+
+My responsibilities are:
+- Apply a boost of 1.
+- I can make the game boost every player dice roll by 1.
+
+"
 Class {
 	#name : #AccelerationCard,
 	#superclass : #Object,
@@ -7,22 +15,22 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'boost application' }
 AccelerationCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
 	aGame boostEveryPlayerBy: (self boostApplied)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'boost application' }
 AccelerationCard >> boostApplied [
 	^1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 AccelerationCard >> isPermanent [
 	^true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 AccelerationCard >> type [
 	type := 'Acceleration'.
 	^type.

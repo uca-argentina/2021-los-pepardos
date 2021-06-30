@@ -1,3 +1,8 @@
+"
+I am a Dice.
+I know how to roll and return the result.
+I know I have an amount of sides.
+"
 Class {
 	#name : #Dice,
 	#superclass : #Object,
@@ -24,7 +29,7 @@ Dice >> initializeWithSides: numberOfSides [
 	sides := numberOfSides.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'dice roll' }
 Dice >> roll [
 	^Random new seed % sides + 1.
 ]

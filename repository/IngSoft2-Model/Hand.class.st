@@ -1,3 +1,10 @@
+"
+A player has a hand which holds cards.
+That hand should be able to:
+- Pick a new card
+- Remove a card from the hand
+
+"
 Class {
 	#name : #Hand,
 	#superclass : #Object,
@@ -19,35 +26,35 @@ Hand class >> withRandomCards: anAmountOfCards [
 		^self new initializeWithRandomCards: anAmountOfCards.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'card adding' }
 Hand >> addNewCard: aCard [ 
 	cards add: aCard.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'card adding' }
 Hand >> addNewRandomCard [
 	cards add: (self pickNewRandomCard)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Hand >> cards [
 	^ cards
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 Hand >> initializeWithRandomCards: amountOfCards [
 	cards := OrderedCollection new.
 	1 to: (amountOfCards) do: [:i | cards add: (self pickNewRandomCard) ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'card selection' }
 Hand >> pickNewRandomCard [
 	^ ({ OverloadCard new . SpeedCard new . AccelerationCard new . CancellationCard new . RedoCard new . RepeatCard new } atRandom)
 	
 ]
 
-{ #category : #'as yet unclassified' }
-Hand >> removeCardOf: aCardType [ 
+{ #category : #'card removal' }
+Hand >> remove: aCardType [ 
 
 	| cardToDelete |
 	cardToDelete := (cards detect: [:card | (card type) = aCardType]).

@@ -5,23 +5,6 @@ Class {
 }
 
 { #category : #tests }
-CardTests >> test001ANewBoardHasTheCorrectNumberOfEffects [
-
-   | gameBoard |
-	
-	gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . CardDealerPosition new . NonEffectPosition new . WormHolePosition new . NukePosition new }.
-	
-	self assert: (gameBoard numberOf: 'NonEffect') equals: 3.
-	self assert: (gameBoard numberOf: 'CardDealer') equals: 1.
-	self assert: (gameBoard numberOf: 'WormHole') equals: 1.
-	self assert: (gameBoard numberOf: 'SpeedUp') equals: 1.
-	self assert: (gameBoard numberOf: 'MoonWalk') equals: 1.
-	self assert: (gameBoard numberOf: 'Nuke') equals: 1.
-
-
-]
-
-{ #category : #tests }
 CardTests >> test002ElDiegoBeginsPlayingWith2Cards [
 
    | gameBoard game elDiego diceOne dices players lapsToWin|
@@ -56,7 +39,7 @@ CardTests >> test003ElDiegoLandsInACardDealerPositionAndNowHas3Cards [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 
 	self assert: (game amounfOfCardsOf: elDiego) equals: 3.
 
@@ -78,7 +61,7 @@ CardTests >> test004ElDiegoUsesASpeedCardAndHasAnActiveSpeedEffect [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	
 	self assert: (game amounfOfCardsOf: elDiego) equals: 3.
 	
@@ -107,9 +90,9 @@ CardTests >> test005ElDiegoUsesSpeedCardAndItAffectsHisDestinationBy1 [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elDiego.
-	game playTurn.
+	game playRound.
 	
 	self assert: (game amounfOfCardsOf: elDiego) equals: 2.
 	self assert: (game positionOf: elDiego) equals: 4.
@@ -121,31 +104,26 @@ CardTests >> test005ElDiegoUsesSpeedCardAndItAffectsHisDestinationBy1 [
 
 { #category : #tests }
 CardTests >> test006ElDiegoUsesSpeedCardOnElPeleAndItAffectsHisDestinationBy1 [
-
-   | gameBoard game elDiego elPele diceOne dices players lapsToWin|
-	
+	| gameBoard game elDiego elPele diceOne dices players lapsToWin speedCard |
 	elDiego := 'El Diego'.
 	elPele := 'El Pele'.
-   diceOne := LoadedDice rolling: 1.
-   gameBoard := Board with: { NonEffectPosition new . LoadedCardDealerPosition handing: SpeedCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+	diceOne := LoadedDice rolling: 1.
+	speedCard := SpeedCard new.
+	gameBoard := Board with: {NonEffectPosition new.(LoadedCardDealerPosition handing: speedCard).NonEffectPosition new.NonEffectPosition new.NonEffectPosition new.NonEffectPosition new}.
 	
-	dices := { diceOne }.
-	players := { elDiego . elPele }.
+	dices := {diceOne}.
+	players := {elDiego.	elPele}.
 	lapsToWin := 1.
-	
+
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elPele.
-	game playTurn.
+	game playRound.
 	
 	self assert: (game amounfOfCardsOf: elDiego) equals: 2.
 	self assert: (game positionOf: elDiego) equals: 3.
-	self assert: (game positionOf: elPele) equals: 4.
-
-
-
-
+	self assert: (game positionOf: elPele) equals: 4
 ]
 
 { #category : #tests }
@@ -163,9 +141,9 @@ CardTests >> test007ElDiegoUsesAnOverloadCardAndItAffectsHisDestinationByMinus2 
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Overload' on: elDiego.
-	game playTurn.
+	game playRound.
 	
 	self assert: (game amounfOfCardsOf: elDiego) equals: 2.
 	self assert: (game positionOf: elDiego) equals: 1.
@@ -191,9 +169,9 @@ CardTests >> test008ElDiegoUsesAnOverloadCardAtElPeleAndItAffectsHisDestinationB
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Overload' on: elPele.
-	game playTurn.
+	game playRound.
 	
 	self assert: (game amounfOfCardsOf: elDiego) equals: 2.
 	self assert: (game positionOf: elDiego) equals: 3.
@@ -220,11 +198,11 @@ CardTests >> test009ElDiegoUsesAnOverloadCardAtElPeleTwiceAndTheFinalPositionOfE
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Overload' on: elPele.
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Overload' on: elPele.
-	game playTurn.
+	game playRound.
 	
 	self assert: (game amounfOfCardsOf: elDiego) equals: 2.
 	
@@ -241,7 +219,7 @@ CardTests >> test009ElDiegoUsesAnOverloadCardAtElPeleTwiceAndTheFinalPositionOfE
 
 { #category : #tests }
 CardTests >> test010ElDiegoUsesAnAccelerationCardAndIncreasesEveryonesPositonBy1 [
-    "QUE GRANDE EL DIEGO, es su test, el del 10"
+
    | gameBoard game elDiego elPele elMessi diceOne dices players lapsToWin|
 
     elDiego := 'El Diego'.
@@ -256,9 +234,9 @@ CardTests >> test010ElDiegoUsesAnAccelerationCardAndIncreasesEveryonesPositonBy1
 
     game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-    game playTurn.
+    game playRound.
     game make: elDiego useCard: 'Acceleration' on: elDiego.
-    game playTurn.
+    game playRound.
 
     self assert: (game positionOf: elDiego) equals: 4.
     self assert: (game positionOf: elPele) equals: 4.
@@ -270,37 +248,29 @@ CardTests >> test010ElDiegoUsesAnAccelerationCardAndIncreasesEveryonesPositonBy1
 
 { #category : #tests }
 CardTests >> test011ElDiegoUsesACancellationCardOnElPeleAndRemovesHisSpeedCard [
-
-   | gameBoard game elDiego elPele diceOne dices players lapsToWin|
-
-    elDiego := 'El Diego'.
-    elPele := 'El Pele'.
-
+	| gameBoard game elDiego elPele diceOne dices players lapsToWin overloadCard |
+	elDiego := 'El Diego'.
+	elPele := 'El Pele'.
 	diceOne := LoadedDice rolling: 1.
-   gameBoard := Board with: { LoadedCardDealerPosition handing: CancellationCard new . LoadedCardDealerPosition handing: OverloadCard new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new }.
+	overloadCard := OverloadCard new.
+	gameBoard := Board with:	{(LoadedCardDealerPosition handing: CancellationCard new).	(LoadedCardDealerPosition handing: overloadCard).	NonEffectPosition new.NonEffectPosition new.NonEffectPosition new.NonEffectPosition new}.
+	
+	dices := {diceOne}.
+	players := {elDiego.	elPele}.
+	lapsToWin := 1.
 
-	dices := { diceOne }.
-   players := { elDiego . elPele }.
-   lapsToWin := 1.
-
-   game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
-
-   game playTurn.
+	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
+	game playRound.
 	game make: elDiego useCard: 'Overload' on: elPele.
-
 	self assert: (game activeEffectsOf: elPele) equals: (OrderedCollection withAll: #('Overload')).
-
-	game playTurn.
+	
+	game playRound.
 	game playIndividualTurnOfPlayer: (game playerStatusOf: elDiego).
 	game make: elPele useCard: 'Cancellation' on: elPele toRemove: 'Overload'.
-
-   self assert: (game positionOf: elDiego) equals: 4.
-   self assert: (game positionOf: elPele) equals: 1.
-	self assert: (game activeEffectsOf: elPele) isEmpty.
-
-
-
-
+	
+	self assert: (game positionOf: elDiego) equals: 4.
+	self assert: (game positionOf: elPele) equals: 1.
+	self assert: (game activeEffectsOf: elPele) isEmpty
 ]
 
 { #category : #tests }
@@ -318,7 +288,7 @@ CardTests >> test012ElDiegoUsesASpeedCardTheCardHistoriesAreUpdated [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elDiego.
 
 	self assert: (game lastCardPlayed type) equals: 'Speed'.
@@ -344,7 +314,7 @@ CardTests >> test013ElDiegoUsesTwoSpeedCardsAndHistoriesAreCorrectlyUpdated [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elDiego.
 
 	self assert: (game lastCardPlayed type) equals: 'Speed'.
@@ -370,15 +340,15 @@ CardTests >> test014ElDiegoUsesARedoCardAndPlaysASpeedAgain [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elDiego.
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Redo' on: elDiego.
 	
 	self assert: ((game lastCardPlayedBy: elDiego) type) equals: 'Redo'.
 	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Speed' 'Speed')).
 	
-	game playTurn.
+	game playRound.
 	self assert: (game positionOf: elDiego) equals: 1.
 ]
 
@@ -397,17 +367,17 @@ CardTests >> test015ElDiegoUsesARedoCardAfterARedoCardWasPlayedAndHas3SpeedActiv
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elDiego.
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Redo' on: elDiego.
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Redo' on: elDiego.
 	
 	self assert: ((game lastCardPlayedBy: elDiego) type) equals: 'Redo'.
 	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Speed' 'Speed' 'Speed')).
 	
-	game playTurn.
+	game playRound.
 	self assert: (game positionOf: elDiego) equals: 5.
 ]
 
@@ -426,16 +396,16 @@ CardTests >> test016ElDiegoUsesARedoCardAfterAAccelerationCardWasPlayedAfterAOve
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Overload' on: elDiego.
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elDiego.
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Redo' on: elDiego.
 	
 	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Overload' 'Speed' 'Speed')).
 	
-	game playTurn.
+	game playRound.
 	self assert: (game positionOf: elDiego) equals: 3.
 ]
 
@@ -454,18 +424,18 @@ CardTests >> test017ElDiegoUsesARedoCardAndPlaysACancellationAgain [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elDiego.
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elDiego.
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Cancellation' on: elDiego toRemove: 'Speed'.
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Redo' on: elDiego toRemove: 'Speed'.
 	
 	self assert: (game activeEffectsOf: elDiego) isEmpty.
 	
-	game playTurn.
+	game playRound.
 	self assert: (game positionOf: elDiego) equals: 2.
 ]
 
@@ -485,16 +455,16 @@ CardTests >> test018ElDiegoUsesASpeedCardAndElPeleUsesARepeatCardAndBothHaveSpee
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elDiego.
-	game playTurn.
+	game playRound.
 	game playIndividualTurnOfPlayer: (game playerStatusOf: elDiego).
 	game make: elPele useCard: 'Repeat' on: elPele.
 	
 	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Speed')).
 	self assert: (game activeEffectsOf: elPele) equals: (OrderedCollection withAll: #('Speed')).
 	
-	game playTurn.
+	game playRound.
 	self assert: (game positionOf: elDiego) equals: 8.
 	self assert: (game positionOf: elPele) equals: 5.
 ]
@@ -515,7 +485,7 @@ CardTests >> test019APlayerCanOnlyPlayAPermanentCardDuringItsTurn [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	 self should: [ game make: elPele useCard: 'Speed' on: elPele ]
         raise: Error whoseDescriptionIncludes: 'Permanent cards can only be used during the players turn' description: 'Unable to use permanent card'.
 	
@@ -539,16 +509,16 @@ CardTests >> test020ElDiegoUsesARepeatCardAndCopiesTheLastEffectApplied [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elDiego.
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Repeat' on: elDiego.
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Repeat' on: elDiego.
 	
 	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Speed' 'Speed' 'Speed')).
 	
-	game playTurn.
+	game playRound.
 	self assert: (game positionOf: elDiego) equals: 3.
 ]
 
@@ -567,24 +537,24 @@ CardTests >> test021OnlyEffectCardsAppearAsLastPlayedGameWise [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Speed' on: elDiego.
 	self assert: (game lastCardPlayed type) equals: 'Speed'.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Repeat' on: elDiego.
 	self assert: (game lastCardPlayed type) equals: 'Speed'.
 	
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Acceleration' on: elDiego.
 	self assert: (game lastCardPlayed type) equals: 'Acceleration'.
 
-	game playTurn.
+	game playRound.
 	game make: elDiego useCard: 'Repeat' on: elDiego.
 	self assert: (game lastCardPlayed type) equals: 'Acceleration'.
 	
 	self assert: (game activeEffectsOf: elDiego) equals: (OrderedCollection withAll: #('Speed' 'Speed' 'Acceleration' 'Acceleration')).
 	
-	game playTurn.
+	game playRound.
 	self assert: (game positionOf: elDiego) equals: 8.
 ]

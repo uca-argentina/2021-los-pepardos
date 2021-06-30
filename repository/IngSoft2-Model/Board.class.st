@@ -1,3 +1,7 @@
+"
+I am a Board.
+
+"
 Class {
 	#name : #Board,
 	#superclass : #Object,
@@ -20,17 +24,42 @@ Board class >> with: effects [
 		^self new initializeWithEffects: effects.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'board effect' }
+Board >> applyBasicEffectTo: aPlayerStatus withARollOf: diceRollResult [ 
+
+	| newPosition newLap |
+
+	newPosition := (self newPositionAfter: aPlayerStatus rolledADiceOf: diceRollResult).
+	newLap := (self newLapsAfter: aPlayerStatus rolledADiceOf: diceRollResult).
+
+	aPlayerStatus updatePositionTo: newPosition andLapsTo: newLap.
+]
+
+{ #category : #'board effect' }
+Board >> applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition beingPlayedOn: game [ 
+
+	| newBoardPosNumber |
+	newBoardPosNumber := aPlayerStatus position.
+	game correctAllPlayersPositionBy: (aMoonWalkPosition n).
+	aPlayerStatus updatePositionTo: newBoardPosNumber.
+]
+
+{ #category : #'board effect' }
+Board >> applyNukeEffectOn: game [ 
+	game makeAllPlayersBeInPosition: 1.
+]
+
+{ #category : #accessing }
 Board >> boardPositionsStatuses [
 	^ boardPositionsStatuses
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'position management' }
 Board >> changeInMovementCausedByPosition: aPosition [
 	^((boardPositionsStatuses at: aPosition) positionEffect) changeInPosition
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'position management' }
 Board >> compliantBoardPosOf: aPos [
 	aPos = 0
 		ifTrue:[	^positions ].
@@ -39,7 +68,16 @@ Board >> compliantBoardPosOf: aPos [
 	^aPos
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'position modification' }
+Board >> correctedPositionOf: aPos [
+	aPos = 0
+		ifTrue:[	^positions ].
+	aPos < 0
+		ifTrue: [ ^(aPos + positions +1) ].
+	^aPos
+]
+
+{ #category : #'position management' }
 Board >> currentPosition: currPos whoRolled: diceNumber [
 
 	|endPosNoEffects|
@@ -55,7 +93,7 @@ Board >> currentPosition: currPos whoRolled: diceNumber [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 Board >> initializeWithEffects: effects [ 
 	|x|
 	x:=0.
@@ -65,13 +103,59 @@ Board >> initializeWithEffects: effects [
 	
 ]
 
-{ #category : #'as yet unclassified' }
-Board >> numberOf: aString [ 
+{ #category : #'position modification' }
+Board >> movePlayer: aPlayerStatus by: aDiceRoll on: anIngSoft2Game [ 
 	
-	^boardPositionsStatuses sum: [:boardPosStatus | (boardPosStatus positionEffect) amountOf: aString].
+	| newBoardPosNumber effect |
+	newBoardPosNumber := aDiceRoll + aPlayerStatus position.
+	
+	newBoardPosNumber <= 0
+	ifTrue: [ aPlayerStatus correctLapBy: -1 ].
+	
+	newBoardPosNumber :=
+		newBoardPosNumber > positions
+			ifTrue: [ newBoardPosNumber - positions ]
+			ifFalse: [ self correctedPositionOf: newBoardPosNumber ].
+
+	effect := (boardPositionsStatuses at: newBoardPosNumber) positionEffect.
+	effect applyTo: aPlayerStatus withARollOf: aDiceRoll on: self beingPlayedOn: anIngSoft2Game.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
+Board >> newLapsAfter: aPlayerStatus rolledADiceOf: aDiceRoll [ 
+	
+	|endPosNoEffects currentPlayerPosition aCurrentAmountOfLaps|
+	currentPlayerPosition := aPlayerStatus position.
+	endPosNoEffects := self compliantBoardPosOf: (currentPlayerPosition + aDiceRoll).
+	aCurrentAmountOfLaps := aPlayerStatus lap.
+	
+	endPosNoEffects > positions 
+	ifTrue: [ endPosNoEffects := endPosNoEffects - positions ].
+	
+	currentPlayerPosition + aDiceRoll + (self changeInMovementCausedByPosition: endPosNoEffects) > positions
+	ifTrue: [ ^ (aCurrentAmountOfLaps + (self totalLapsDoneKnowing: (currentPlayerPosition + aDiceRoll + (self changeInMovementCausedByPosition: endPosNoEffects)))) ]
+	ifFalse: [ ^aCurrentAmountOfLaps ].
+
+
+]
+
+{ #category : #'instance creation' }
+Board >> newPositionAfter: aPlayerStatus rolledADiceOf: aDiceRoll [ 
+
+	| endPosNoEffects currPos |
+	currPos := (aPlayerStatus position).
+
+	endPosNoEffects := self compliantBoardPosOf: (currPos + aDiceRoll).	
+	endPosNoEffects > positions 
+	ifTrue: [ endPosNoEffects := endPosNoEffects - positions ].
+	
+	currPos + aDiceRoll + (self changeInMovementCausedByPosition: endPosNoEffects) > positions
+	ifTrue: [ ^ ((currPos + aDiceRoll + (self changeInMovementCausedByPosition: endPosNoEffects)) % positions) ]
+	ifFalse: [ ^currPos + aDiceRoll + (self changeInMovementCausedByPosition: endPosNoEffects) ].
+
+]
+
+{ #category : #'lap management' }
 Board >> obtainNewLapCountKnowingPlayerHas: aCurrentAmountOfLaps andRolled: numberRolled andIsInPosition: currentPlayerPosition [
 
 	|endPosNoEffects|
@@ -86,12 +170,12 @@ Board >> obtainNewLapCountKnowingPlayerHas: aCurrentAmountOfLaps andRolled: numb
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Board >> positions [
 	^positions
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Board >> totalLapsDoneKnowing: currentPositionAfterDiceRoll [
 	currentPositionAfterDiceRoll > positions
 	ifTrue: [ ^(1 + (self totalLapsDoneKnowing: (currentPositionAfterDiceRoll - positions)))]

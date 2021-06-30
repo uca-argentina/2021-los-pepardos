@@ -1,3 +1,7 @@
+"
+I am a MoonWalkPosition.
+I know how to apply my effect and that I have a specific n.
+"
 Class {
 	#name : #MoonWalkPosition,
 	#superclass : #Object,
@@ -19,25 +23,17 @@ MoonWalkPosition class >> withN: anN [
 		^self new initializeWithN: anN.
 ]
 
-{ #category : #'as yet unclassified' }
-MoonWalkPosition >> amountOf: aString [ 
-	aString = 'MoonWalk'
-	ifTrue: [ ^1 ].
-	^0.
+{ #category : #'board effect' }
+MoonWalkPosition >> applyTo: aPlayerStatus withARollOf: anInteger on: aBoard beingPlayedOn: anIngSoft2Game [ 
+	aBoard applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: self beingPlayedOn: anIngSoft2Game. 
 ]
 
-{ #category : #'as yet unclassified' }
-MoonWalkPosition >> applyEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition withARollOf: anInteger onGame: anIngSoft2Game [ 
-	
-	anIngSoft2Game applyMoonwalkEffectTo: aPlayerStatus afterLandingOn: aMoonWalkPosition. 
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 MoonWalkPosition >> initializeWithN: anN [
 	n := anN.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MoonWalkPosition >> n [
 	^ n
 ]

@@ -61,7 +61,7 @@ SinglePlayerTests >> test003ElDiegoPlaysOneTurnAndDoesntWin [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	game playTurn.
+	game playRound.
 
 	self deny: game hasFinished.
 

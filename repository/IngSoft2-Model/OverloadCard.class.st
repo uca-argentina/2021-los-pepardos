@@ -1,3 +1,7 @@
+"
+I am an Overloard Card.
+I know how to apply my own effect and the boost resulting when I am played.
+"
 Class {
 	#name : #OverloadCard,
 	#superclass : #Object,
@@ -7,22 +11,22 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'boost application' }
 OverloadCard >> applyCardEffectTo: aPlayerStatus on: anIngSoft2Game [ 
 	aPlayerStatus modifyActiveBoostBy: (self boostApplied)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'boost application' }
 OverloadCard >> boostApplied [
 	^-2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 OverloadCard >> isPermanent [
 	^true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 OverloadCard >> type [
 	type := 'Overload'.
 	^type.

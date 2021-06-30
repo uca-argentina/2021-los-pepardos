@@ -1,3 +1,7 @@
+"
+I am a cancellation card.
+I know how to apply the canellation effect.
+"
 Class {
 	#name : #CancellationCard,
 	#superclass : #Object,
@@ -7,12 +11,12 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 CancellationCard >> isPermanent [
 	^false
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CancellationCard >> type [
 	type := 'Cancellation'.
 	^type

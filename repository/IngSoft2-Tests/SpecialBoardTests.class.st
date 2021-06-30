@@ -45,7 +45,7 @@ SpecialBoardTests >> test002ElDiegoLandsInASpeedUpBoardPositionAndAdvances4Posit
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	game playTurn.
+	game playRound.
 
 	self assert: (game positionOf: elDiego) equals: 6.
 
@@ -71,7 +71,7 @@ SpecialBoardTests >> test003ElDiegoLandsInANonEffectBoardPositionAndStaysInTheSa
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	game playTurn.
+	game playRound.
 
 	self assert: (game positionOf: elDiego) equals: 3.
 
@@ -99,7 +99,7 @@ SpecialBoardTests >> test004APlayerLandsInNukeAndMakesAllPlayersGoToPosition1 [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	game playTurn.
+	game playRound.
 
 	self assert: (game positionOf: elDiego) equals: 1.
 	self assert: (game positionOf: elNico) equals: 1.
@@ -121,7 +121,7 @@ SpecialBoardTests >> test005ElDiegoLandsInAWormHoleAndGoesBackToPosition1 [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	game playTurn.
+	game playRound.
 
 	self assert: (game positionOf: elDiego) equals: 1.
 
@@ -143,7 +143,7 @@ SpecialBoardTests >> test006ElDiegoLandsInTheFirstMoonWalkPositionAndTakesElPele
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	game playTurn.
+	game playRound.
 
 	self assert: (game positionOf: elDiego) equals: 2.
 	self assert: (game lapsCompletedBy: elPele) equals: 0.

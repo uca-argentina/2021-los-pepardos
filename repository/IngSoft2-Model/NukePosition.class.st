@@ -1,18 +1,14 @@
+"
+I am a NukePosition.
+I know how to apply the Nuke effect
+"
 Class {
 	#name : #NukePosition,
 	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
-NukePosition >> amountOf: aString [ 
-	aString = 'Nuke'
-	ifTrue: [ ^1 ].
-	^0.
-]
-
-{ #category : #'as yet unclassified' }
-NukePosition >> applyEffectTo: aPlayerStatus afterLandingOn: aNukePosition withARollOf: anInteger onGame: anIngSoft2Game [ 
-
-	anIngSoft2Game applyNukeEffectTo: aPlayerStatus. 
+{ #category : #'board effect' }
+NukePosition >> applyTo: aPlayerStatus withARollOf: anInteger on: aBoard beingPlayedOn: aGame [ 
+	aBoard applyNukeEffectOn: aGame.
 ]
