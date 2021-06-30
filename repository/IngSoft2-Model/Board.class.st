@@ -49,11 +49,6 @@ Board >> applyNukeEffectOn: game [
 	game makeAllPlayersBeInPosition: 1.
 ]
 
-{ #category : #accessing }
-Board >> boardPositionsStatuses [
-	^ boardPositionsStatuses
-]
-
 { #category : #'position management' }
 Board >> changeInMovementCausedByPosition: aPosition [
 	^((boardPositionsStatuses at: aPosition) positionEffect) changeInPosition
@@ -75,22 +70,6 @@ Board >> correctedPositionOf: aPos [
 	aPos < 0
 		ifTrue: [ ^(aPos + positions +1) ].
 	^aPos
-]
-
-{ #category : #'position management' }
-Board >> currentPosition: currPos whoRolled: diceNumber [
-
-	|endPosNoEffects|
-	endPosNoEffects := currPos + diceNumber.
-	endPosNoEffects := self compliantBoardPosOf: endPosNoEffects.
-	endPosNoEffects > positions 
-	ifTrue: [ endPosNoEffects := endPosNoEffects - positions ].
-	
-	currPos + diceNumber + (self changeInMovementCausedByPosition: endPosNoEffects) > positions
-	ifTrue: [ ^ ((currPos + diceNumber + (self changeInMovementCausedByPosition: endPosNoEffects)) % positions) ]
-	ifFalse: [ ^currPos + diceNumber + (self changeInMovementCausedByPosition: endPosNoEffects) ].
-	
-
 ]
 
 { #category : #initialization }
@@ -153,21 +132,6 @@ Board >> newPositionAfter: aPlayerStatus rolledADiceOf: aDiceRoll [
 	ifTrue: [ ^ ((currPos + aDiceRoll + (self changeInMovementCausedByPosition: endPosNoEffects)) % positions) ]
 	ifFalse: [ ^currPos + aDiceRoll + (self changeInMovementCausedByPosition: endPosNoEffects) ].
 
-]
-
-{ #category : #'lap management' }
-Board >> obtainNewLapCountKnowingPlayerHas: aCurrentAmountOfLaps andRolled: numberRolled andIsInPosition: currentPlayerPosition [
-
-	|endPosNoEffects|
-	endPosNoEffects := currentPlayerPosition + numberRolled.
-	endPosNoEffects := self compliantBoardPosOf: endPosNoEffects.
-	endPosNoEffects > positions 
-	ifTrue: [ endPosNoEffects := endPosNoEffects - positions ].
-	
-	currentPlayerPosition + numberRolled + (self changeInMovementCausedByPosition: endPosNoEffects) > positions
-	ifTrue: [ ^ (aCurrentAmountOfLaps + (self totalLapsDoneKnowing: (currentPlayerPosition + numberRolled + (self changeInMovementCausedByPosition: endPosNoEffects)))) ]
-	ifFalse: [ ^aCurrentAmountOfLaps ]
-	
 ]
 
 { #category : #accessing }

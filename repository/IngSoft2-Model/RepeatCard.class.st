@@ -1,3 +1,6 @@
+"
+I am a RepeatCard
+"
 Class {
 	#name : #RepeatCard,
 	#superclass : #Object,
@@ -7,17 +10,17 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'boost application' }
 RepeatCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
 	aGame play: (aGame lastCardPlayed) on: aPlayerStatus.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 RepeatCard >> isPermanent [
 	^false
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RepeatCard >> type [
 	type := 'Repeat'.
 	^type.

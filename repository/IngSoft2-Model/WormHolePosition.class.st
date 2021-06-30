@@ -1,15 +1,18 @@
+"
+I am a WormHolePosition
+"
 Class {
 	#name : #WormHolePosition,
 	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'board effect' }
 WormHolePosition >> applyTo: aPlayerStatus withARollOf: anInteger on: aBoard beingPlayedOn: anIngSoft2Game [ 
 	aBoard applyBasicEffectTo: aPlayerStatus withARollOf: anInteger.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'board effect' }
 WormHolePosition >> changeInPosition [
 	^-4
 ]

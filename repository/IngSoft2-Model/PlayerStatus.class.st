@@ -1,3 +1,7 @@
+"
+I am a playerStatus. 
+I know certain information about the player.
+"
 Class {
 	#name : #PlayerStatus,
 	#superclass : #Object,
@@ -82,15 +86,6 @@ PlayerStatus >> initializeOf: aPlayer with: aPosition at: aLap [
 { #category : #accessing }
 PlayerStatus >> lap [
 	^ lap
-]
-
-{ #category : #accessing }
-PlayerStatus >> lastCardPlayed [
-
-	| lastCardPlayed |
-	lastCardPlayed := hand cards reverse.
-	lastCardPlayed := lastCardPlayed detect: [ :card | card isPermanent ].
-	^lastCardPlayed
 ]
 
 { #category : #'boost management' }

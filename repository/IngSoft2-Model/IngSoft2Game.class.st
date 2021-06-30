@@ -249,16 +249,6 @@ IngSoft2Game >> makeAllPlayersBeInPosition: anPosition [
 	playerStatuses := playerStatuses collect: [ :eachPlayerStatus | eachPlayerStatus updatePositionTo: 1 ]
 ]
 
-{ #category : #'position modification' }
-IngSoft2Game >> newLapsAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
-	^ board obtainNewLapCountKnowingPlayerHas: (onePlayerStatus lap) andRolled: (aDiceRollResult) andIsInPosition: (onePlayerStatus position)
-]
-
-{ #category : #'position modification' }
-IngSoft2Game >> newPositionAfter: onePlayerStatus rolledADiceOf: aDiceRollResult [
-	^ board currentPosition: (onePlayerStatus position)	whoRolled: aDiceRollResult
-]
-
 { #category : #'card effect' }
 IngSoft2Game >> play: aCard on: aPlayerStatus [ 
 

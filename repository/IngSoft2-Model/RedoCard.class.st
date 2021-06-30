@@ -1,3 +1,7 @@
+"
+I am a RedoCard. 
+
+"
 Class {
 	#name : #RedoCard,
 	#superclass : #Object,
@@ -7,17 +11,17 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'boost application' }
 RedoCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
 	aPlayerStatus applyRedoCardEffectOn: aGame.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 RedoCard >> isPermanent [
 	^false
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RedoCard >> type [
 	type := 'Redo'.
 	^type.

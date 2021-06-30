@@ -1,3 +1,6 @@
+"
+I am a SpeedCard
+"
 Class {
 	#name : #SpeedCard,
 	#superclass : #Object,
@@ -7,22 +10,22 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'boost application' }
 SpeedCard >> applyCardEffectTo: aPlayerStatus on: anIngSoft2Game [ 
 	aPlayerStatus modifyActiveBoostBy: (self boostApplied)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'boost application' }
 SpeedCard >> boostApplied [
 	^1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 SpeedCard >> isPermanent [
 	^true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SpeedCard >> type [
 	type := 'Speed'.
 	^type.
