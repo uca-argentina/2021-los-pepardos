@@ -12,8 +12,10 @@ Class {
 }
 
 { #category : #'boost application' }
-OverloadCard >> applyCardEffectTo: aPlayerStatus on: anIngSoft2Game [ 
-	aPlayerStatus modifyActiveBoostBy: (self boostApplied)
+OverloadCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
+	aPlayerStatus modifyActiveBoostBy: (self boostApplied).
+	aPlayerStatus activeEffectsAdd: self.
+	aGame updateLastCardPlayedToBe: self.
 ]
 
 { #category : #'boost application' }
@@ -24,6 +26,11 @@ OverloadCard >> boostApplied [
 { #category : #testing }
 OverloadCard >> isPermanent [
 	^true
+]
+
+{ #category : #'as yet unclassified' }
+OverloadCard >> removeBoostProvidedFrom: aPlayerStatus on: anIngSoft2Game [ 
+	aPlayerStatus modifyActiveBoostBy: (self boostApplied * -1)
 ]
 
 { #category : #accessing }

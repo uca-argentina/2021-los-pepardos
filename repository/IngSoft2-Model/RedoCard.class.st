@@ -13,7 +13,7 @@ Class {
 
 { #category : #'boost application' }
 RedoCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
-	aPlayerStatus applyRedoCardEffectOn: aGame.
+	aGame applyRedoCardEffectOn: aPlayerStatus.
 ]
 
 { #category : #testing }

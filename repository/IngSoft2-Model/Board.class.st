@@ -97,6 +97,7 @@ Board >> movePlayer: aPlayerStatus by: aDiceRoll on: anIngSoft2Game [
 			ifFalse: [ self correctedPositionOf: newBoardPosNumber ].
 
 	effect := (boardPositionsStatuses at: newBoardPosNumber) positionEffect.
+	anIngSoft2Game updateLastEffectAppliedToBe: effect.
 	effect applyTo: aPlayerStatus withARollOf: aDiceRoll on: self beingPlayedOn: anIngSoft2Game.
 ]
 

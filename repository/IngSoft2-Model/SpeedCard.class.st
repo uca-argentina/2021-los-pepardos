@@ -11,8 +11,10 @@ Class {
 }
 
 { #category : #'boost application' }
-SpeedCard >> applyCardEffectTo: aPlayerStatus on: anIngSoft2Game [ 
-	aPlayerStatus modifyActiveBoostBy: (self boostApplied)
+SpeedCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
+	aPlayerStatus modifyActiveBoostBy: (self boostApplied).
+	aPlayerStatus activeEffectsAdd: self.
+	aGame updateLastCardPlayedToBe: self.
 ]
 
 { #category : #'boost application' }
@@ -23,6 +25,12 @@ SpeedCard >> boostApplied [
 { #category : #testing }
 SpeedCard >> isPermanent [
 	^true
+]
+
+{ #category : #'as yet unclassified' }
+SpeedCard >> removeBoostProvidedFrom: aPlayerStatus on: aGame [ 
+	aPlayerStatus modifyActiveBoostBy: (self boostApplied * -1).
+
 ]
 
 { #category : #accessing }

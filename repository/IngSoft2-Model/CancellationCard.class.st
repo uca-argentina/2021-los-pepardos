@@ -11,6 +11,12 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #'as yet unclassified' }
+CancellationCard >> applyCardEffectTo: aTarget on: aGame [ 
+	aGame applyCancellationEffectOn: aTarget.
+	aGame updateLastCardPlayedToBe: self.
+]
+
 { #category : #testing }
 CancellationCard >> isPermanent [
 	^false

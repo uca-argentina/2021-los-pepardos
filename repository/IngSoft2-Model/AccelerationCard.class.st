@@ -17,7 +17,9 @@ Class {
 
 { #category : #'boost application' }
 AccelerationCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
-	aGame boostEveryPlayerBy: (self boostApplied)
+	aGame boostEveryPlayerBy: (self boostApplied).
+	aPlayerStatus activeEffectsAdd: self.
+	aGame updateLastCardPlayedToBe: self.
 ]
 
 { #category : #'boost application' }
@@ -28,6 +30,11 @@ AccelerationCard >> boostApplied [
 { #category : #testing }
 AccelerationCard >> isPermanent [
 	^true
+]
+
+{ #category : #'as yet unclassified' }
+AccelerationCard >> removeBoostProvidedFrom: aPlayerStatus on: aGame [ 
+	aGame boostEveryPlayerBy: (self boostApplied * -1).
 ]
 
 { #category : #accessing }

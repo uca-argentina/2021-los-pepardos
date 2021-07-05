@@ -54,11 +54,10 @@ Hand >> pickNewRandomCard [
 ]
 
 { #category : #'card removal' }
-Hand >> remove: aCardType [ 
+Hand >> remove: aCard [
 
 	| cardToDelete |
-	cardToDelete := (cards detect: [:card | (card type) = aCardType]).
-	cards remove: cardToDelete.
+	cardToDelete := cards remove: aCard.
 	^cardToDelete
 
 

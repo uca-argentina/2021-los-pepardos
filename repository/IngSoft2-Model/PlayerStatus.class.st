@@ -77,6 +77,7 @@ PlayerStatus >> initializeOf: aPlayer with: aPosition at: aLap [
 	position := aPosition.
 	lap := aLap.
 	hand := Hand withRandomCards: 2.
+"	hand := Hand obtainingCardsFrom: deck."
 	activeEffects := OrderedCollection new.
 	activeBoost := 0.
 	cardHistory := OrderedCollection new.
