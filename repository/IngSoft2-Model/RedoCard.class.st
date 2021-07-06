@@ -15,14 +15,3 @@ Class {
 RedoCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
 	aGame applyRedoCardEffectOn: aPlayerStatus.
 ]
-
-{ #category : #testing }
-RedoCard >> isPermanent [
-	^false
-]
-
-{ #category : #accessing }
-RedoCard >> type [
-	type := 'Redo'.
-	^type.
-]

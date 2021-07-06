@@ -14,14 +14,3 @@ Class {
 RepeatCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
 	(aGame lastEffectApplied) applyTo: aPlayerStatus withARollOf: 0 on: (aGame board) beingPlayedOn: aGame 
 ]
-
-{ #category : #testing }
-RepeatCard >> isPermanent [
-	^false
-]
-
-{ #category : #accessing }
-RepeatCard >> type [
-	type := 'Repeat'.
-	^type.
-]

@@ -23,19 +23,7 @@ OverloadCard >> boostApplied [
 	^-2
 ]
 
-{ #category : #testing }
-OverloadCard >> isPermanent [
-	^true
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #removing }
 OverloadCard >> removeBoostProvidedFrom: aPlayerStatus on: anIngSoft2Game [ 
 	aPlayerStatus modifyActiveBoostBy: (self boostApplied * -1)
-]
-
-{ #category : #accessing }
-OverloadCard >> type [
-	type := 'Overload'.
-	^type.
-	
 ]

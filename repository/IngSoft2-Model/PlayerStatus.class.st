@@ -37,25 +37,6 @@ PlayerStatus >> activeEffectsAdd: aCard [
 	activeEffects add: aCard
 ]
 
-{ #category : #adding }
-PlayerStatus >> addToCardPlayedHistory: aCard [ 
-	cardHistory add: aCard
-]
-
-{ #category : #'as yet unclassified' }
-PlayerStatus >> applyRedoCardEffectOn: aGame [ 
-	
-	|reversedCardHistory lastPermanentCardPlayed |
-	reversedCardHistory := self cardHistory reverse.
-	lastPermanentCardPlayed := reversedCardHistory detect: [ :card | card isPermanent ].
-	aGame play: lastPermanentCardPlayed on: self.
-]
-
-{ #category : #accessing }
-PlayerStatus >> cardHistory [
-	^ cardHistory
-]
-
 { #category : #'lap management' }
 PlayerStatus >> correctLapBy: aNumber [
 	lap := lap + aNumber

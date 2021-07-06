@@ -104,7 +104,7 @@ ObjectCreation >> test007APlayerCannotPlayTheGameAfterItHasFinished [
 ]
 
 { #category : #tests }
-ObjectCreation >> test008APlayerCannotPlayACardThatHeDoesntHave [
+ObjectCreation >> test008ANonExistantPlayerCannotBeMadeToPlayACard [
 	| gameBoard game elDiego diceOne dices players lapsToWin |
 	elDiego := 'El Diego'.
 	diceOne := LoadedDice rolling: 1.
@@ -126,21 +126,23 @@ ObjectCreation >> test008APlayerCannotPlayACardThatHeDoesntHave [
 		wherePlayersNeedToComplete: lapsToWin.
 	game playRound.
 	self
-		should: [ game make: elDiego useCard: 'Sunny' on: elDiego ]
+		should: [ game play: 'Sunny' by: elDiego on: elDiego ]
 		raise: Error
 		whoseDescriptionIncludes: 'Player doesnt own that card'
 		description: 'Player doesnt own this card'
 ]
 
 { #category : #tests }
-ObjectCreation >> test009ACardCannotBeUsedOnAnIncorrectPlayer [
-	| gameBoard game elDiego diceOne dices players lapsToWin |
+ObjectCreation >> test009APlayerCannotPlayACardThatDoesntOwn [
+	| gameBoard game elDiego diceOne dices players lapsToWin speedCard accelerationCard |
 	elDiego := 'El Diego'.
 	diceOne := LoadedDice rolling: 1.
+	speedCard := SpeedCard new.
+	accelerationCard := AccelerationCard new.
 	gameBoard := Board
 		with:
 			{NonEffectPosition new.
-			(LoadedCardDealerPosition handing: CancellationCard new).
+			LoadedCardDealerPosition handing: speedCard.
 			NonEffectPosition new.
 			NonEffectPosition new.
 			NonEffectPosition new.
@@ -155,14 +157,10 @@ ObjectCreation >> test009ACardCannotBeUsedOnAnIncorrectPlayer [
 		wherePlayersNeedToComplete: lapsToWin.
 	game playRound.
 	self
-		should: [ game
-				make: elDiego
-				useCard: 'Cancellation'
-				on: elDiego
-				toRemove: 'Speed' ]
+		should: [ game play: accelerationCard by: elDiego on: elDiego ]
 		raise: Error
-		whoseDescriptionIncludes: 'Player has no such active effect'
-		description: 'Player has no such active effect'
+		whoseDescriptionIncludes: 'Player doesnt own that card'
+		description: 'Player doesnt have such card'
 ]
 
 { #category : #tests }

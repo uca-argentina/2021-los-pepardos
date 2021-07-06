@@ -11,19 +11,8 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'boost application' }
 CancellationCard >> applyCardEffectTo: aTarget on: aGame [ 
 	aGame applyCancellationEffectOn: aTarget.
 	aGame updateLastCardPlayedToBe: self.
-]
-
-{ #category : #testing }
-CancellationCard >> isPermanent [
-	^false
-]
-
-{ #category : #accessing }
-CancellationCard >> type [
-	type := 'Cancellation'.
-	^type
 ]

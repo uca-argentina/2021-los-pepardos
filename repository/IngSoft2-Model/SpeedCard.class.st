@@ -22,19 +22,8 @@ SpeedCard >> boostApplied [
 	^1
 ]
 
-{ #category : #testing }
-SpeedCard >> isPermanent [
-	^true
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #removing }
 SpeedCard >> removeBoostProvidedFrom: aPlayerStatus on: aGame [ 
 	aPlayerStatus modifyActiveBoostBy: (self boostApplied * -1).
 
-]
-
-{ #category : #accessing }
-SpeedCard >> type [
-	type := 'Speed'.
-	^type.
 ]

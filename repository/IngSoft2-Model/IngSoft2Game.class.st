@@ -70,29 +70,12 @@ IngSoft2Game >> activeEffectsOf: aPlayerName [
     ^(playerStatuses detect: [:searchedStatus | (searchedStatus player name) == aPlayerName]) activeEffects
 ]
 
-{ #category : #'card effect' }
-IngSoft2Game >> add: aCard toActiveEffectOf: aPlayerStatus [  
-	aPlayerStatus activeEffectsAdd: aCard.
-]
-
-{ #category : #'card effect' }
-IngSoft2Game >> addThe: aCard toHistoryOf: aPlayerStatus [ 
-	aCard isPermanent 
-		ifTrue: [lastCardPlayed := aCard].
-	aPlayerStatus addToCardPlayedHistory: aCard.
-]
-
 { #category : #'playerStatus ' }
 IngSoft2Game >> amounfOfCardsOf: aPlayer [
 	^ ((playerStatuses detect: [:searchedStatus | (searchedStatus player name) == aPlayer]) hand) cards size.
 ]
 
-{ #category : #'card effect' }
-IngSoft2Game >> applyBoostTo: aPlayerStatus afterUsing: aCard [ 
-	aCard applyCardEffectTo: aPlayerStatus on: self.
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'effect application' }
 IngSoft2Game >> applyCancellationEffectOn: aCardTarget [ 
 
 	| playerStatusOfTarget |
@@ -103,7 +86,7 @@ IngSoft2Game >> applyCancellationEffectOn: aCardTarget [
 	(aCardTarget card) removeBoostProvidedFrom: playerStatusOfTarget on: self. 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'effect application' }
 IngSoft2Game >> applyRedoCardEffectOn: aPlayerStatus [ 
 	lastCardPlayed applyCardEffectTo: aPlayerStatus on: self.
 ]
@@ -137,12 +120,12 @@ IngSoft2Game >> assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser [
 	ifFalse: [ Error signal: 'Permanent cards can only be used during the players turn' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IngSoft2Game >> board [
 	^ board
 ]
 
-{ #category : #'card effect' }
+{ #category : #'effect application' }
 IngSoft2Game >> boostEveryPlayerBy: aNumber [
 	playerStatuses do: [ :each | each modifyActiveBoostBy: aNumber ].
 	
@@ -176,7 +159,7 @@ IngSoft2Game >> ensureBoardPositionsCompliantWithBoard [
 	playerStatuses := playerStatuses do: [ :x | x updatePositionTo: (self correctedPositionOf: x position) ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'playerStatus ' }
 IngSoft2Game >> existsPlayerWithName: aPlayerName [ 
 	((playerStatuses collect: [:aStatus | (aStatus player) name == aPlayerName]) includes: true)
 	ifTrue: [ ^true ]
@@ -205,21 +188,7 @@ IngSoft2Game >> lapsCompletedBy: aPlayer [
 	^(playerStatuses detect: [:searchedStatus | (searchedStatus player name) == aPlayer]) lap
 ]
 
-{ #category : #'game status' }
-IngSoft2Game >> lastCardPlayed [
-	^ lastCardPlayed
-]
-
-{ #category : #'game status' }
-IngSoft2Game >> lastCardPlayedBy: aPlayerName [
-
-	| cardPlayerStatus |
-	
-	cardPlayerStatus := self playerStatusOf: aPlayerName. 
-	^ (cardPlayerStatus cardHistory last).
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IngSoft2Game >> lastEffectApplied [
 	^ lastEffectApplied
 ]
@@ -230,7 +199,7 @@ IngSoft2Game >> leaderboard [
 	
 ]
 
-{ #category : #'card effect' }
+{ #category : #'effect application' }
 IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
 
 	| playerStatusOfCardUser playerStatusOfCardTarget cardRemoved |
@@ -251,7 +220,7 @@ IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
 	self addThe: cardRemoved toHistoryOf: playerStatusOfCardUser.
 ]
 
-{ #category : #'card effect' }
+{ #category : #'effect application' }
 IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName toRemove: removedCardType [
 	
 	| playerStatusOfCardUser playerStatusOfCardTarget  effectRemoved cardRemoved |
@@ -294,19 +263,9 @@ IngSoft2Game >> play: aCard by: aPlayer on: aTarget [
 	target := (self existsPlayerWithName: aTarget)
 		ifTrue: [ self playerStatusOf: aTarget ]
 		ifFalse: [ aTarget ].
-		
+
 	playerStatusOfCardUser remove: aCard.
 	aCard applyCardEffectTo: target on: self.
-
-]
-
-{ #category : #'card effect' }
-IngSoft2Game >> play: aCard on: aPlayerStatus [ 
-
-	aCard isPermanent
-		ifTrue: [ self add: aCard toActiveEffectOf: aPlayerStatus].
-				
-	self applyBoostTo: aPlayerStatus afterUsing: aCard.
 
 ]
 
@@ -367,23 +326,18 @@ IngSoft2Game >> raiseExceptionThatTheGameCannotLongerBePlayed [
 	Error signal: 'The game has already finished'.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #removing }
 IngSoft2Game >> removeActiveEffectOf: aCard from: aPlayerStatus [ 
 	aPlayerStatus activeEffects remove: aCard.
 
 ]
 
-{ #category : #'as yet unclassified' }
-IngSoft2Game >> removeCard: aCard from: aPlayerStatus [ 
-	^(aPlayerStatus hand remove: aCard)
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'effect application' }
 IngSoft2Game >> updateLastCardPlayedToBe: aCard [ 
 	lastCardPlayed := aCard
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'effect application' }
 IngSoft2Game >> updateLastEffectAppliedToBe: aBoardEffect [
 	lastEffectApplied := aBoardEffect.
 ]

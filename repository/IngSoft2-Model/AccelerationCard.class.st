@@ -27,18 +27,7 @@ AccelerationCard >> boostApplied [
 	^1
 ]
 
-{ #category : #testing }
-AccelerationCard >> isPermanent [
-	^true
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'boost application' }
 AccelerationCard >> removeBoostProvidedFrom: aPlayerStatus on: aGame [ 
 	aGame boostEveryPlayerBy: (self boostApplied * -1).
-]
-
-{ #category : #accessing }
-AccelerationCard >> type [
-	type := 'Acceleration'.
-	^type.
 ]

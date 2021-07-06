@@ -1,3 +1,7 @@
+"
+I am a CardTarget.
+I link a player to a card.
+"
 Class {
 	#name : #CardTarget,
 	#superclass : #Object,
@@ -13,18 +17,18 @@ CardTarget class >> targetting: aCard from: aPlayerName [
 	^self new initializeAfter: aCard wasTargettedOn: aPlayerName.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CardTarget >> card [
 	^ card
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 CardTarget >> initializeAfter: aCard wasTargettedOn: aPlayerName [
 	card := aCard.
 	playerName := aPlayerName.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CardTarget >> playerName [
 	^ playerName
 ]
