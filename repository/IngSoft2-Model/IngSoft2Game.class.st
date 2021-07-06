@@ -101,12 +101,6 @@ IngSoft2Game >> assert: playerStatus hasA: aCard [
 ]
 
 { #category : #asserting }
-IngSoft2Game >> assert: playerName hasTheActiveEffectOf: aCard [
-	(((self playerStatusOf: playerName) activeEffects collect: [ :card | card type ]) includes: aCard)
-		ifFalse: [ Error signal: 'Player has no such active effect' ].
-]
-
-{ #category : #asserting }
 IngSoft2Game >> assertGameIsBeingPlayedBy: aPlayerName [
 	((playerStatuses collect: [:aStatus | (aStatus player) name == aPlayerName]) includes: true)
 		ifFalse: [ Error signal: 'Incorrect player' ].
@@ -196,54 +190,6 @@ IngSoft2Game >> lastEffectApplied [
 { #category : #'game status' }
 IngSoft2Game >> leaderboard [
 	^(leaderboard collect: [:eachPlayer | eachPlayer name])
-	
-]
-
-{ #category : #'effect application' }
-IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName [
-
-	| playerStatusOfCardUser playerStatusOfCardTarget cardRemoved |
-		
-	playerStatusOfCardUser := self playerStatusOf: aPlayerName.
-	playerStatusOfCardTarget := self playerStatusOf: cardPlayerTargetName.
-	
-	self assert: playerStatusOfCardUser hasA: aCardType.
-
-	(playerStatusOfCardUser hand cards detect: [:card | (card type) = aCardType]) isPermanent
-		ifTrue: [self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser].
-		
-	cardRemoved := playerStatusOfCardUser remove: aCardType.
-	cardRemoved isPermanent
-	ifTrue: [ self add: cardRemoved toActiveEffectOf: playerStatusOfCardTarget].
-
-	self applyBoostTo: playerStatusOfCardTarget afterUsing: cardRemoved.
-	self addThe: cardRemoved toHistoryOf: playerStatusOfCardUser.
-]
-
-{ #category : #'effect application' }
-IngSoft2Game >> make: aPlayerName useCard: aCardType on: cardPlayerTargetName toRemove: removedCardType [
-	
-	| playerStatusOfCardUser playerStatusOfCardTarget  effectRemoved cardRemoved |
-
-	self assert: cardPlayerTargetName hasTheActiveEffectOf: removedCardType.
-
-	playerStatusOfCardUser := self playerStatusOf: aPlayerName.
-	playerStatusOfCardTarget := self playerStatusOf: cardPlayerTargetName.
-	
-	(playerStatusOfCardUser hand cards detect: [:card | (card type) = aCardType]) isPermanent
-		ifTrue: [self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser].
-	
-	self assert: playerStatusOfCardUser hasA: aCardType.
-		
-	cardRemoved := playerStatusOfCardUser remove: aCardType.
-	effectRemoved := playerStatusOfCardTarget removeActiveEffectOf: removedCardType.
-	
-	removedCardType = 'Acceleration'
-		ifTrue: [ self boostEveryPlayerBy: -1 ]
-		ifFalse: [ playerStatusOfCardTarget modifyActiveBoostBy: (effectRemoved boostApplied negated) ].
-	
-	self addThe: cardRemoved toHistoryOf: playerStatusOfCardUser.
-
 	
 ]
 
