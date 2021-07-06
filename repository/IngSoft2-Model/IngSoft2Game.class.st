@@ -288,17 +288,16 @@ IngSoft2Game >> play: aCard by: aPlayer on: aTarget [
 
 	| playerStatusOfCardUser target |
 	playerStatusOfCardUser := self playerStatusOf: aPlayer.
-	"self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser."
+
 	self assert: playerStatusOfCardUser hasA: aCard.
-	
+	self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser.
 	target := (self existsPlayerWithName: aTarget)
 		ifTrue: [ self playerStatusOf: aTarget ]
 		ifFalse: [ aTarget ].
 		
 	playerStatusOfCardUser remove: aCard.
 	aCard applyCardEffectTo: target on: self.
-	"target activeEffectsAdd: aCard."
-	"lastCardPlayed := aCard"
+
 ]
 
 { #category : #'card effect' }
@@ -319,19 +318,17 @@ IngSoft2Game >> playGame [
 
 { #category : #play }
 IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
-
+	
 	| diceRollResult |
 
 	diceRollResult := (playerStatus player rollDice: dices) + playerStatus activeBoost.
 	board movePlayer: playerStatus by: diceRollResult on: self.
-	
+
 	self ensureBoardPositionsCompliantWithBoard.
-	
-	currentTurn >= playerStatuses size 
-	ifTrue: [ currentTurn := 1 ]
-	ifFalse: [ currentTurn + 1 ].
 
-
+	currentTurn := currentTurn >= playerStatuses size
+		ifTrue: [ 1 ]
+		ifFalse: [ currentTurn + 1 ]
 ]
 
 { #category : #play }
