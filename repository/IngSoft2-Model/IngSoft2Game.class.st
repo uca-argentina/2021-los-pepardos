@@ -92,15 +92,6 @@ IngSoft2Game >> applyRedoCardEffectOn: aPlayerStatus playedBy: cardUser [
 ]
 
 { #category : #asserting }
-IngSoft2Game >> assert: playerStatus hasA: aCard [
-	((playerStatus hand cards) includes: aCard) 
-		ifFalse: [ Error signal: 'Player doesnt own that card' ].
-
-	
-	
-]
-
-{ #category : #asserting }
 IngSoft2Game >> assertGameIsBeingPlayedBy: aPlayerName [
 	((playerStatuses collect: [:aStatus | (aStatus player) name == aPlayerName]) includes: true)
 		ifFalse: [ Error signal: 'Incorrect player' ].
@@ -204,7 +195,7 @@ IngSoft2Game >> play: aCard by: aPlayer on: aTarget [
 	| playerStatusOfCardUser target |
 	playerStatusOfCardUser := self playerStatusOf: aPlayer.
 
-	self assert: playerStatusOfCardUser hasA: aCard.
+	playerStatusOfCardUser assertHas: aCard.
 	
 	target := (self existsPlayerWithName: aTarget)
 		ifTrue: [ self playerStatusOf: aTarget ]

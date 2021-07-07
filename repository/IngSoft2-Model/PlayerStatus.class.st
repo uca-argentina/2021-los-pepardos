@@ -37,6 +37,12 @@ PlayerStatus >> activeEffectsAdd: aCard [
 	activeEffects add: aCard
 ]
 
+{ #category : #'as yet unclassified' }
+PlayerStatus >> assertHas: aCard [ 
+	((self hand cards) includes: aCard) 
+		ifFalse: [ Error signal: 'Player doesnt own that card' ]
+]
+
 { #category : #'lap management' }
 PlayerStatus >> correctLapBy: aNumber [
 	lap := lap + aNumber
