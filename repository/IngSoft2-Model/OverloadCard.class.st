@@ -12,7 +12,8 @@ Class {
 }
 
 { #category : #'boost application' }
-OverloadCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
+OverloadCard >> applyCardEffectTo: aPlayerStatus on: aGame playedBy: cardUser [
+	aGame assertPermanentCardPlayedOnTurnOf: cardUser.
 	aPlayerStatus modifyActiveBoostBy: (self boostApplied).
 	aPlayerStatus activeEffectsAdd: self.
 	aGame updateLastCardPlayedToBe: self.

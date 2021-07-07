@@ -12,6 +12,6 @@ Class {
 }
 
 { #category : #'boost application' }
-RedoCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
-	aGame applyRedoCardEffectOn: aPlayerStatus.
+RedoCard >> applyCardEffectTo: aPlayerStatus on: aGame playedBy: cardUser [
+	aGame applyRedoCardEffectOn: aPlayerStatus playedBy: cardUser.
 ]

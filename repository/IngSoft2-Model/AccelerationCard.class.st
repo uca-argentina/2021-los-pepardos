@@ -16,10 +16,12 @@ Class {
 }
 
 { #category : #'boost application' }
-AccelerationCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
+AccelerationCard >> applyCardEffectTo: aPlayerStatus on: aGame playedBy: cardUser [
+	aGame assertPermanentCardPlayedOnTurnOf: cardUser.
 	aGame boostEveryPlayerBy: (self boostApplied).
 	aPlayerStatus activeEffectsAdd: self.
 	aGame updateLastCardPlayedToBe: self.
+
 ]
 
 { #category : #'boost application' }

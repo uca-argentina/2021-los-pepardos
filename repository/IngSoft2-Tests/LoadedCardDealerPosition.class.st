@@ -1,3 +1,6 @@
+"
+LoadedCardDealerPosition used just for the tests to hand out a specific card.
+"
 Class {
 	#name : #LoadedCardDealerPosition,
 	#superclass : #Object,
@@ -12,18 +15,18 @@ LoadedCardDealerPosition class >> handing: aCardType [
 	^ self new initializeWithReturningCard: aCardType
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'board effect' }
 LoadedCardDealerPosition >> applyTo: aPlayerStatus withARollOf: anInteger on: aBoard beingPlayedOn: anIngSoft2Game [ 
 	aPlayerStatus hand addNewCard: loadedCard.
 	aBoard applyBasicEffectTo: aPlayerStatus withARollOf: anInteger. 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'board effect' }
 LoadedCardDealerPosition >> changeInPosition [
 	^0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 LoadedCardDealerPosition >> initializeWithReturningCard: aCardType [
 	loadedCard := aCardType.
 ]

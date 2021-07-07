@@ -1,3 +1,6 @@
+"
+LoadedDice used on the tests to obtain a particular dice result.
+"
 Class {
 	#name : #LoadedDice,
 	#superclass : #Object,
@@ -12,12 +15,12 @@ LoadedDice class >> rolling: aNumber [
 	^self new initializeWithFixedRollOf: aNumber
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 LoadedDice >> initializeWithFixedRollOf: aNumber [
 	resultReturned := aNumber.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'dice roll' }
 LoadedDice >> roll [
 	^resultReturned 
 ]

@@ -87,8 +87,8 @@ IngSoft2Game >> applyCancellationEffectOn: aCardTarget [
 ]
 
 { #category : #'effect application' }
-IngSoft2Game >> applyRedoCardEffectOn: aPlayerStatus [ 
-	lastCardPlayed applyCardEffectTo: aPlayerStatus on: self.
+IngSoft2Game >> applyRedoCardEffectOn: aPlayerStatus playedBy: cardUser [
+	lastCardPlayed applyCardEffectTo: aPlayerStatus on: self playedBy: cardUser
 ]
 
 { #category : #asserting }
@@ -205,13 +205,13 @@ IngSoft2Game >> play: aCard by: aPlayer on: aTarget [
 	playerStatusOfCardUser := self playerStatusOf: aPlayer.
 
 	self assert: playerStatusOfCardUser hasA: aCard.
-	self assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser.
+	
 	target := (self existsPlayerWithName: aTarget)
 		ifTrue: [ self playerStatusOf: aTarget ]
 		ifFalse: [ aTarget ].
 
 	playerStatusOfCardUser remove: aCard.
-	aCard applyCardEffectTo: target on: self.
+	aCard applyCardEffectTo: target on: self playedBy: (self playerStatusOf: aPlayer).
 
 ]
 

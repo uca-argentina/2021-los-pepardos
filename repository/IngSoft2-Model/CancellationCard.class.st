@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #'boost application' }
-CancellationCard >> applyCardEffectTo: aTarget on: aGame [ 
+CancellationCard >> applyCardEffectTo: aTarget on: aGame playedBy: cardUser [
 	aGame applyCancellationEffectOn: aTarget.
 	aGame updateLastCardPlayedToBe: self.
 ]

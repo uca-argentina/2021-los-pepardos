@@ -11,7 +11,8 @@ Class {
 }
 
 { #category : #'boost application' }
-SpeedCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
+SpeedCard >> applyCardEffectTo: aPlayerStatus on: aGame playedBy: cardUser [
+	aGame assertPermanentCardPlayedOnTurnOf: cardUser.
 	aPlayerStatus modifyActiveBoostBy: (self boostApplied).
 	aPlayerStatus activeEffectsAdd: self.
 	aGame updateLastCardPlayedToBe: self.

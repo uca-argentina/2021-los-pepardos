@@ -11,6 +11,6 @@ Class {
 }
 
 { #category : #'boost application' }
-RepeatCard >> applyCardEffectTo: aPlayerStatus on: aGame [ 
+RepeatCard >> applyCardEffectTo: aPlayerStatus on: aGame playedBy: cardUser [
 	(aGame lastEffectApplied) applyTo: aPlayerStatus withARollOf: 0 on: (aGame board) beingPlayedOn: aGame 
 ]
