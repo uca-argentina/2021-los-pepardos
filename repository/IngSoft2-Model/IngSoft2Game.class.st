@@ -105,6 +105,13 @@ IngSoft2Game >> assertPermanentCardPlayedOnTurnOf: playerStatusOfCardUser [
 	ifFalse: [ Error signal: 'Permanent cards can only be used during the players turn' ]
 ]
 
+{ #category : #'playerStatus ' }
+IngSoft2Game >> assertThatTurnCorrespondsTo: aPlayerStatus [
+
+	(aPlayerStatus = (playerStatuses at: currentTurn)) 
+		ifFalse: [ Error signal: 'Is not this player´s turn' ]
+]
+
 { #category : #accessing }
 IngSoft2Game >> board [
 	^ board
@@ -141,7 +148,7 @@ IngSoft2Game >> correctedPositionOf: aPos [
 
 { #category : #'game status' }
 IngSoft2Game >> ensureBoardPositionsCompliantWithBoard [
-	playerStatuses := playerStatuses do: [ :x | x updatePositionTo: (self correctedPositionOf: x position) ].
+	playerStatuses := playerStatuses do: [ :x | x updatePositionTo: (board compliantBoardPosOf: x position) ].
 ]
 
 { #category : #'playerStatus ' }
@@ -216,7 +223,9 @@ IngSoft2Game >> playGame [
 IngSoft2Game >> playIndividualTurnOfPlayer: playerStatus [
 	
 	| diceRollResult |
-
+	
+	self assertThatTurnCorrespondsTo: playerStatus.
+	
 	diceRollResult := (playerStatus player rollDice: dices) + playerStatus activeBoost.
 	board movePlayer: playerStatus by: diceRollResult on: self.
 

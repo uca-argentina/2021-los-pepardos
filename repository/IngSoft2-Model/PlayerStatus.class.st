@@ -39,13 +39,13 @@ PlayerStatus >> activeEffectsAdd: aCard [
 
 { #category : #asserting }
 PlayerStatus >> assertHas: aCard [ 
-	((self hand cards) includes: aCard) 
+	((self hand cards) anySatisfy: [:c | c = aCard])
 		ifFalse: [ Error signal: 'Player doesnt own that card' ]
 ]
 
 { #category : #'lap management' }
 PlayerStatus >> correctLapBy: aNumber [
-	lap := lap + aNumber
+	lap := lap + aNumber.
 ]
 
 { #category : #'position management' }
@@ -64,7 +64,6 @@ PlayerStatus >> initializeOf: aPlayer with: aPosition at: aLap [
 	position := aPosition.
 	lap := aLap.
 	hand := Hand withRandomCards: 2.
-"	hand := Hand obtainingCardsFrom: deck."
 	activeEffects := OrderedCollection new.
 	activeBoost := 0.
 	cardHistory := OrderedCollection new.

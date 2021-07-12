@@ -244,3 +244,32 @@ ObjectCreation >> test012TheGameHasToHaveAtLeastOneDie [
 		whoseDescriptionIncludes: 'The game has to have at least one die'
 		description: 'The game couldnt find any die'
 ]
+
+{ #category : #tests }
+ObjectCreation >> test013APlayerCannotPlayWhenItIsNotHisTurn [
+	| gameBoard elDiego dices players lapsToWin elPele diceOne game |
+	elDiego := 'El Diego'.
+	elPele := 'El Pele'.
+	diceOne := LoadedDice rolling: 1.
+	gameBoard := Board
+		with:
+			{NonEffectPosition new.
+			(LoadedCardDealerPosition handing: CancellationCard new).
+			NonEffectPosition new.
+			NonEffectPosition new.
+			NonEffectPosition new.
+			NonEffectPosition new}.
+	dices := {diceOne}.
+	players := {elDiego . elPele}.
+	lapsToWin := 1.
+	game := IngSoft2Game
+				beingPlayedBy: players
+				with: dices
+				on: gameBoard
+				wherePlayersNeedToComplete: lapsToWin.
+	self
+		should: [game playIndividualTurnOfPlayer: (game playerStatusOf: elPele)]
+		raise: Error
+		whoseDescriptionIncludes: 'Is not this player´s turn'
+		description: 'A player cannot play if it is not his turn'
+]

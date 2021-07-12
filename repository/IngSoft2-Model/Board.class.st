@@ -63,15 +63,6 @@ Board >> compliantBoardPosOf: aPos [
 	^aPos
 ]
 
-{ #category : #'position modification' }
-Board >> correctedPositionOf: aPos [
-	aPos = 0
-		ifTrue:[	^positions ].
-	aPos < 0
-		ifTrue: [ ^(aPos + positions +1) ].
-	^aPos
-]
-
 { #category : #initialization }
 Board >> initializeWithEffects: effects [ 
 	|x|
@@ -79,7 +70,7 @@ Board >> initializeWithEffects: effects [
 	boardPositionsStatuses := effects.
 	positions := boardPositionsStatuses size.
 	boardPositionsStatuses := boardPositionsStatuses collect: [ :boardPositionStatus | BoardPositionStatus withNumber: (x:=x+1) andEffect: boardPositionStatus ].
-	
+	 
 ]
 
 { #category : #'position modification' }
@@ -94,7 +85,7 @@ Board >> movePlayer: aPlayerStatus by: aDiceRoll on: anIngSoft2Game [
 	newBoardPosNumber :=
 		newBoardPosNumber > positions
 			ifTrue: [ newBoardPosNumber - positions ]
-			ifFalse: [ self correctedPositionOf: newBoardPosNumber ].
+			ifFalse: [ self compliantBoardPosOf: newBoardPosNumber ].
 
 	effect := (boardPositionsStatuses at: newBoardPosNumber) positionEffect.
 	anIngSoft2Game updateLastEffectAppliedToBe: effect.
