@@ -37,7 +37,7 @@ PlayerStatus >> activeEffectsAdd: aCard [
 	activeEffects add: aCard
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #asserting }
 PlayerStatus >> assertHas: aCard [ 
 	((self hand cards) includes: aCard) 
 		ifFalse: [ Error signal: 'Player doesnt own that card' ]
@@ -94,16 +94,6 @@ PlayerStatus >> position [
 { #category : #removing }
 PlayerStatus >> remove: aCardType [
 	^(hand remove: aCardType)
-]
-
-{ #category : #removing }
-PlayerStatus >> removeActiveEffectOf: aCardType [ 
-
-	| effectToDelete |
-	effectToDelete := (activeEffects detect: [:card | (card type) = aCardType]).
-	activeEffects remove: effectToDelete.
-	^effectToDelete
-
 ]
 
 { #category : #'position management' }

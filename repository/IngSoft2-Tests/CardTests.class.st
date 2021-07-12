@@ -11,7 +11,9 @@ CardTests >> test001ElDiegoBeginsPlayingWith2Cards [
 	
 	elDiego := 'El Diego'.
    diceOne := Dice withSides: 6.
-   gameBoard := Board with: { NonEffectPosition new . SpeedUpPosition new . NonEffectPosition new . MoonWalkPosition withN: 1 . NonEffectPosition new . NonEffectPosition new . NonEffectPosition new . NukePosition new . WormHolePosition new }.
+   gameBoard := Board with: { 
+	NonEffectPosition new . 
+	NonEffectPosition new }.
 	
 	dices := { diceOne }.
 	players := { elDiego }.
@@ -19,7 +21,7 @@ CardTests >> test001ElDiegoBeginsPlayingWith2Cards [
 	
 	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
 
-	self assert: (game amounfOfCardsOf: elDiego) equals: 2. "replace amountOfCardsOf to cards -> size"
+	self assert: ((game playerStatusOf: elDiego) hand cards size) equals: 2.
 
 
 ]
@@ -92,41 +94,7 @@ CardTests >> test003ElDiegoUsesASpeedCardAndHasAnActiveSpeedEffect [
 ]
 
 { #category : #tests }
-CardTests >> test004ElDiegoUsesSpeedCardAndItAffectsHisDestinationBy1 [
-
-   | gameBoard game elDiego diceOne dices players lapsToWin speedCard|
-	
-	elDiego := 'El Diego'.
-   diceOne := LoadedDice rolling: 1.
-	speedCard := SpeedCard new.
-   gameBoard := Board with: { 
-		NonEffectPosition new.
-		LoadedCardDealerPosition handing: speedCard.
-		NonEffectPosition new.
-		NonEffectPosition new.
-		NonEffectPosition new.
-		NonEffectPosition new }.
-	
-	dices := { diceOne }.
-	players := { elDiego }.
-	lapsToWin := 1.
-	
-	game := IngSoft2Game beingPlayedBy: players with: dices on: gameBoard wherePlayersNeedToComplete: lapsToWin.
-	
-	game playRound.
-	game play: speedCard by: elDiego on: elDiego.
-	game playRound.
-	
-	self assert: (game amounfOfCardsOf: elDiego) equals: 2.
-	self assert: (game positionOf: elDiego) equals: 4.
-
-
-
-
-]
-
-{ #category : #tests }
-CardTests >> test005ElDiegoUsesSpeedCardOnElPeleAndItAffectsHisDestinationBy1 [
+CardTests >> test004ElDiegoUsesSpeedCardOnElPeleAndItAffectsHisDestinationBy1 [
 
 	| gameBoard game elDiego elPele diceOne dices players lapsToWin speedCard |
 	
@@ -159,7 +127,7 @@ CardTests >> test005ElDiegoUsesSpeedCardOnElPeleAndItAffectsHisDestinationBy1 [
 ]
 
 { #category : #tests }
-CardTests >> test006ElDiegoUsesAnOverloadCardAndItAffectsHisDestinationByMinus2 [
+CardTests >> test005ElDiegoUsesAnOverloadCardAndItAffectsHisDestinationByMinus2 [
 
    | gameBoard game elDiego diceOne dices players lapsToWin overloadCard|
 	
@@ -169,8 +137,6 @@ CardTests >> test006ElDiegoUsesAnOverloadCardAndItAffectsHisDestinationByMinus2 
    gameBoard := Board with: { 
 	NonEffectPosition new . 
 	LoadedCardDealerPosition handing: overloadCard . 
-	NonEffectPosition new . 
-	NonEffectPosition new . 
 	NonEffectPosition new . 
 	NonEffectPosition new }.
 	
@@ -193,7 +159,7 @@ CardTests >> test006ElDiegoUsesAnOverloadCardAndItAffectsHisDestinationByMinus2 
 ]
 
 { #category : #tests }
-CardTests >> test007ElDiegoUsesAnOverloadCardAtElPeleAndItAffectsHisDestinationByMinus2 [
+CardTests >> test006ElDiegoUsesAnOverloadCardAtElPeleAndItAffectsHisDestinationByMinus2 [
 
    | gameBoard game elDiego elPele diceOne dices players lapsToWin overloadCard|
 	
@@ -230,7 +196,7 @@ CardTests >> test007ElDiegoUsesAnOverloadCardAtElPeleAndItAffectsHisDestinationB
 ]
 
 { #category : #tests }
-CardTests >> test008ElDiegoUsesAnOverloadCardAtElPeleTwiceAndTheFinalPositionOfElPeleIsOk [
+CardTests >> test007ElDiegoUsesAnOverloadCardAtElPeleTwiceAndTheFinalPositionOfElPeleIs5 [
 
    | gameBoard game elDiego elPele diceOne dices players lapsToWin overloadCard|
 	
@@ -272,7 +238,7 @@ CardTests >> test008ElDiegoUsesAnOverloadCardAtElPeleTwiceAndTheFinalPositionOfE
 ]
 
 { #category : #tests }
-CardTests >> test009ElDiegoUsesAnAccelerationCardAndIncreasesEveryonesPositonBy1 [
+CardTests >> test008ElDiegoUsesAnAccelerationCardAndIncreasesEveryonesPositonBy1 [
 
    | gameBoard game elDiego elPele elMessi diceOne dices players lapsToWin accelerationCard |
 
@@ -284,8 +250,6 @@ CardTests >> test009ElDiegoUsesAnAccelerationCardAndIncreasesEveryonesPositonBy1
    gameBoard := Board with: { 
 	NonEffectPosition new . 
 	LoadedCardDealerPosition handing: accelerationCard . 
-	NonEffectPosition new . 
-	NonEffectPosition new . 
 	NonEffectPosition new . 
 	NonEffectPosition new }.
 
@@ -308,7 +272,7 @@ CardTests >> test009ElDiegoUsesAnAccelerationCardAndIncreasesEveryonesPositonBy1
 ]
 
 { #category : #tests }
-CardTests >> test010ElDiegoUsesACancellationCardOnElPeleAndRemovesHisSpeedCard [
+CardTests >> test009ElDiegoUsesACancellationCardOnElPeleAndRemovesHisSpeedCard [
 
 	| gameBoard game elDiego elPele diceOne dices players lapsToWin overloadCard cancellationCard cancellationTarget|
 	
@@ -348,7 +312,7 @@ CardTests >> test010ElDiegoUsesACancellationCardOnElPeleAndRemovesHisSpeedCard [
 ]
 
 { #category : #tests }
-CardTests >> test011ElDiegoUsesARedoCardAndPlaysASpeedAgain [
+CardTests >> test010ElDiegoUsesARedoCardAndPlaysASpeedAgain [
 
    | gameBoard game elDiego diceOne dices players lapsToWin speedCard redoCard |
 	
@@ -361,6 +325,8 @@ CardTests >> test011ElDiegoUsesARedoCardAndPlaysASpeedAgain [
 	LoadedCardDealerPosition handing: speedCard . 
 	NonEffectPosition new . 
 	LoadedCardDealerPosition handing: redoCard . 
+	NonEffectPosition new . 
+	NonEffectPosition new . 
 	NonEffectPosition new . 
 	NonEffectPosition new }.
 	
@@ -378,11 +344,11 @@ CardTests >> test011ElDiegoUsesARedoCardAndPlaysASpeedAgain [
 	self assert: (game activeEffectsOf: elDiego) equals: ({speedCard. speedCard} asOrderedCollection).
 	
 	game playRound.
-	self assert: (game positionOf: elDiego) equals: 1.
+	self assert: (game positionOf: elDiego) equals: 7.
 ]
 
 { #category : #tests }
-CardTests >> test012ElDiegoUsesARedoCardAfterARedoCardWasPlayedAndHas3SpeedActiveEffects [
+CardTests >> test011ElDiegoUsesARedoCardAfterARedoCardWasPlayedAndHas3SpeedActiveEffects [
 
    | gameBoard game elDiego diceOne dices players lapsToWin speedCard redoCard |
 	
@@ -418,7 +384,7 @@ CardTests >> test012ElDiegoUsesARedoCardAfterARedoCardWasPlayedAndHas3SpeedActiv
 ]
 
 { #category : #tests }
-CardTests >> test013ElDiegoUsesARedoCardAfterAAccelerationCardWasPlayedAfterAOverloardCardWasPlayedAndHisBoostIs0 [
+CardTests >> test012ElDiegoUsesARedoCardAfterAAccelerationCardWasPlayedAfterAOverloardCardWasPlayedAndHisBoostIs0 [
 
    | gameBoard game elDiego diceOne dices players lapsToWin accelerationCard overloadCard redoCard |
 	
@@ -456,7 +422,7 @@ CardTests >> test013ElDiegoUsesARedoCardAfterAAccelerationCardWasPlayedAfterAOve
 ]
 
 { #category : #tests }
-CardTests >> test014ElDiegoUsesARedoCardAndPlaysACancellationAgainTestingSpeed [
+CardTests >> test013ElDiegoUsesARedoCardAndPlaysACancellationAgainTestingSpeed [
 
    | gameBoard game elDiego diceOne dices players lapsToWin speedCard cancellationCard redoCard cancellationTarget |
 	
@@ -467,13 +433,15 @@ CardTests >> test014ElDiegoUsesARedoCardAndPlaysACancellationAgainTestingSpeed [
 	redoCard := RedoCard new.
 	cancellationTarget := CardTarget targetting: speedCard from: elDiego.
    gameBoard := Board with: { 
-	LoadedCardDealerPosition handing: redoCard . 
+	NonEffectPosition new . 
 	LoadedCardDealerPosition handing: speedCard . 
 	NonEffectPosition new . 
 	LoadedCardDealerPosition handing: speedCard . 
 	NonEffectPosition new . 
 	NonEffectPosition new . 
 	LoadedCardDealerPosition handing: cancellationCard . 
+	NonEffectPosition new . 
+	LoadedCardDealerPosition handing: redoCard . 
 	NonEffectPosition new }.
 	
 	dices := { diceOne }.
@@ -494,11 +462,11 @@ CardTests >> test014ElDiegoUsesARedoCardAndPlaysACancellationAgainTestingSpeed [
 	self assert: (game activeEffectsOf: elDiego) isEmpty.
 	
 	game playRound.
-	self assert: (game positionOf: elDiego) equals: 2.
+	self assert: (game positionOf: elDiego) equals: 10.
 ]
 
 { #category : #tests }
-CardTests >> test015ElDiegoUsesARepeatCardToUseASpeedUpAgain [
+CardTests >> test014ElDiegoUsesARepeatCardToUseASpeedUpAgain [
 
    | gameBoard game elDiego diceOne dices players lapsToWin repeatCard |
 	
@@ -530,7 +498,7 @@ CardTests >> test015ElDiegoUsesARepeatCardToUseASpeedUpAgain [
 ]
 
 { #category : #tests }
-CardTests >> test016APlayerCanOnlyPlayAPermanentCardDuringItsTurn [
+CardTests >> test015APlayerCanOnlyPlayAPermanentCardDuringItsTurn [
 
    | gameBoard game elDiego elPele diceOne dices players lapsToWin redoCard speedCard |
 	
@@ -563,7 +531,7 @@ CardTests >> test016APlayerCanOnlyPlayAPermanentCardDuringItsTurn [
 ]
 
 { #category : #tests }
-CardTests >> test017ElDiegoAndElPeleGetAnOverLoadCardAndTheyAreTheSame [
+CardTests >> test016ElDiegoAndElPeleGetAnOverLoadCardAndTheyAreTheSame [
 
    | gameBoard game elDiego elPele diceOne dices players lapsToWin overloadCard|
 	
@@ -591,7 +559,7 @@ CardTests >> test017ElDiegoAndElPeleGetAnOverLoadCardAndTheyAreTheSame [
 ]
 
 { #category : #tests }
-CardTests >> test018ElDiegoUsesARedoCardAndPlaysACancellationAgainTestingAcceleration [
+CardTests >> test017ElDiegoUsesARedoCardAndPlaysACancellationAgainTestingAcceleration [
 
    | gameBoard game elDiego diceOne dices players lapsToWin accelerationCard cancellationCard redoCard cancellationTarget |
 	
