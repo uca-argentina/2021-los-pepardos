@@ -77,11 +77,12 @@ Board >> initializeWithEffects: effects [
 Board >> movePlayer: aPlayerStatus by: aDiceRoll on: anIngSoft2Game [ 
 	
 	| newBoardPosNumber effect |
+	
 	newBoardPosNumber := aDiceRoll + aPlayerStatus position.
-	
+		
 	newBoardPosNumber <= 0
-	ifTrue: [ aPlayerStatus correctLapBy: -1 ].
-	
+	ifTrue: [ aPlayerStatus correctLapBy: -1 ].	
+
 	newBoardPosNumber :=
 		newBoardPosNumber > positions
 			ifTrue: [ newBoardPosNumber - positions ]

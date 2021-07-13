@@ -81,8 +81,8 @@ IngSoft2Game >> applyCancellationEffectOn: aCardTarget [
 	| playerStatusOfTarget |
 
 	playerStatusOfTarget := self playerStatusOf: (aCardTarget playerName).
-		
-	self removeActiveEffectOf: (aCardTarget card) from: playerStatusOfTarget.
+	playerStatusOfTarget removeActiveEffect: aCardTarget.
+	
 	(aCardTarget card) removeBoostProvidedFrom: playerStatusOfTarget on: self. 
 ]
 
@@ -270,12 +270,6 @@ IngSoft2Game >> positionsTravelledBy: oneStatus [
 { #category : #asserting }
 IngSoft2Game >> raiseExceptionThatTheGameCannotLongerBePlayed [
 	Error signal: 'The game has already finished'.
-]
-
-{ #category : #removing }
-IngSoft2Game >> removeActiveEffectOf: aCard from: aPlayerStatus [ 
-	aPlayerStatus activeEffects remove: aCard.
-
 ]
 
 { #category : #'effect application' }
