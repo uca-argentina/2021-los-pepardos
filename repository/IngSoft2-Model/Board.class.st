@@ -7,7 +7,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'positions',
-		'boardPositionsStatuses'
+		'boardEffects'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -51,7 +51,7 @@ Board >> applyNukeEffectOn: game [
 
 { #category : #'position management' }
 Board >> changeInMovementCausedByPosition: aPosition [
-	^((boardPositionsStatuses at: aPosition) positionEffect) changeInPosition
+	^(boardEffects at: aPosition) changeInPosition
 ]
 
 { #category : #'position management' }
@@ -67,9 +67,8 @@ Board >> compliantBoardPosOf: aPos [
 Board >> initializeWithEffects: effects [ 
 	|x|
 	x:=0.
-	boardPositionsStatuses := effects.
-	positions := boardPositionsStatuses size.
-	boardPositionsStatuses := boardPositionsStatuses collect: [ :boardPositionStatus | BoardPositionStatus withNumber: (x:=x+1) andEffect: boardPositionStatus ].
+	boardEffects := effects.
+	positions := boardEffects size.
 	 
 ]
 
@@ -88,7 +87,7 @@ Board >> movePlayer: aPlayerStatus by: aDiceRoll on: anIngSoft2Game [
 			ifTrue: [ newBoardPosNumber - positions ]
 			ifFalse: [ self compliantBoardPosOf: newBoardPosNumber ].
 
-	effect := (boardPositionsStatuses at: newBoardPosNumber) positionEffect.
+	effect := (boardEffects at: newBoardPosNumber).
 	anIngSoft2Game updateLastEffectAppliedToBe: effect.
 	effect applyTo: aPlayerStatus withARollOf: aDiceRoll on: self beingPlayedOn: anIngSoft2Game.
 ]
